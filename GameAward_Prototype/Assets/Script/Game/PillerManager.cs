@@ -124,7 +124,8 @@ public class PillerManager : MonoBehaviour
         
         foreach (Transform child in Piller[piller].transform)//柱に置いてあるブロックを見る
         {
-            if (child.name == ("Block" + height))//同じブロックが存在した場合
+            Field field = child.GetComponent<Field>();
+            if (height == field.nowHeight)//同じブロックが存在した場合
             {
                 return true;
             }

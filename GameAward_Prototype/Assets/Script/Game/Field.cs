@@ -11,6 +11,13 @@ public class Field : MonoBehaviour
 
     public bool FallFlag { get; set; }//落下フラグ
 
+    //移動関係
+    private int FlameCount;//フレームカウント
+    private float MoveFlame;//移動フレーム
+    private bool MoveFlag;//移動フラグ true 移動中　false 移動してない
+    private float EndPosi;//移動先
+    private float MoveSpeed;//移動速度
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +28,16 @@ public class Field : MonoBehaviour
     void Update()
     {
         this.Fall();
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            SetLineMove(nowHeight + 1, 10);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        LineMovePosition();
     }
 
     //落下制限
@@ -48,13 +65,30 @@ public class Field : MonoBehaviour
         }
     }
 
+    private void LineMovePosition()
+    {
+        if (MoveFlag == true)//移動するとき
+        {
+            if (FlameCount >= MoveFlame)
+            {
+                //フラグ
+                MoveFlag = false;
+                FallFlag = true;
+                nowHeight++;
+            }
+
+            this.transform.localPosition += new Vector3(0.0f, MoveSpeed, 0.0f);
+
+            FlameCount++;
+        }
+    }
+
     //高さを変更する
     public void ChangeHeight()
     {
         if (nowHeight == 0)//一番下から一番上
         {
             nowHeight += 3;
-            
         }
         else if (nowHeight == 1)//真ん中下から上
         {
@@ -84,12 +118,36 @@ public class Field : MonoBehaviour
         return prevheight;
     }
 
+    //設定されているオブジェクトを直線移動する
+    //戻り値　true 移動中　false 移動してない
+    //endposi 移動先
+    //flame 移動フレーム
+    public bool SetLineMove(float endposiY, int moveflame)
+    {
+        if (MoveFlag == false)
+        {
+            FlameCount = 0;
+            MoveFlag = true;
+            FallFlag = false;
+            MoveFlame = moveflame;
+            EndPosi = endposiY;
+            MoveSpeed = (EndPosi - nowHeight) / (float)moveflame;
+            
+        }
+        return MoveFlag;
+    }
+
     //ブロックが本来いるはずの座標を返す
     private Vector3 MovePosition()
     {
-        return new Vector3(
+        return new UnityEngine.Vector3(
             this.transform.localPosition.x, 
             (float)nowHeight - this.transform.parent.localPosition.y, 
             this.transform.localPosition.z);
     }
+
+    
+
+    
+    
 }

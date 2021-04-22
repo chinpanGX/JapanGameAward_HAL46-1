@@ -15,7 +15,16 @@ public class Player : MonoBehaviour
 
     private float nowmove;//今の角度
 
-    private bool MoveState;//移動状態
+    private bool InputState;//移動状態
+
+    private const int BLOCK_NONE = 0;
+    private const int BLOCK_UP = 1;
+    private const int BLOCK_DOWN = 2;
+    private int BlockUpDownFlag;//ブロック上り下りフラグ
+
+    
+    private int MoveFlag;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -24,7 +33,7 @@ public class Player : MonoBehaviour
         nowmove = 0.0f;
         field = this.GetComponent<Field>();
 
-        MoveState = true;
+        InputState = true;
     }
 
     // Update is called once per frame
@@ -36,6 +45,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //上移動
+        UpDownMove();
+
         //左右移動制限処理
         MoveRest();
 
@@ -49,7 +61,7 @@ public class Player : MonoBehaviour
     //入力処理
     private void ProcesInput()
     {
-        if (!piller.StateReverce() && MoveState)
+        if (!piller.StateReverce() && InputState)
         {
             SetNoMove();
 
@@ -120,7 +132,26 @@ public class Player : MonoBehaviour
     //ブロック一個上る
     private void BlockUp()
     {
-        field.SelectChangeHeight(field.nowHeight + 1);
+        BlockUpDownFlag = BLOCK_UP;
+    }
+
+    private void UpDownMove()
+    {
+        if (BlockUpDownFlag == BLOCK_UP)
+        {
+            //field.SelectChangeHeight(field.nowHeight + 1);
+        }
+        else if (BlockUpDownFlag == BLOCK_DOWN)
+        {
+            //field.SelectChangeHeight(field.nowHeight - 1);
+        }
+        
+    }
+
+    //ブロック降りる
+    private void BlockDown()
+    {
+        field.SelectChangeHeight(field.nowHeight - 1);
     }
 
     //柱の移動ID
