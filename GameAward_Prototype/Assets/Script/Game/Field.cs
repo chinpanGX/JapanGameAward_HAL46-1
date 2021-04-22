@@ -73,6 +73,17 @@ public class Field : MonoBehaviour
         this.transform.localPosition = MovePosition();//座標を変更
     }
 
+
+    //指定した高さに変更
+    //height  変更する高さ
+    public int SelectChangeHeight(int height)
+    {
+        int prevheight = nowHeight;//前の高さを保存
+        nowHeight = height;//変更する高さを変更
+
+        return prevheight;
+    }
+
     //ブロックが本来いるはずの座標を返す
     private Vector3 MovePosition()
     {

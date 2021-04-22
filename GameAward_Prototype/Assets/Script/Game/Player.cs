@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     private float moveaxis;
 
     private float nowmove;//今の角度
+
+    private bool MoveState;//移動状態
     
     // Start is called before the first frame update
     void Start()
@@ -21,34 +23,33 @@ public class Player : MonoBehaviour
         move = Quaternion.identity;
         nowmove = 0.0f;
         field = this.GetComponent<Field>();
+
+        MoveState = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        
+        //入力処理
+        ProcesInput();
     }
 
     private void FixedUpdate()
     {
-        //入力処理
-        ProcesInput();
-
-        //移動制限処理
+        //左右移動制限処理
         MoveRest();
 
-        //移動
+        //左右移動
         ProcesMove();
 
-        //柱処理
+        //柱変更処理
         ProcesPiller();
     }
 
     //入力処理
     private void ProcesInput()
     {
-        if (!piller.StateReverce())
+        if (!piller.StateReverce() && MoveState)
         {
             SetNoMove();
 
@@ -60,9 +61,13 @@ public class Player : MonoBehaviour
             {
                 SetMove(speed);
             }
-            else if (Input.GetButton("Reverce"))//回転
+            else if (Input.GetButtonDown("Reverce"))//回転
             {
                 piller.ReverseStart(this.GetComponent<Field>().nowPiller);
+            }
+            else if (Input.GetButtonDown("Jump"))//ブロック上る
+            {
+                BlockUp();
             }
         }
     }
@@ -74,8 +79,6 @@ public class Player : MonoBehaviour
         float pillerposi = ProcessPillerPosi();
         if (Mathf.Abs(nowmove) > pillerposi)//小さい
         {
-            //フィールド取得
-            Field field = this.GetComponent<Field>();
 
             //変数の中身変更
             if (nowmove <= 0)//右にいる
@@ -114,6 +117,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    //ブロック一個上る
+    private void BlockUp()
+    {
+        field.SelectChangeHeight(field.nowHeight + 1);
+    }
+
     //柱の移動ID
     //true 右　false 左
     private int MovePillerID(bool way)
@@ -138,7 +147,6 @@ public class Player : MonoBehaviour
     private void SetMove(float angle)
     {
         move = Quaternion.AngleAxis(angle, Vector3.up);
-        //nowmove += angle;
         moveaxis += angle;
     }
 
