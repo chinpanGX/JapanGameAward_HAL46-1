@@ -75,10 +75,34 @@ public class Create : MonoBehaviour
         SetPiller();
 
         //新しいブロックを作成
-        SetBlock(1, 3);
+        //SetBlock(1, 3);
+        //SetBlock(1, 1);
+        //SetBlock(2, 0);
+        //SetBlock(2, 2);
+
+
         SetBlock(1, 1);
+        SetBlock(1, 2);
+        SetBlock(1, 3);
+
         SetBlock(2, 0);
-        SetBlock(2, 2);
+        SetBlock(2, 1);
+
+        SetBlock(3, 1);
+        SetBlock(3, 2);
+        SetBlock(3, 3);
+
+        SetBlock(4, 0);
+        SetBlock(4, 1);
+        SetBlock(4, 2);
+
+        
+        for (int i = 5; i < piller.Aroundnum; i++)
+        {
+            SetBlock(i, 0);
+            SetBlock(i, 1);
+            SetBlock(i, 2);
+        }
 
         //上の階層にあげる
         floor.UpFloor();
@@ -104,8 +128,11 @@ public class Create : MonoBehaviour
     //ブロック設定
     //Pillernum ブロックを生成するブロックの柱の位置
     //height ブロックの高さ　０スタート
-    private void SetBlock(int Pillerid, int height)
+    private void SetBlock(int PillerID, int Height)
     {
+        int Pillerid = PillerID % piller.Aroundnum;
+        int height = Height % 4;
+
         //回転計算
         Quaternion move = CalQuaternion(Pillerid, piller.Aroundnum);
 
@@ -122,9 +149,8 @@ public class Create : MonoBehaviour
         newblock.name = "Block" + height;//名前設定
         Field field = newblock.GetComponent<Field>();
         field.nowHeight = height;//高さ
-        //field.nowPiller = piller.Piller[Pillerid];//自分のいる柱登録
         field.nowPiller = Pillerid;
-        //field.nextPiller = field.nowPiller;
+        field.nextPiller = field.nowPiller;
         field.FallFlag = true;
     }
 
@@ -134,15 +160,25 @@ public class Create : MonoBehaviour
         return new GameObject(name);
     }
 
-    //移動する柱の角度計算
+    //移動する柱の角度計算　クォータニオン
     //Pillernumは柱番号　0にすれば今の位置のまま
+    //AroundNum　柱の数
     static public Quaternion CalQuaternion(int Pillerid, int Aroundnum)
     {
         //柱一個分の角度
         float OnePiller = 360.0f / (float)Aroundnum;
-        Quaternion quaternion = Quaternion.Euler(0.0f, -OnePiller * (float)Pillerid, 0.0f);
+        Quaternion quaternion = Quaternion.Euler(CalVector3(Pillerid, Aroundnum));
 
         return quaternion;
+    }
+
+    //移動する柱の角度計算 オイラー角
+    //Pillernumは柱番号　0にすれば今の位置のまま
+    //AroundNum　柱の数
+    static public Vector3 CalVector3(int Pillerid, int Aroundnum)
+    {
+        float OnePiller = 360.0f / (float)Aroundnum;
+        return new Vector3(0.0f, -OnePiller * (float)Pillerid, 0.0f);
     }
 
     //座標計算

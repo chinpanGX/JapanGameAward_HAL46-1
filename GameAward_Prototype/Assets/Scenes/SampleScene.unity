@@ -928,6 +928,10 @@ PrefabInstance:
       propertyPath: piller
       value: 
       objectReference: {fileID: 87654351}
+    - target: {fileID: 3721078464177352125, guid: 74abec50d61e93c4f9a117a004be22be, type: 3}
+      propertyPath: jumpflame
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74abec50d61e93c4f9a117a004be22be, type: 3}
 --- !u!1 &1404543334
