@@ -44,7 +44,7 @@ public class Create : MonoBehaviour
     public void SetPlayer(int Pilleerid, int height)
     {
         //移動量
-        Quaternion move = CalQuaternion(Pilleerid);
+        Quaternion move = CalQuaternion(Pilleerid, piller.Aroundnum);
 
         //座標計算
         Vector3 posi = CalPosition(move, DefaultPosition, height);
@@ -96,7 +96,7 @@ public class Create : MonoBehaviour
             piller.Piller[i] = CreateObject("Piller" + i);
             piller.Piller[i].transform.parent = floor.Floor.transform;
 
-            Quaternion move = CalQuaternion(i);
+            Quaternion move = CalQuaternion(i, piller.Aroundnum);
             piller.Piller[i].transform.position = CalPosition(move, DefaultPosition, 2);
         }
     }
@@ -107,7 +107,7 @@ public class Create : MonoBehaviour
     private void SetBlock(int Pillerid, int height)
     {
         //回転計算
-        Quaternion move = CalQuaternion(Pillerid);
+        Quaternion move = CalQuaternion(Pillerid, piller.Aroundnum);
 
         //Transformデータ
         Vector3 posi = CalPosition(move, DefaultPosition, height);
@@ -136,10 +136,10 @@ public class Create : MonoBehaviour
 
     //移動する柱の角度計算
     //Pillernumは柱番号　0にすれば今の位置のまま
-    private Quaternion CalQuaternion(int Pillerid)
+    static public Quaternion CalQuaternion(int Pillerid, int Aroundnum)
     {
         //柱一個分の角度
-        float OnePiller = 360.0f / (float)piller.Aroundnum;
+        float OnePiller = 360.0f / (float)Aroundnum;
         Quaternion quaternion = Quaternion.Euler(0.0f, -OnePiller * (float)Pillerid, 0.0f);
 
         return quaternion;

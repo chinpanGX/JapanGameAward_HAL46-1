@@ -6,22 +6,39 @@ public class Field : MonoBehaviour
 {
     public int nowHeight { set; get; }
 
-
     public int nowPiller { get; set; }
+
+    public int nextPiller { get; set; }
 
     public bool FallFlag { get; set; }//落下フラグ
 
-    //移動関係
-    private int FlameCount;//フレームカウント
+    //柱マネージャー
+    private PillerManager piller;
+
+    //フレームカウント
+    private int FlameCount;
     private float MoveFlame;//移動フレーム
-    private bool MoveFlag;//移動フラグ true 移動中　false 移動してない
+    
+    //移動関係
+    private bool YMoveFlag { get; set; }//移動フラグ true 移動中　false 移動してない
     private float EndPosi;//移動先
     private float MoveSpeed;//移動速度
+
+    //回転移動
+    private bool XMoveFlag { get; set; }
+    public Quaternion RotaMove { get; set; }
+    public float moveaxis { get; set; }
+
+    public float nowmoveaxis { get; set; }
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        GameObject manager = GameObject.Find("Manager");
+        piller = manager.GetComponent<PillerManager>();
+        SetNoMove();
     }
 
     // Update is called once per frame
@@ -31,13 +48,13 @@ public class Field : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            SetLineMove(nowHeight + 1, 10);
+            SetYMove(nowHeight + 1, 10);
         }
     }
 
     private void FixedUpdate()
     {
-        LineMovePosition();
+        JumpMove();
     }
 
     //落下制限
@@ -65,21 +82,26 @@ public class Field : MonoBehaviour
         }
     }
 
-    private void LineMovePosition()
+    private void JumpMove()
     {
-        if (MoveFlag == true)//移動するとき
+        if (YMoveFlag == true)//移動するとき
         {
             if (FlameCount >= MoveFlame)
             {
                 //フラグ
-                MoveFlag = false;
+                YMoveFlag = false;
                 FallFlag = true;
                 nowHeight++;
+                this.name = "Block" + nowHeight;
             }
 
             this.transform.localPosition += new Vector3(0.0f, MoveSpeed, 0.0f);
 
             FlameCount++;
+        }
+        else if (XMoveFlag == true)
+        {
+
         }
     }
 
@@ -107,34 +129,36 @@ public class Field : MonoBehaviour
         this.transform.localPosition = MovePosition();//座標を変更
     }
 
-
-    //指定した高さに変更
-    //height  変更する高さ
-    public int SelectChangeHeight(int height)
-    {
-        int prevheight = nowHeight;//前の高さを保存
-        nowHeight = height;//変更する高さを変更
-
-        return prevheight;
-    }
-
     //設定されているオブジェクトを直線移動する
     //戻り値　true 移動中　false 移動してない
     //endposi 移動先
     //flame 移動フレーム
-    public bool SetLineMove(float endposiY, int moveflame)
+    public bool SetYMove(float endposiY, int moveflame)
     {
-        if (MoveFlag == false)
-        {
-            FlameCount = 0;
-            MoveFlag = true;
-            FallFlag = false;
-            MoveFlame = moveflame;
-            EndPosi = endposiY;
-            MoveSpeed = (EndPosi - nowHeight) / (float)moveflame;
-            
-        }
-        return MoveFlag;
+        FlameCount = 0;
+        YMoveFlag = true;
+        FallFlag = false;
+        MoveFlame = moveflame;
+        EndPosi = endposiY;
+        MoveSpeed = (EndPosi - nowHeight) / (float)moveflame;
+        return YMoveFlag;
+    }
+
+    public bool SetAutoMove(int movepillerid, int moveflame)
+    {
+        FlameCount = 0;
+        XMoveFlag = true;
+        FallFlag = false;
+        MoveFlame = moveflame;
+
+        Vector3 endangle = Create.CalQuaternion(movepillerid, piller.Aroundnum).eulerAngles;//オイラーもらう
+        Vector3 thisangle = this.transform.rotation.eulerAngles;
+
+        float SAngle = (endangle.y - thisangle.y) / moveflame;//移動角度計算
+
+        RotaMove = Quaternion.AngleAxis(SAngle, Vector3.up);
+
+        return XMoveFlag;
     }
 
     //ブロックが本来いるはずの座標を返す
@@ -146,8 +170,26 @@ public class Field : MonoBehaviour
             this.transform.localPosition.z);
     }
 
+    //移動処理
+    public void ProcesMove()
+    {
+        this.transform.position = RotaMove * this.transform.position;
+        nowmoveaxis += moveaxis;
+    }
     
+    //移動登録
+    //angle 移動角度
+    public void SetMove(float angle)
+    {
+        RotaMove = Quaternion.AngleAxis(angle, Vector3.up);
+        moveaxis = angle;
+    }
 
-    
+    //移動しない処理
+    public void SetNoMove()
+    {
+        RotaMove = Quaternion.identity;
+        moveaxis = 0.0f;
+    }
     
 }
