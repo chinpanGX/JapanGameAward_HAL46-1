@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public GameObject player;//プレイヤー
+    public float Length;//距離
+
+
+    private GameObject player;//プレイヤー
+    private PillerManager piller;//柱情報
 
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.parent = player.transform;
+        //プレイヤーオブジェクト貰う
+        player = GameObject.Find("Player").gameObject;
+
+        //柱情報
+        piller = GameObject.Find("Manager").gameObject.GetComponent<PillerManager>();
     }
 
     // Update is called once per frame
@@ -17,12 +25,25 @@ public class CameraManager : MonoBehaviour
     {
         
 
-        //方向計算
-        Vector3 posi = new Vector3(player.transform.position.x, 2.0f, player.transform.position.z);
-        Vector3 vec = posi - new Vector3(0.0f, 2.0f, 0.0f);
-        Vector3.Normalize(vec);//正規化
-        this.transform.position = posi + (vec * 1);
+        if (!piller.StateReverce())
+        {
+            //プレイヤーの情報をカメラ用に加工したやつ
+            Vector3 zikuposi = new Vector3(player.transform.position.x, 2.0f, player.transform.position.z);
 
-        this.transform.LookAt(posi);
+            //基準
+            Vector3 kijun = new Vector3(0.0f, 2.0f, 0.0f);
+
+            //ベクトル
+            Vector3 vec = zikuposi - kijun;
+            Vector3.Normalize(vec);//正規化
+
+            //座標設定
+            this.transform.position = kijun + (vec * Length);
+
+            //軸ポジを見る
+            this.transform.LookAt(zikuposi);
+        }
+
+        
     }
 }

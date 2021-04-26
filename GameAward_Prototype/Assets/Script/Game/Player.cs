@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
             }
             else if (Input.GetButtonDown("Reverce"))//‰ñ“]
             {
-                piller.ReverseStart(this.GetComponent<Field>().nowPiller);
+                piller.ReverseStart(this.GetComponent<Field>().nowPiller, false);
             }
             else if (Input.GetButtonDown("Jump"))//ƒuƒƒbƒNã‚é
             {

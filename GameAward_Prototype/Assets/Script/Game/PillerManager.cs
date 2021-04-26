@@ -45,7 +45,9 @@ public class PillerManager : MonoBehaviour
 
 
     //表裏反転
-    public void ReverseStart(int Pillerid)
+    //Pillerid 柱ID
+    //rotedirection　回転方向　true 後ろ　false 手前
+    public void ReverseStart(int Pillerid, bool rotedirection)
     {
         //回転軸
         //中心(自分と高さ同じ)までの方向ベクトル
@@ -64,6 +66,10 @@ public class PillerManager : MonoBehaviour
 
         //回転処理
         float angle = 180.0f / (float)ReturnFlame;
+        if (rotedirection == false)
+        {
+            angle *= -1;
+        }
         ReturnMove = Quaternion.AngleAxis(angle, Axis);//一回の回転量
 
         ReturnPillerID = Pillerid;
