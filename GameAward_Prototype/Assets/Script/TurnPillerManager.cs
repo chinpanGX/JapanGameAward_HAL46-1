@@ -8,7 +8,7 @@ public class TurnPillerManager : MonoBehaviour
     public int ReturnFlame;//柱の回転時間１フレーム1/60
 
     [HideInInspector] public GameObject[] Piller;//加点柱オブジェクト
-    [HideInInspector] public int[] PillerWidht;//回転柱幅
+    [HideInInspector] public int[] Pillersize;//回転柱幅
 
     private PillerManager FieldPiller;
 
@@ -111,6 +111,21 @@ public class TurnPillerManager : MonoBehaviour
     public void PrePiller(int sizenum)
     {
         Piller = new GameObject[sizenum];
+    }
+
+    //回転柱情報を配列にセット
+    public void SetPiller(GameObject piller,int size)
+    {
+        int i = 0;
+        for (i = 0; i < Piller.Length; i++)
+        {
+            if (Piller[i].name == "")
+            {
+                Piller[i] = piller;
+                Pillersize[i] = size;
+                return;
+            }
+        }
     }
 
 

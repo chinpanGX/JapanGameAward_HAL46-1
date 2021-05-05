@@ -39,6 +39,9 @@ public class Create : MonoBehaviour
         //プレイヤーセット
         SetPlayer(0, 10);
 
+        //回転柱セット
+        SetTurnPiller();
+
         //ブロックセット
         SetBlock();
     }
@@ -85,31 +88,37 @@ public class Create : MonoBehaviour
     }
 
     //柱を設定
-    private void SetPiller(int pillerid ,int height)
+    private void SetTurnPiller()
     {
-        //柱情報設定
-        turnpiller.Piller[pillerid] = CreateObject("Piller" + pillerid);
-
-        //座標計算
-        Quaternion move = CalQuaternion(pillerid, piller.Aroundnum);
-        Vector3 posi = CalPosition(move, DefaultPosition, height);
-
         //セット
-
+        CreateTurnPiller(1, 1, 1);
     }
 
+    //ブロックをセット
     private void SetBlock()
     {
         //ブロック生成
         CreateBlock(1, 0);
     }
 
-    private GameObject CreatePiller(int side, int height)
+    //回転柱設定
+    private GameObject CreateTurnPiller(int side, int height, int size)
     {
+        //柱位置計算
         side = CalPillerid(side);
+        Quaternion move = CalQuaternion(size, piller.Aroundnum);
+        Vector3 posi = CalPosition(move, DefaultPosition, height);
 
-        GameObject obj = CreateObject("Turn" + side + "_" + height);
+        //オブジェクト作成
+        GameObject obj = Instantiate(turnpiller.PillerPrefub);
+        obj.name = "Turn" + side + "_" + height;
+        obj.transform.parent = piller.FieldPiller[side].gameObject.transform;
+        obj.transform.position = posi;
+        obj.GetComponent<BoxCollider>().size = new Vector3(obj.GetComponent<BoxCollider>().size.x, (float)height * 2.0f, obj.GetComponent<BoxCollider>().size.z);
 
+
+
+        turnpiller.SetPiller(obj, size);
 
         return obj;
     }
