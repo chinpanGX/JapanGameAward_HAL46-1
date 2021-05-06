@@ -64,6 +64,10 @@ public class Player : MonoBehaviour
     {
         field.SetNoMove();
         Debug.Log("“–‚½‚Á‚½");
+        if(collider.gameObject.tag == "Magma")
+        {
+            Debug.Log("ƒ{ƒ{ƒ{");
+        }
     }
 
     //“ü—Íˆ—
