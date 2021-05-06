@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-    private int m_Frame; // ƒtƒŒ[ƒ€”
-    [SerializeField]
-    private int m_DelayTime; // ‘Ò‚¿ŠÔ
+    private int m_Frame;
+    [SerializeField] private int m_DelayTime; 
 
     // Start is called before the first frame update
     void Start()
@@ -23,20 +22,28 @@ public class Water : MonoBehaviour
     private void FixedUpdate()
     {
         m_Frame++;
-        // ƒfƒBƒŒƒCƒ^ƒCƒ€‚ğ’´‚¦‚½‚ç“®‚«o‚·
         if (m_Frame > m_DelayTime)
         {
             Move();
         }
     }
 
-    // ã¸
+    // ï¿½ã¸
     private void Move()
     {
         Transform myTransform = this.transform;
-        // À•W‚ğæ“¾
         Vector3 pos = myTransform.position;
-        pos.y += 0.01f;    // xÀ•W‚Ö0.01‰ÁZ
-        myTransform.position = pos;  // À•W‚ğİ’è
+        pos.y += 0.01f;    
+        myTransform.position = pos; 
+    }
+    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("ãƒœãƒœãƒœ");
+            Scene.ChangeScene("Test");
+        }
     }
 }
