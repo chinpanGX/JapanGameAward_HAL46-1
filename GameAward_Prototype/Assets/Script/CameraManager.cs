@@ -8,8 +8,7 @@ public class CameraManager : MonoBehaviour
 
 
     private GameObject player;//プレイヤー
-    private PillerManager piller;//柱情報
-    private TurnPillerManager turnpiller;
+    private Field playerfield;
 
     Vector3 playerposi;
 
@@ -17,12 +16,10 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         //プレイヤーオブジェクト貰う
-        player = GameObject.Find("Player").gameObject.transform.Find("PlayerObject").gameObject;
-
-        //柱情報
-        GameObject manager = GameObject.Find("Manager").gameObject;
-        piller = manager.GetComponent<PillerManager>();
-        turnpiller = manager.GetComponent<TurnPillerManager>();
+        GameObject PlayerObj = GameObject.Find("Player").gameObject;
+        player = PlayerObj.transform.Find("PlayerObject").gameObject;
+        playerfield = PlayerObj.GetComponent<Field>();
+        
 
         //プレイヤーの座標を記録する
         playerposi = player.transform.position;
@@ -31,7 +28,7 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!turnpiller.StateReverce())
+        if (!playerfield.StateReverse())
         {
             playerposi.x = player.transform.position.x;
             playerposi.z = player.transform.position.z;

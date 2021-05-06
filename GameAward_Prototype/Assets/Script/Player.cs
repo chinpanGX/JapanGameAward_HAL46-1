@@ -56,20 +56,20 @@ public class Player : MonoBehaviour
     {
         //上移動
         UpDownMove();
-
-        
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        field.SetNoMove();
-        Debug.Log("当たった");
+        if (collider.gameObject.name.Contains("Block"))
+        {
+            field.SetNoDown();
+        }
     }
 
     //入力処理
     private void ProcesInput()
     {
-        if (NowInput == INPUT_NONE)
+        if (NowInput == INPUT_NONE && !field.StateReverse())
         {
             field.SetNoMove();
 
@@ -83,18 +83,19 @@ public class Player : MonoBehaviour
                 field.SetMove(speed);
                 NowInput = INPUT_LEFT;
             }
-            //else if (Input.GetButtonDown("Reverce"))//回転
-            //{
-            //    SetReverse();
-            //}
-            //else if (Input.GetButtonDown("Jump"))//ブロック上る
-            //{
-            //    SetBlockUp();
-            //}
+            else if (Input.GetButtonDown("Reverce"))//回転
+            {
+                SetReverse();
+            }
+            else if (Input.GetButtonDown("Jump"))//ブロック上る
+            {
+                SetBlockUp();
+            }
             //else if (Input.GetKey(KeyCode.P))//デバッグ用長押しで回転し続けるやつ
             //{
             //    SetReverse();
             //}
+
         }
         else
         {
@@ -110,8 +111,10 @@ public class Player : MonoBehaviour
     //回転処理セット
     private void SetReverse()
     {
-        turnpiller.ReverseStart(this.GetComponent<Field>().nowPiller, false);
-        NowInput = INPUT_REVERSE;
+        if (turnpiller.StartReverse(field.nowPiller, field.nowHeight))
+        {
+            NowInput = INPUT_REVERSE;
+        }
     }
 
     //ブロック一個上るセット
@@ -148,7 +151,7 @@ public class Player : MonoBehaviour
     private void UpDownMove()
     {
         //回転中は登り降りしない
-        if (turnpiller.StateReverce())
+        if (field.StateReverse())
         {
             return;
         }

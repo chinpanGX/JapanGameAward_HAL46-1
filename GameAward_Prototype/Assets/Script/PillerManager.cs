@@ -39,18 +39,26 @@ public class PillerManager : MonoBehaviour
 
     public bool GetPillerBlock(int piller, int height)
     {
-        
-        foreach (Transform child in FieldPiller[piller].transform)//柱に置いてあるブロックを見る
+        if (GetBlockObject(piller, height) == null)
         {
-            Field field = child.GetComponent<Field>();
-            if (height == field.nowHeight)//同じブロックが存在した場合
-            {
-                return true;
-            }
+            return false;
         }
-        return false;
+
+        return true;
     }
 
-    
+    public GameObject GetBlockObject(int piller, int height)
+    {
+        foreach (Transform child in FieldPiller[piller].transform)
+        {
+            Field field = child.GetComponent<Field>();
+            if (height == field.nowHeight)
+            {
+                return child.gameObject;
+            }
+        }
+        GameObject obj = null;
+        return obj;
+    }
 
 }

@@ -175,25 +175,13 @@ public class Field : MonoBehaviour
     }
 
     //高さを変更する
-    public void ChangeHeight()
+    //rotateheight 回転軸　高さ
+    public void ChangeHeight(int rotateheight)
     {
-        if (nowHeight == 0)//一番下から一番上
-        {
-            SelectChangeHeight(nowHeight + 3);
-        }
-        else if (nowHeight == 1)//真ん中下から上
-        {
-            SelectChangeHeight(nowHeight + 1);
-        }
-        else if (nowHeight == 2)//真ん中上から下
-        {
-            SelectChangeHeight(nowHeight - 1);
-        }
-        else if (nowHeight == 3)//一番上から一番下
-        {
-            SelectChangeHeight(nowHeight - 3);
-        }
-        //this.transform.localPosition = MovePosition();//座標を変更
+
+        int range = rotateheight - nowHeight;
+        nowHeight = rotateheight + range - 1;
+        
     }
 
     public void SelectChangeHeight(int height)
@@ -360,6 +348,13 @@ public class Field : MonoBehaviour
         moveaxis = 0.0f;
     }
 
+    public void SetNoDown()
+    {
+        SetNoMove();
+        this.GetComponent<Rigidbody>().isKinematic = false;
+        FallFlag = false;
+    }
+
     //現在の柱の位置
     //true 柱の中心から右側にいる
     //false 柱の中心から左側にいる
@@ -369,6 +364,16 @@ public class Field : MonoBehaviour
         {
             return true;
         }
+        return false;
+    }
+
+    public bool StateReverse()
+    {
+        if (this.transform.parent.name.Contains("Turn"))
+        {
+            return true;
+        }
+
         return false;
     }
     

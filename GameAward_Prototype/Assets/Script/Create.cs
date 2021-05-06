@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Create : MonoBehaviour
@@ -37,7 +38,7 @@ public class Create : MonoBehaviour
         SetFieldPiller();
 
         //プレイヤーセット
-        SetPlayer(0, 10);
+        SetPlayer(0, 5);
 
         //回転柱セット
         SetTurnPiller();
@@ -85,11 +86,16 @@ public class Create : MonoBehaviour
         field.FallFlag = true;//落下フラグ
         field.nowHeight = height;//高さ
         field.nowPiller = side;
+
+        
     }
 
     //柱を設定
     private void SetTurnPiller()
     {
+        //柱作成
+        turnpiller.PrePiller(piller.Aroundnum);
+
         //セット
         CreateTurnPiller(1, 1, 1);
     }
@@ -98,7 +104,7 @@ public class Create : MonoBehaviour
     private void SetBlock()
     {
         //ブロック生成
-        CreateBlock(1, 0);
+        CreateBlock(0, 0);
     }
 
     //回転柱設定
@@ -114,11 +120,16 @@ public class Create : MonoBehaviour
         obj.name = "Turn" + side + "_" + height;
         obj.transform.parent = piller.FieldPiller[side].gameObject.transform;
         obj.transform.position = posi;
-        obj.GetComponent<BoxCollider>().size = new Vector3(obj.GetComponent<BoxCollider>().size.x, (float)height * 2.0f, obj.GetComponent<BoxCollider>().size.z);
+        obj.GetComponent<CapsuleCollider>().height = (float)size * 2.0f;
+        Field field = obj.GetComponent<Field>();
+        field.FallFlag = false;
+        field.nowHeight = height;
+        field.nowPiller = side;
+        TurnPiller turnPiller = obj.GetComponent<TurnPiller>();
+        turnPiller.size = size;
 
 
-
-        turnpiller.SetPiller(obj, size);
+        turnpiller.SetPiller(obj);
 
         return obj;
     }
