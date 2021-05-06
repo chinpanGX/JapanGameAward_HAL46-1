@@ -603,6 +603,7 @@ GameObject:
   - component: {fileID: 527637833}
   - component: {fileID: 527637832}
   - component: {fileID: 527637836}
+  - component: {fileID: 527637837}
   m_Layer: 0
   m_Name: Water
   m_TagString: Magma
@@ -699,6 +700,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DelayTime: 500
+--- !u!114 &527637837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527637831}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fec10e51171b464f8bcd869881a6405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &535627452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1448,6 +1461,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 890545459339177561, guid: 74abec50d61e93c4f9a117a004be22be, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 890545459339177562, guid: 74abec50d61e93c4f9a117a004be22be, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -1951,19 +1968,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 890545459339177561, guid: 74abec50d61e93c4f9a117a004be22be, type: 3}
   m_PrefabInstance: {fileID: 1402541846}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1794321916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794321910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fec10e51171b464f8bcd869881a6405, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: Test
 --- !u!1001 &1823918592
 PrefabInstance:
   m_ObjectHideFlags: 0
