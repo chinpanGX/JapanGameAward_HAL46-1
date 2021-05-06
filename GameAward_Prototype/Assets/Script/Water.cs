@@ -43,7 +43,7 @@ public class Water : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("ボボボ");
-            Scene.ChangeScene("Test");
+            //Scene.ChangeScene("Test");
         }
     }
 }
