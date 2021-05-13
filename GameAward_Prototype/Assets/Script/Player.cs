@@ -7,7 +7,8 @@ public class Player : MonoBehaviour
     public float speed;//移動速度
     public int jumpflame;
     private PillerManager piller;//柱情報
-    private TurnPillerManager turnpiller;
+    private TurnPillerManager turnpillermane;
+    private TurnPiller turnpiller;
 
     //フィールド取得
     Field field;
@@ -15,7 +16,7 @@ public class Player : MonoBehaviour
     private const int BLOCK_NONE = 0;
     private const int BLOCK_UP = 1;
     private const int BLOCK_DOWN = 2;
-    private int BlockUpDownFlag = BLOCK_NONE;//ブロック上り下りフラグ
+    public int BlockUpDownFlag = BLOCK_NONE;//ブロック上り下りフラグ
     private bool Way;
 
     private const int MOVE_NONE = 0;
@@ -31,14 +32,14 @@ public class Player : MonoBehaviour
     private const int INPUT_RIGHT = 3;//右
     private const int INPUT_REVERSE = 4;//回転
     private const int INPUT_JUMP = 5;
-    private int NowInput = INPUT_NONE;
+    public int NowInput = INPUT_NONE;
     
     // Start is called before the first frame update
     void Start()
     {
         GameObject manager = GameObject.Find("Manager");
         piller = manager.GetComponent<PillerManager>();
-        turnpiller = manager.GetComponent<TurnPillerManager>();
+        turnpillermane = manager.GetComponent<TurnPillerManager>();
 
 
         field = this.GetComponent<Field>();
@@ -54,22 +55,16 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        HitProcess();
         //上移動
         UpDownMove();
-
-        
-    }
-
-    // 当たり判定
-    private void OnTriggerEnter(Collider collider)
-    {
-        field.SetNoMove();
     }
 
     //入力処理
     private void ProcesInput()
     {
-        if (NowInput == INPUT_NONE)
+        if (NowInput == INPUT_NONE && !field.StateReverse())
         {
             field.SetNoMove();
 
@@ -83,35 +78,46 @@ public class Player : MonoBehaviour
                 field.SetMove(speed);
                 NowInput = INPUT_LEFT;
             }
-            //else if (Input.GetButtonDown("Reverce"))//回転
-            //{
-            //    SetReverse();
-            //}
-            //else if (Input.GetButtonDown("Jump"))//ブロック上る
-            //{
-            //    SetBlockUp();
-            //}
-            //else if (Input.GetKey(KeyCode.P))//デバッグ用長押しで回転し続けるやつ
-            //{
-            //    SetReverse();
-            //}
+            else if (Input.GetButtonDown("Reverce"))//回転
+            {
+                field.SetNoMove();
+                SetReverse();
+            }
+            else if (Input.GetButtonDown("Jump"))//ブロック上る
+            {
+                field.SetNoMove();
+                SetBlockUp();
+            }
+
         }
         else
         {
-            if ((NowInput == INPUT_LEFT && !Input.GetButton("Left")) ||
+            if (BlockUpDownFlag == BLOCK_NONE)
+            {
+                if ((NowInput == INPUT_LEFT && !Input.GetButton("Left")) ||
                 (NowInput == INPUT_RIGHT && !Input.GetButton("Right"))
                 )
-            {
-                NowInput = INPUT_NONE;
+                {
+                    NowInput = INPUT_NONE;
+                }
+                else if (NowInput == INPUT_REVERSE && !turnpiller.ReturnFlag)
+                {
+                    NowInput = INPUT_NONE;
+                }
             }
+            
         }
     }
 
     //回転処理セット
     private void SetReverse()
     {
-        turnpiller.ReverseStart(this.GetComponent<Field>().nowPiller, false);
-        NowInput = INPUT_REVERSE;
+        GameObject obj = turnpillermane.StartReverse(field.nowPiller, field.nowHeight);
+        if (obj != null)
+        {
+            turnpiller = obj.GetComponent<TurnPiller>();
+            NowInput = INPUT_REVERSE;
+        }
     }
 
     //ブロック一個上るセット
@@ -119,25 +125,19 @@ public class Player : MonoBehaviour
     {
         if (field.NowWay())//右にいる場合
         {
-            //右側にブロックがあるか //右一個上にブロックがあるか
-            if (!piller.GetPillerBlock(field.MovePillerID(true), field.nowHeight) ||
-                piller.GetPillerBlock(field.MovePillerID(true), field.nowHeight + 1))
-            {
-                return;
-            }
-
             Way = true;
         }
         else//左にいる場合
         {
-            //左側にブロックがあるか  //左一個上にブロックがあるか
-            if (!piller.GetPillerBlock(field.MovePillerID(false), field.nowHeight)||
-                piller.GetPillerBlock(field.MovePillerID(false), field.nowHeight + 1))
-            {
-                return;
-            }
-
             Way = false;
+        }
+
+        //ブロックが指定した方向にあるか
+        if (!piller.GetPillerBlock(field.MovePillerID(Way), field.nowHeight) ||
+            piller.GetPillerBlock(field.MovePillerID(Way), field.nowHeight + 1) ||
+            piller.GetPillerBlock(field.nowPiller, field.nowHeight + 1))
+        {
+            return;
         }
 
 
@@ -148,15 +148,9 @@ public class Player : MonoBehaviour
     private void UpDownMove()
     {
         //回転中は登り降りしない
-        if (turnpiller.StateReverce())
+        if (field.StateReverse())
         {
             return;
-        }
-
-        if (BlockUpDownFlag == BLOCK_NONE && field.nowHeight > 0)//高さが0以上の時
-        {
-            BlockUpDownFlag = BLOCK_DOWN;
-            NowInput = INPUT_NONE;
         }
 
         if (BlockUpDownFlag == BLOCK_UP)//登る処理
@@ -180,7 +174,7 @@ public class Player : MonoBehaviour
         }
         else if (MoveFlag == MOVE_UP && !field.YMoveFlag)//登り中
         {
-            field.SetXMove(Way, jumpflame);//右移動開始
+            field.SetXMove(field.MovePillerID(Way), jumpflame);//右移動開始
             MoveFlag = MOVE_X;
         }
         else if (MoveFlag == MOVE_X && !field.XMoveFlag)//右移動中
@@ -204,11 +198,28 @@ public class Player : MonoBehaviour
                 BlockUpDownFlag = BLOCK_NONE;
                 NowInput = INPUT_NONE;
             }
-            else//落下開始
+            else
             {
-                MoveFlag = MOVE_DOWN;
+                //if (this.GetComponent<Rigidbody>().isKinematic)
+                //{
+                //    MoveFlag = MOVE_DOWN;
+                //    field.SelectChangeHeight(field.nowHeight - 1);
+                //}
+                //else
+                //{
+                    
+                //}
+
+                field.SetCenterMove(jumpflame);
+                MoveFlag = MOVE_CENTER;
                 NowInput = INPUT_SET;
             }
+        }
+        else if (MoveFlag == MOVE_CENTER && !field.MoveCenter)
+        {
+            MoveFlag = MOVE_DOWN;
+            field.SelectChangeHeight(field.nowHeight - 1);
+
         }
         else if (MoveFlag == MOVE_DOWN && this.GetComponent<Rigidbody>().isKinematic)//空中にいる時
         {
@@ -219,5 +230,33 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+    private void HitProcess()
+    {
+        GameObject obj = piller.GetObject(field.nowPiller, field.nowHeight - 1);//一個下のブロックを受け取る
+        if (obj != null)
+        {
+            if (obj.tag == "Block")
+            {
+                field.nowHeight = obj.GetComponent<Field>().nowHeight + 1;
+            }
+            else if (obj.tag == "TurnPiller")
+            {
+                if (BlockUpDownFlag == BLOCK_NONE)
+                {
+                    BlockUpDownFlag = BLOCK_DOWN;
+                }
+            }
+        }
+        else
+        {
+            if (field.nowHeight <= 0)
+            {
+                field.nowHeight = 0;
+            }
+            else if(BlockUpDownFlag == BLOCK_NONE)
+            {
+                BlockUpDownFlag = BLOCK_DOWN;
+            }
+        }
+    }
 }

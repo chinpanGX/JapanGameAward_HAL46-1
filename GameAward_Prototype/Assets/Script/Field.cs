@@ -16,7 +16,6 @@ public class Field : MonoBehaviour
     private PillerManager piller;
 
     //フレームカウント
-    private int FlameCount;
     private float MoveFlame;//移動フレーム
     
     //移動関係
@@ -27,14 +26,14 @@ public class Field : MonoBehaviour
     public bool XMoveFlag { get; set; }
 
     //中央に移動
-    public bool MoveCenter { get; set; }
+    public bool MoveCenter;// { get; set; }
 
     //回転移動
     public bool DefoMoveFlag { get; set; }
     public Quaternion RotaMove { get; set; }
     public float moveaxis { get; set; }
 
-    public float nowmoveaxis { get; set; }
+    public float nowmoveaxis;// { get; set; }
 
     private void Awake()
     {
@@ -61,6 +60,8 @@ public class Field : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        
         this.Fall();
     }
 
@@ -77,32 +78,31 @@ public class Field : MonoBehaviour
             //rigitbodyの影響を受けなくする
             this.GetComponent<Rigidbody>().isKinematic = true;
         }
-
     }
 
     //落下制限
     private void Fall()
     {
-        if (!FallFlag)
+        if (FallFlag)
         {
-            return;
+            //０以下にならないようにする
+            if (this.transform.position.y <= nowHeight)
+            {
+                this.transform.position = new Vector3(this.transform.position.x, nowHeight, this.transform.position.z);
+                this.GetComponent<Rigidbody>().isKinematic = true;
+            }
+            else if (this.transform.position.y <= 0.0f)
+            {
+                this.transform.position = new Vector3(this.transform.position.x, nowHeight, this.transform.position.z);
+                this.GetComponent<Rigidbody>().isKinematic = true;
+            }
+            else
+            {
+                this.GetComponent<Rigidbody>().isKinematic = false;
+            }
         }
 
-        //０以下にならないようにする
-        if (this.transform.position.y <= 0.0f)
-        {
-            this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
-            this.GetComponent<Rigidbody>().isKinematic = true;
-        }
-        else
-        {
-            this.GetComponent<Rigidbody>().isKinematic = false;
-        }
-
-        if (this.transform.position.y < nowHeight)//現在の高さより小さい場合
-        {
-            nowHeight--;
-        }
+        
     }
 
     
@@ -111,17 +111,15 @@ public class Field : MonoBehaviour
     {
         if (YMoveFlag == true)//移動するとき
         {
-            if (FlameCount >= MoveFlame)
+            if (YEndPosi <= this.transform.position.y)
             {
                 //フラグ
                 YMoveFlag = false;
-                FallFlag = true;
+                FallFlag = false;
                 SelectChangeHeight(nowHeight + 1);
             }
 
-            this.transform.localPosition += new Vector3(0.0f, YMoveSpeed, 0.0f);
-
-            FlameCount++;
+            this.transform.position += new Vector3(0.0f, YMoveSpeed, 0.0f);
         }
         else if (XMoveFlag == true)
         {
@@ -144,8 +142,8 @@ public class Field : MonoBehaviour
         }
         else if (MoveCenter == true)
         {
-            if (((moveaxis >= 0.0f && !NowWay()) ||//左移動
-                 (moveaxis <= 0.0f && NowWay())))//右移動
+            if ((moveaxis >= 0.0f && !NowWay()) ||//左移動
+                (moveaxis <= 0.0f && NowWay()))//右移動
             {
                 FallFlag = true;
                 MoveCenter = false;
@@ -175,31 +173,18 @@ public class Field : MonoBehaviour
     }
 
     //高さを変更する
-    public void ChangeHeight()
+    //rotateheight 回転軸　高さ
+    public void ChangeHeight(int rotateheight)
     {
-        if (nowHeight == 0)//一番下から一番上
-        {
-            SelectChangeHeight(nowHeight + 3);
-        }
-        else if (nowHeight == 1)//真ん中下から上
-        {
-            SelectChangeHeight(nowHeight + 1);
-        }
-        else if (nowHeight == 2)//真ん中上から下
-        {
-            SelectChangeHeight(nowHeight - 1);
-        }
-        else if (nowHeight == 3)//一番上から一番下
-        {
-            SelectChangeHeight(nowHeight - 3);
-        }
-        //this.transform.localPosition = MovePosition();//座標を変更
+        int range = rotateheight - nowHeight;
+        nowHeight = rotateheight + range - 1;
+        Mathf.Max(0, nowHeight);
     }
 
     public void SelectChangeHeight(int height)
     {
         nowHeight = height;
-        if (this.name != "Player")
+        if (this.tag == "Block")
         {
             this.name = "Block" + nowHeight;//名前を書き換え
         }
@@ -211,28 +196,36 @@ public class Field : MonoBehaviour
     //flame 移動フレーム
     public bool SetYMove(float endposiY, int moveflame)
     {
-        FlameCount = 0;
         YMoveFlag = true;
         FallFlag = false;
         MoveFlame = moveflame;
         YEndPosi = endposiY;
         YMoveSpeed = (YEndPosi - nowHeight) / (float)moveflame;
+        this.GetComponent<Rigidbody>().isKinematic = true;
         return YMoveFlag;
     }
 
     //横自動移動
     //way true 右　false 左
     //moveflame 移動フレーム数
-    public bool SetXMove(bool way, int moveflame)
+    public bool SetXMove(int MovePiller, int moveflame)
     {
         XMoveFlag = true;
         FallFlag = false;
-        nextPiller = MovePillerID(way);
+        nextPiller = MovePiller;
 
         float XMoveSpeed = CalFlameMove(moveflame);
 
+        int now = (nowPiller + piller.Aroundnum);
+        int next = (nextPiller + piller.Aroundnum) - now;
+        now = now - now;
 
-        if (way == true)
+        if (next < 0)
+        {
+            next += piller.Aroundnum;
+        }
+
+        if (next <= 11)
         {
             XMoveSpeed *= -1;
         }
@@ -250,13 +243,12 @@ public class Field : MonoBehaviour
 
         float XMoveSpeed = CalFlameMove(moveflame);
 
-        if (NowWay() == true)
+        if (NowWay() == false)
         {
             XMoveSpeed *= -1;
         }
 
         SetMove(XMoveSpeed);//移動角度セット
-
         return MoveCenter;
     }
 
@@ -304,7 +296,7 @@ public class Field : MonoBehaviour
     private bool MoveRest()
     {
         float nextmove = nowmoveaxis + moveaxis;//次の移動角度を計算
-        if (Mathf.Abs(nextmove) + 3.0f > ProcessPillerPosi())
+        if (Mathf.Abs(nextmove) + 1.0f > ProcessPillerPosi())
         {
             if ((NowWay() && piller.GetPillerBlock(MovePillerID(true), nowHeight)) || //右にいる
                 (!NowWay() && piller.GetPillerBlock(MovePillerID(false), nowHeight)))   //左にいる
@@ -360,6 +352,13 @@ public class Field : MonoBehaviour
         moveaxis = 0.0f;
     }
 
+    public void SetNoDown()
+    {
+        SetNoMove();
+        this.GetComponent<Rigidbody>().isKinematic = false;
+        FallFlag = false;
+    }
+
     //現在の柱の位置
     //true 柱の中心から右側にいる
     //false 柱の中心から左側にいる
@@ -369,6 +368,16 @@ public class Field : MonoBehaviour
         {
             return true;
         }
+        return false;
+    }
+
+    public bool StateReverse()
+    {
+        if (this.transform.parent.name.Contains("Turn"))
+        {
+            return true;
+        }
+
         return false;
     }
     
