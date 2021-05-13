@@ -5,7 +5,8 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     private int m_Frame;
-    [SerializeField] private int m_DelayTime; 
+    [SerializeField] private int m_DelayTime;
+    private bool m_IsGameOver = false; // ゲームオーバーしたかどうかの検知
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,11 @@ public class Water : MonoBehaviour
     void Update()
     {
        
+    }
+
+    public bool GetGameOverFlag()
+    {
+        return m_IsGameOver;
     }
 
     private void FixedUpdate()
@@ -42,8 +48,7 @@ public class Water : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("ボボボ");
-            Scene.ChangeScene("Test");
+            m_IsGameOver = true;
         }
     }
 }
