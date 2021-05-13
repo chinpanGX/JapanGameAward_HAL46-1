@@ -61,16 +61,16 @@ public class TurnPillerManager : MonoBehaviour
     }
 
     //‰ñ“]‚Å‚«‚é‚â‚Â‚ª‚ ‚Á‚½‚ç‰ñ“]ŠJŽn
-    public bool StartReverse(int pillerid, int height)
+    public GameObject StartReverse(int pillerid, int height)
     {
+        GameObject obj = null;
         for (int i = 0; i < Piller.Length; i++)
         {
             
-
             //’†g‚ª‚È‚¢‚Æ‚±‚ë‚Ü‚Å—ˆ‚½‚ç‰ñ“]‚µ‚È‚¢
             if (Piller[i] == null)
             {
-                return false;
+                return obj;
             }
 
             //•K—v‚È‚â‚ÂŽæ“¾
@@ -83,10 +83,10 @@ public class TurnPillerManager : MonoBehaviour
                 (ereamax >= height && ereamax - (turnPiller.size * 2) - 1 <= height))
             {
                 turnPiller.ReverseStart(true);
-                return true;
+                obj = Piller[i];
+                return obj;
             }
         }
-
-        return false;
+        return obj;
     }
 }

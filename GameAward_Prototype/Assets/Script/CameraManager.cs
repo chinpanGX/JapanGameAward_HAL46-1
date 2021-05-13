@@ -7,8 +7,8 @@ public class CameraManager : MonoBehaviour
     public float Length;//距離
 
 
-    private GameObject player;//プレイヤー
-    private Field playerfield;
+    public GameObject player;//プレイヤー
+    public Field playerfield;
 
     Vector3 playerposi;
 
@@ -16,8 +16,8 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         //プレイヤーオブジェクト貰う
-        GameObject PlayerObj = GameObject.Find("Player").gameObject;
-        player = PlayerObj.transform.Find("PlayerObject").gameObject;
+        GameObject PlayerObj = GameObject.Find("Player").gameObject;//プレイヤーオブジェ
+        player = PlayerObj.transform.Find("PlayerModel").gameObject;//プレイヤーモデル
         playerfield = PlayerObj.GetComponent<Field>();
         
 

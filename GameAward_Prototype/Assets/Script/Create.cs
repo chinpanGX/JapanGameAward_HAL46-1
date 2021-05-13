@@ -38,7 +38,7 @@ public class Create : MonoBehaviour
         SetFieldPiller();
 
         //プレイヤーセット
-        SetPlayer(0, 5);
+        SetPlayer(0, 0);
 
         //回転柱セット
         SetTurnPiller();
@@ -61,6 +61,7 @@ public class Create : MonoBehaviour
         for (int i = 0; i < piller.Aroundnum; i++)
         {
             piller.FieldPiller[i] = CreateObject("FieldPiller" + i);
+            piller.FieldPiller[i].tag = "Piller";
         }
     }
 
@@ -104,7 +105,11 @@ public class Create : MonoBehaviour
     private void SetBlock()
     {
         //ブロック生成
-        CreateBlock(0, 0);
+        for (int i = 0; i < 10; i++)
+        {
+            CreateBlock((i + 1) % 10, i);
+        }
+        
     }
 
     //回転柱設定

@@ -39,7 +39,9 @@ public class PillerManager : MonoBehaviour
 
     public bool GetPillerBlock(int piller, int height)
     {
-        if (GetBlockObject(piller, height) == null)
+        GameObject obj = GetObject(piller, height);
+        
+        if (obj == null || obj.tag != "Block")
         {
             return false;
         }
@@ -47,11 +49,12 @@ public class PillerManager : MonoBehaviour
         return true;
     }
 
-    public GameObject GetBlockObject(int piller, int height)
+    public GameObject GetObject(int piller, int height)
     {
         foreach (Transform child in FieldPiller[piller].transform)
         {
             Field field = child.GetComponent<Field>();
+            
             if (height == field.nowHeight)
             {
                 return child.gameObject;

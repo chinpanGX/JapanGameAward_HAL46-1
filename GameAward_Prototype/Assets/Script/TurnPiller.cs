@@ -14,7 +14,7 @@ public class TurnPiller : MonoBehaviour
     //柱マネージャー
     private PillerManager piller;
 
-    private bool ReturnFlag;
+    public bool ReturnFlag { get; set; }
     private Quaternion Move;
     private Vector3 Axis;
 
@@ -33,15 +33,15 @@ public class TurnPiller : MonoBehaviour
 
         GameObject manager = GameObject.Find("Manager");
         piller = manager.GetComponent<PillerManager>();
+
+        GameObject child = this.transform.Find("Cube").gameObject;
+        child.transform.localScale = new Vector3(1.0f, size, 1.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            ReverseStart(true);
-        }
+
     }
 
     private void FixedUpdate()
@@ -63,18 +63,34 @@ public class TurnPiller : MonoBehaviour
         Axis.Normalize();//なんとなく正規化
 
         //ブロック情報等を受け取る
-        for (int i = 0; i < size * 2; i++)
+        Transform[] set = new Transform[size * 2];
+        int childid = 0;
+        foreach(Transform child in piller.FieldPiller[field.nowPiller].transform)
         {
-            GameObject obj = piller.GetBlockObject(field.nowPiller, field.nowHeight + size - 1 - i);
-            if (obj != null)
+            int maxheight = field.nowHeight + size - 1 - ((size * 2) - 1);
+            int minheight = field.nowHeight + size - 1 - 0;
+            Field cfield = child.GetComponent<Field>();
+            if ((maxheight >= cfield.nowHeight || minheight <= cfield.nowHeight) && child.tag != "TurnPiller")
             {
-                obj.transform.parent = this.transform;
+                set[childid] = child;
+                childid++;
             }
         }
+
+        foreach (var child in set)
+        {
+            child.transform.parent = this.transform;
+        }
+
+
 
         //フラグ関係
         foreach (Transform child in this.transform)
         {
+            if (child.name == "Cube")
+            {
+                continue;
+            }
             Field block = child.GetComponent<Field>();
             block.FallFlag = false;
         }
@@ -109,13 +125,25 @@ public class TurnPiller : MonoBehaviour
                 this.transform.Rotate(Axis, 180.0f);
 
                 //ブロックフラグ関係
+                Transform[] obj = new Transform[size * 2];
+                int id = 0;
                 foreach (Transform child in this.transform)
                 {
-                    Field block = child.GetComponent<Field>();
-                    block.FallFlag = true;
-                    block.ChangeHeight(field.nowHeight);
-                    child.transform.parent = this.transform.parent;
-                    child.transform.position = new Vector3(child.transform.position.x, block.nowHeight, child.transform.position.z);
+                    if (child.name == "Cube")
+                    {
+                        continue;
+                    }
+                    Field field = child.GetComponent<Field>();
+                    field.FallFlag = true;
+                    field.ChangeHeight(this.field.nowHeight);
+                    child.transform.position = new Vector3(child.transform.position.x, field.nowHeight, child.transform.position.z);
+                    obj[id] = child;
+                    id++;
+                }
+
+                foreach(var item in obj)
+                {
+                    item.parent = this.transform.parent;
                 }
 
                 flamecount = 0;//フレームカウントリセット
