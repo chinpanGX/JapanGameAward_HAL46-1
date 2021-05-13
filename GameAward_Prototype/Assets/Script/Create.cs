@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Create : MonoBehaviour
@@ -87,8 +87,6 @@ public class Create : MonoBehaviour
         field.FallFlag = true;//落下フラグ
         field.nowHeight = height;//高さ
         field.nowPiller = side;
-
-        
     }
 
     //柱を設定
@@ -98,7 +96,7 @@ public class Create : MonoBehaviour
         turnpiller.PrePiller(piller.Aroundnum);
 
         //セット
-        CreateTurnPiller(1, 1, 1);
+        CreateTurnPiller(1, 2, 2);
     }
 
     //ブロックをセット
@@ -117,7 +115,7 @@ public class Create : MonoBehaviour
     {
         //柱位置計算
         side = CalPillerid(side);
-        Quaternion move = CalQuaternion(size, piller.Aroundnum);
+        Quaternion move = CalQuaternion(side, piller.Aroundnum);
         Vector3 posi = CalPosition(move, DefaultPosition, height);
 
         //オブジェクト作成
@@ -125,7 +123,7 @@ public class Create : MonoBehaviour
         obj.name = "Turn" + side + "_" + height;
         obj.transform.parent = piller.FieldPiller[side].gameObject.transform;
         obj.transform.position = posi;
-        obj.GetComponent<CapsuleCollider>().height = (float)size * 2.0f;
+        obj.GetComponent<CapsuleCollider>().height = size * 2.0f;
         Field field = obj.GetComponent<Field>();
         field.FallFlag = false;
         field.nowHeight = height;

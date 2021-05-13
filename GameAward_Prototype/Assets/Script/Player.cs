@@ -207,8 +207,9 @@ public class Player : MonoBehaviour
                 //}
                 //else
                 //{
-                    
                 //}
+
+                
 
                 field.SetCenterMove(jumpflame);
                 MoveFlag = MOVE_CENTER;
