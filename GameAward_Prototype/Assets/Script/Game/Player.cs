@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
     //“ü—Íˆ—
     private void ProcesInput()
     {
-        if (NowInput == INPUT_NONE && !field.StateReverse() && field.FallFlag)
+        if (NowInput == INPUT_NONE && !field.StateReverse())
         {
             field.SetNoMove();
 
