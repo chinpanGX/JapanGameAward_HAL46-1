@@ -13,6 +13,13 @@ public class SystemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.Escape))
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            UnityEngine.Application.Quit();
+#endif
+        }
     }
 }

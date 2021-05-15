@@ -12,6 +12,8 @@ public class Field : MonoBehaviour
 
     public bool FallFlag;//{ get; set; }//落下フラグ
 
+    public bool AirFlag;// { get; set; }//空中フラグ
+
     //柱マネージャー
     private PillerManager piller;
 
@@ -91,18 +93,12 @@ public class Field : MonoBehaviour
                 this.transform.position = new Vector3(this.transform.position.x, nowHeight, this.transform.position.z);
                 this.GetComponent<Rigidbody>().isKinematic = true;
             }
-            else if (this.transform.position.y <= 0.0f)
-            {
-                this.transform.position = new Vector3(this.transform.position.x, nowHeight, this.transform.position.z);
-                this.GetComponent<Rigidbody>().isKinematic = true;
-            }
             else
             {
                 this.GetComponent<Rigidbody>().isKinematic = false;
+                AirFlag = true;
             }
         }
-
-        
     }
 
     
@@ -116,6 +112,7 @@ public class Field : MonoBehaviour
                 //フラグ
                 YMoveFlag = false;
                 FallFlag = false;
+                AirFlag = false;
                 SelectChangeHeight(nowHeight + 1);
             }
 
@@ -198,6 +195,7 @@ public class Field : MonoBehaviour
     {
         YMoveFlag = true;
         FallFlag = false;
+        AirFlag = true;
         MoveFlame = moveflame;
         YEndPosi = endposiY;
         YMoveSpeed = (YEndPosi - nowHeight) / (float)moveflame;

@@ -100,8 +100,9 @@ public class TurnPiller : MonoBehaviour
             {
                 continue;
             }
-            Field block = child.GetComponent<Field>();
-            block.FallFlag = false;
+            Field field = child.GetComponent<Field>();
+            field.FallFlag = false;
+            field.AirFlag = true;
         }
 
         //âÒì]èàóù
@@ -143,7 +144,7 @@ public class TurnPiller : MonoBehaviour
                         continue;
                     }
                     Field field = child.GetComponent<Field>();
-                    //field.FallFlag = true;
+                    field.FallFlag = true;
                     field.ChangeHeight(this.field.nowHeight);
                     child.transform.position = new Vector3(child.transform.position.x, field.nowHeight, child.transform.position.z);
                     obj[id] = child;

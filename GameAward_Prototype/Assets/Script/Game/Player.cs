@@ -64,7 +64,11 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HitProcess();
+        if (!field.StateReverse())
+        {
+            HitProcess();
+        }
+        
         //è„à⁄ìÆ
         UpDownMove();
 
@@ -73,7 +77,7 @@ public class Player : MonoBehaviour
     //ì¸óÕèàóù
     private void ProcesInput()
     {
-        if (NowInput == INPUT_NONE && !field.StateReverse())
+        if (NowInput == INPUT_NONE && !field.StateReverse() && !field.AirFlag)
         {
             field.SetNoMove();
 
@@ -102,7 +106,6 @@ public class Player : MonoBehaviour
                 field.SetNoMove();
                 SetReverse();
             }
-
         }
         else
         {
@@ -114,7 +117,7 @@ public class Player : MonoBehaviour
                 {
                     NowInput = INPUT_NONE;
                 }
-                else if (NowInput == INPUT_REVERSE && !turnpiller.ReturnFlag)
+                else if (NowInput == INPUT_REVERSE && !turnpiller.ReturnFlag && !field.AirFlag)
                 {
                     NowInput = INPUT_NONE;
                 }
@@ -215,9 +218,19 @@ public class Player : MonoBehaviour
             }
             else
             {
-                field.SetCenterMove(jumpflame);
-                MoveFlag = MOVE_CENTER;
-                NowInput = INPUT_SET;
+                if (NowInput != INPUT_REVERSE)
+                {
+                    field.SetCenterMove(jumpflame);
+                    MoveFlag = MOVE_CENTER;
+                    NowInput = INPUT_SET;
+                }
+                else
+                {
+                    NowInput = INPUT_SET;
+                    MoveFlag = MOVE_DOWN;
+                    field.SelectChangeHeight(field.nowHeight - 1);
+                }
+                
             }
         }
         else if (MoveFlag == MOVE_CENTER && !field.MoveCenter)
@@ -232,6 +245,8 @@ public class Player : MonoBehaviour
             MoveFlag = MOVE_NONE;
             BlockUpDownFlag = BLOCK_NONE;
             NowInput = INPUT_NONE;
+
+            field.AirFlag = false;
         }
     }
 
@@ -246,9 +261,9 @@ public class Player : MonoBehaviour
             {
                 field.nowHeight = item.GetComponent<Field>().nowHeight + 1;
                 blockflag = true;
+                field.AirFlag = false;
                 break;
             }
-            
         }
 
 
@@ -257,10 +272,12 @@ public class Player : MonoBehaviour
             if (field.nowHeight <= 0)
             {
                 field.nowHeight = 0;
+                field.AirFlag = false;
             }
             else if (BlockUpDownFlag == BLOCK_NONE)
             {
                 BlockUpDownFlag = BLOCK_DOWN;
+
             }
         }
     }
