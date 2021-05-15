@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class TurnPillerManager : MonoBehaviour
@@ -8,24 +10,13 @@ public class TurnPillerManager : MonoBehaviour
     public int ReturnFlame;//柱の回転時間１フレーム1/60
 
     [HideInInspector] public GameObject[] Piller;//加点柱オブジェクト
-    [HideInInspector] public int[] Pillersize;//回転柱幅
 
     private PillerManager FieldPiller;
-
-    private int ReturnPillerID;//フラグ
-    private Quaternion ReturnMove;//１フレームの回転角度
-    private Vector3 Axis;
-
-    private float flamecount;
 
     // Start is called before the first frame update
     void Start()
     {
         FieldPiller = this.GetComponent<PillerManager>();
-
-        ReturnPillerID = -1;
-        ReturnMove = Quaternion.identity;
-        flamecount = 0;
     }
 
     // Update is called once per frame
@@ -38,103 +29,64 @@ public class TurnPillerManager : MonoBehaviour
     //フレーム固定の更新
     private void FixedUpdate()
     {
-        Reverse();
+
     }
-
-
-    //表裏反転
-    //Pillerid 柱ID
-    //rotedirection　回転方向　true 後ろ　false 手前
-    public void ReverseStart(int Pillerid, bool rotedirection)
-    {
-        //回転軸
-        //中心(自分と高さ同じ)までの方向ベクトル
-        Axis = new Vector3(0.0f, Piller[Pillerid].transform.position.y, 0.0f) - Piller[Pillerid].transform.position;
-
-        //回転軸を求める
-        Axis = Vector3.Cross(Axis, Vector3.up);
-        Axis.Normalize();//なんとなく正規化
-
-        //フラグ関係
-        foreach (Transform child in Piller[Pillerid].transform)
-        {
-            Field block = child.GetComponent<Field>();
-            block.FallFlag = false;
-        }
-
-        //回転処理
-        float angle = 180.0f / (float)ReturnFlame;
-        if (rotedirection == false)
-        {
-            angle *= -1;
-        }
-        ReturnMove = Quaternion.AngleAxis(angle, Axis);//一回の回転量
-
-        ReturnPillerID = Pillerid;
-    }
-
-
-    //回転処理
-    private void Reverse()
-    {
-        if (ReturnPillerID != -1)//回転している場合
-        {
-
-            //回転
-            Piller[ReturnPillerID].transform.localRotation *= ReturnMove;
-
-            //フレームカウント
-            flamecount++;
-
-            if (flamecount >= ReturnFlame)//フレームカウントが指定の数値を超えたら
-            {
-                //柱が逆さまになったのを回転前に戻す
-                Piller[ReturnPillerID].transform.Rotate(Axis, 180.0f);
-
-                //ブロックフラグ関係
-                foreach (Transform child in Piller[ReturnPillerID].transform)
-                {
-                    Field block = child.GetComponent<Field>();
-                    block.FallFlag = true;
-                    block.ChangeHeight();
-                }
-
-                flamecount = 0;//フレームカウントリセット
-                ReturnPillerID = -1;//回転する柱をリセット
-            }
-        }
-    }
-
 
     //回転柱配列作成
     //sizenum 要素数
     public void PrePiller(int sizenum)
     {
         Piller = new GameObject[sizenum];
+        for (int i = 0; i < Piller.Length; i++)
+        {
+            Piller[i] = null;
+        }
     }
 
     //回転柱情報を配列にセット
-    public void SetPiller(GameObject piller,int size)
+    public void SetPiller(GameObject piller)
     {
         int i = 0;
         for (i = 0; i < Piller.Length; i++)
         {
-            if (Piller[i].name == "")
+            if (Piller[i] == null)
             {
                 Piller[i] = piller;
-                Pillersize[i] = size;
                 return;
             }
         }
+
+        Array.Resize(ref Piller, Piller.Length + 5);
+        Piller[i] = piller;
     }
 
-
-    public bool StateReverce()
+    //回転できるやつがあったら回転開始
+    public GameObject StartReverse(int pillerid, int height)
     {
-        if (ReturnPillerID != -1)//回転中の場合
+        GameObject obj = null;
+        for (int i = 0; i < Piller.Length; i++)
         {
-            return true;
+            
+            //中身がないところまで来たら回転しない
+            if (Piller[i] == null)
+            {
+                return obj;
+            }
+
+            //必要なやつ取得
+            Field field = Piller[i].GetComponent<Field>();
+            TurnPiller turnPiller = Piller[i].GetComponent<TurnPiller>();
+
+            //同じ柱でなおかつ柱の範囲にいるか
+            int ereamax = field.nowHeight + turnPiller.size - 1;
+            if (field.nowPiller == pillerid &&
+                (ereamax >= height && ereamax - (turnPiller.size * 2) - 1 <= height))
+            {
+                turnPiller.ReverseStart(true);
+                obj = Piller[i];
+                return obj;
+            }
         }
-        return false;
+        return obj;
     }
 }

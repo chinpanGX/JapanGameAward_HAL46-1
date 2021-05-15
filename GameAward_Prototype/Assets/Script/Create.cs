@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Create : MonoBehaviour
@@ -37,7 +38,7 @@ public class Create : MonoBehaviour
         SetFieldPiller();
 
         //プレイヤーセット
-        SetPlayer(0, 10);
+        SetPlayer(0, 0);
 
         //回転柱セット
         SetTurnPiller();
@@ -60,6 +61,7 @@ public class Create : MonoBehaviour
         for (int i = 0; i < piller.Aroundnum; i++)
         {
             piller.FieldPiller[i] = CreateObject("FieldPiller" + i);
+            piller.FieldPiller[i].tag = "Piller";
         }
     }
 
@@ -90,15 +92,22 @@ public class Create : MonoBehaviour
     //柱を設定
     private void SetTurnPiller()
     {
+        //柱作成
+        turnpiller.PrePiller(piller.Aroundnum);
+
         //セット
-        CreateTurnPiller(1, 1, 1);
+        CreateTurnPiller(1, 2, 2);
     }
 
     //ブロックをセット
     private void SetBlock()
     {
         //ブロック生成
-        CreateBlock(1, 0);
+        for (int i = 0; i < 10; i++)
+        {
+            CreateBlock((i + 1) % 10, i);
+        }
+        
     }
 
     //回転柱設定
@@ -106,7 +115,7 @@ public class Create : MonoBehaviour
     {
         //柱位置計算
         side = CalPillerid(side);
-        Quaternion move = CalQuaternion(size, piller.Aroundnum);
+        Quaternion move = CalQuaternion(side, piller.Aroundnum);
         Vector3 posi = CalPosition(move, DefaultPosition, height);
 
         //オブジェクト作成
@@ -114,11 +123,16 @@ public class Create : MonoBehaviour
         obj.name = "Turn" + side + "_" + height;
         obj.transform.parent = piller.FieldPiller[side].gameObject.transform;
         obj.transform.position = posi;
-        obj.GetComponent<BoxCollider>().size = new Vector3(obj.GetComponent<BoxCollider>().size.x, (float)height * 2.0f, obj.GetComponent<BoxCollider>().size.z);
+        obj.GetComponent<CapsuleCollider>().height = size * 2.0f;
+        Field field = obj.GetComponent<Field>();
+        field.FallFlag = false;
+        field.nowHeight = height;
+        field.nowPiller = side;
+        TurnPiller turnPiller = obj.GetComponent<TurnPiller>();
+        turnPiller.size = size;
 
 
-
-        turnpiller.SetPiller(obj, size);
+        turnpiller.SetPiller(obj);
 
         return obj;
     }
