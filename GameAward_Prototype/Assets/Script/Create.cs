@@ -99,17 +99,35 @@ public class Create : MonoBehaviour
 
         //セット
         CreateTurnPiller(1, 1, 1);
+        for(int i = 0; i < 6; i++)
+        {
+            // 縦３の位置に６個並べる
+            //CreateTurnPiller(i, 3, 1);
+            // ０の位置に６個縦に並べる
+            CreateTurnPiller(0 ,i , 1);
+        }
+        //CreateTurnPiller(0, 1, 1);
     }
 
     //ブロックをセット
     private void SetBlock()
     {
         //ブロック生成
-        for (int i = 0; i < 10; i++)
+       // CreateBlock(1, 1);
+        int side = 0;
+        CreateBlock(side, 2);
+
+        for (side = 2; side < 4; side++)
         {
-            CreateBlock((i + 1) % 10, i);
+            CreateBlock(side, 1);
         }
-        
+
+        CreateBlock(4, 4);
+        for(int i = 3; i < 8; i++)
+        {
+            CreateBlock(i, 3);
+        }
+        CreateBlock(2, 3);
     }
 
     //回転柱設定
