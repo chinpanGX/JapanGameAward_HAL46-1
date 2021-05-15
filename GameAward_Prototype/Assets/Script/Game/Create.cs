@@ -96,7 +96,11 @@ public class Create : MonoBehaviour
         turnpiller.PrePiller(piller.Aroundnum);
 
         //セット
-        CreateTurnPiller(1, 2, 2);
+        CreateTurnPiller(1, 1, 1);
+        for (int i = 0; i < 6; i++)
+        {
+            CreateTurnPiller(i, 3, 1);
+        }
     }
 
     //ブロックをセット

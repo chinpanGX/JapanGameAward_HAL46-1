@@ -1232,8 +1232,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -607.2898, y: -116.87866}
-  m_SizeDelta: {x: 575.7646, y: 754.2407}
+  m_AnchoredPosition: {x: 12.8685, y: -116.87866}
+  m_SizeDelta: {x: 1816.081, y: 754.2407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &975196437
 MonoBehaviour:
@@ -1268,7 +1268,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "AD\u3000\u5DE6\u53F3\u79FB\u52D5\nZ\u3000\u3000\u56DE\u8EE2\nX\u3000\u3000\u4E00\u6BB5\u767B\u308B\nP\u3000\u3000\u9577\u62BC\u3057\u4E2D\u56DE\u8EE2"
+  m_Text: "AD\u3000\u5DE6\u53F3\u79FB\u52D5\nZ\u3000\u3000\u56DE\u8EE2\nX\u3000\u3000\u4E00\u6BB5\u767B\u308B\nP\u3000\u3000\u9577\u62BC\u3057\u4E2D\u56DE\u8EE2\nESC
+    \u5F37\u5236\u7D42\u4E86"
 --- !u!222 &975196438
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1976,6 +1977,49 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6007719724095979366, guid: fb277e45d4f871e459efe250ad7a0304, type: 3}
   m_PrefabInstance: {fileID: 1366270842}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2020740995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2020740997}
+  - component: {fileID: 2020740996}
+  m_Layer: 0
+  m_Name: SystemManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2020740996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020740995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2877c896efc8e6a46b0d2c787a4c0e34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2020740997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020740995}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &606293230143216972
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -79,8 +79,9 @@ public class TurnPillerManager : MonoBehaviour
 
             //“¯‚¶’Œ‚Å‚È‚¨‚©‚Â’Œ‚Ì”ÍˆÍ‚É‚¢‚é‚©
             int ereamax = field.nowHeight + turnPiller.size - 1;
+            int ereamin = field.nowHeight - turnPiller.size;
             if (field.nowPiller == pillerid &&
-                (ereamax >= height && ereamax - (turnPiller.size * 2) - 1 <= height))
+                (ereamax >= height && ereamin <= height))
             {
                 turnPiller.ReverseStart(true);
                 obj = Piller[i];

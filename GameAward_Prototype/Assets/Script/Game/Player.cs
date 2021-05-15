@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     //フィールド取得
     Field field;
 
+    //見てる場所
+    Vector3 look;
+
     private const int BLOCK_NONE = 0;
     private const int BLOCK_UP = 1;
     private const int BLOCK_DOWN = 2;
@@ -51,20 +54,26 @@ public class Player : MonoBehaviour
     {
         //入力処理
         ProcesInput();
+
+        if (!field.StateReverse())
+        {
+            //this.transform.LookAt(look);
+        }
+        
     }
 
     private void FixedUpdate()
     {
-
         HitProcess();
         //上移動
         UpDownMove();
+
     }
 
     //入力処理
     private void ProcesInput()
     {
-        if (NowInput == INPUT_NONE && !field.StateReverse())
+        if (NowInput == INPUT_NONE && !field.StateReverse() && field.FallFlag)
         {
             field.SetNoMove();
 
@@ -87,6 +96,11 @@ public class Player : MonoBehaviour
             {
                 field.SetNoMove();
                 SetBlockUp();
+            }
+            else if (Input.GetKey(KeyCode.P))//長押しめっちゃ回転
+            {
+                field.SetNoMove();
+                SetReverse();
             }
 
         }
@@ -116,6 +130,7 @@ public class Player : MonoBehaviour
         if (obj != null)
         {
             turnpiller = obj.GetComponent<TurnPiller>();
+            this.GetComponent<Rigidbody>().isKinematic = true;
             NowInput = INPUT_REVERSE;
         }
     }
@@ -200,17 +215,6 @@ public class Player : MonoBehaviour
             }
             else
             {
-                //if (this.GetComponent<Rigidbody>().isKinematic)
-                //{
-                //    MoveFlag = MOVE_DOWN;
-                //    field.SelectChangeHeight(field.nowHeight - 1);
-                //}
-                //else
-                //{
-                //}
-
-                
-
                 field.SetCenterMove(jumpflame);
                 MoveFlag = MOVE_CENTER;
                 NowInput = INPUT_SET;
@@ -233,28 +237,28 @@ public class Player : MonoBehaviour
 
     private void HitProcess()
     {
-        GameObject obj = piller.GetObject(field.nowPiller, field.nowHeight - 1);//一個下のブロックを受け取る
-        if (obj != null)
+        var obj = piller.GetObjectMulti(field.nowPiller, field.nowHeight - 1);
+
+        bool blockflag = false;
+        foreach (var item in obj)
         {
-            if (obj.tag == "Block")
+            if (item.tag == "Block")
             {
-                field.nowHeight = obj.GetComponent<Field>().nowHeight + 1;
+                field.nowHeight = item.GetComponent<Field>().nowHeight + 1;
+                blockflag = true;
+                break;
             }
-            else if (obj.tag == "TurnPiller")
-            {
-                if (BlockUpDownFlag == BLOCK_NONE)
-                {
-                    BlockUpDownFlag = BLOCK_DOWN;
-                }
-            }
+            
         }
-        else
+
+
+        if (obj.Length == 0 || blockflag == false)
         {
             if (field.nowHeight <= 0)
             {
                 field.nowHeight = 0;
             }
-            else if(BlockUpDownFlag == BLOCK_NONE)
+            else if (BlockUpDownFlag == BLOCK_NONE)
             {
                 BlockUpDownFlag = BLOCK_DOWN;
             }
