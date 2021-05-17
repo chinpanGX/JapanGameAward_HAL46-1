@@ -1268,7 +1268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "AD\u3000\u5DE6\u53F3\u79FB\u52D5\nZ\u3000\u3000\u56DE\u8EE2\nX\u3000\u3000\u4E00\u6BB5\u767B\u308B\nP\u3000\u3000\u9577\u62BC\u3057\u4E2D\u56DE\u8EE2\nESC
+  m_Text: "AD\u3000\u5DE6\u53F3\u79FB\u52D5\nZ\u3000\u3000\u56DE\u8EE2\nX\u3000\u3000\u4E00\u6BB5\u767B\u308B\nESC
     \u5F37\u5236\u7D42\u4E86"
 --- !u!222 &975196438
 CanvasRenderer:

@@ -101,11 +101,6 @@ public class Player : MonoBehaviour
                 field.SetNoMove();
                 SetBlockUp();
             }
-            else if (Input.GetKey(KeyCode.P))//長押しめっちゃ回転
-            {
-                field.SetNoMove();
-                SetReverse();
-            }
         }
         else
         {
@@ -227,7 +222,7 @@ public class Player : MonoBehaviour
                 else
                 {
                     NowInput = INPUT_SET;
-                    MoveFlag = MOVE_DOWN;
+                    MoveFlag = MOVE_CENTER;
                     field.SelectChangeHeight(field.nowHeight - 1);
                 }
                 
@@ -235,17 +230,22 @@ public class Player : MonoBehaviour
         }
         else if (MoveFlag == MOVE_CENTER && !field.MoveCenter)
         {
-            MoveFlag = MOVE_DOWN;
-            field.SelectChangeHeight(field.nowHeight - 1);
-
+            //下にブロックがない場合
+            if (HitAir())
+            {
+                field.SelectChangeHeight(field.nowHeight - 1);
+            }
+            else
+            {
+                MoveFlag = MOVE_DOWN;
+            }
         }
-        else if (MoveFlag == MOVE_DOWN && this.GetComponent<Rigidbody>().isKinematic)//空中にいる時
+        else if (MoveFlag == MOVE_DOWN && this.GetComponent<Rigidbody>().isKinematic)
         {
             //着地した時
             MoveFlag = MOVE_NONE;
             BlockUpDownFlag = BLOCK_NONE;
             NowInput = INPUT_NONE;
-
             field.AirFlag = false;
         }
     }
@@ -277,8 +277,28 @@ public class Player : MonoBehaviour
             else if (BlockUpDownFlag == BLOCK_NONE)
             {
                 BlockUpDownFlag = BLOCK_DOWN;
-
             }
         }
+    }
+
+    //今空中にいるかいないか
+    //戻り値　正で空中　負で地面
+    private bool HitAir()
+    {
+        if (field.nowHeight <= 0)
+        {
+            return false;
+        }
+
+        var obj = piller.GetObjectMulti(field.nowPiller, field.nowHeight - 1);
+        foreach (var item in obj)
+        {
+            if (item.tag == "Block")
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

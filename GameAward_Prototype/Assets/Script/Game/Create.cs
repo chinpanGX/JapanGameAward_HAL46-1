@@ -89,29 +89,50 @@ public class Create : MonoBehaviour
         field.nowPiller = side;
     }
 
+    //========================================================================
     //柱を設定
     private void SetTurnPiller()
     {
-        //柱作成
-        turnpiller.PrePiller(piller.Aroundnum);
-
         //セット
-        CreateTurnPiller(1, 1, 1);
-        for (int i = 0; i < 6; i++)
-        {
-            CreateTurnPiller(i, 3, 1);
-        }
+        CreateTurnPiller(0, 2, 1);
+
+        CreateTurnPiller(1, 2, 2);
+
+        CreateTurnPiller(2, 2, 1);
+        CreateTurnPiller(2, 5, 2);
+
+        CreateTurnPiller(3, 1, 1);
+
+        CreateTurnPiller(4, 2, 2);
+
+        CreateTurnPiller(5, 2, 2);
+
+        CreateTurnPiller(21, 1, 1);
     }
 
+    //========================================================================
     //ブロックをセット
     private void SetBlock()
     {
         //ブロック生成
-        for (int i = 0; i < 10; i++)
-        {
-            CreateBlock((i + 1) % 10, i);
-        }
-        
+        CreateBlock(0, 1);
+
+        CreateBlock(1, 1);
+        CreateBlock(1, 2);
+        CreateBlock(1, 3);
+
+        CreateBlock(2, 4);
+        CreateBlock(2, 1);
+
+        CreateBlock(3, 0);
+
+        CreateBlock(4, 1);
+        CreateBlock(4, 2);
+        CreateBlock(4, 3);
+
+        CreateBlock(5, 0);
+
+        CreateBlock(21, 0);
     }
 
     //回転柱設定
@@ -136,7 +157,7 @@ public class Create : MonoBehaviour
         turnPiller.size = size;
 
 
-        turnpiller.SetPiller(obj);
+        turnpiller.SetPiller(obj, side, height);
 
         return obj;
     }
