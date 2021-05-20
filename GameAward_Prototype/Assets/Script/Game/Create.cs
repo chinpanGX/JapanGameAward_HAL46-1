@@ -19,6 +19,9 @@ public class Create : MonoBehaviour
     Vector3 DefaultPosition = new Vector3(defoX, defoY, defoZ);
 
 
+    [SerializeField] StageManager stagemanager;
+
+
 
     private void Awake()
     {
@@ -38,13 +41,16 @@ public class Create : MonoBehaviour
         SetFieldPiller();
 
         //プレイヤーセット
-        SetPlayer(0, 0);
+        stagemanager.GetStage().SetPlayer(this);
+        //SetPlayer(0, 0);
 
         //回転柱セット
-        SetTurnPiller();
+        stagemanager.GetStage().SetTurnPiller(this);
+        //SetTurnPiller();
 
         //ブロックセット
-        SetBlock();
+        stagemanager.GetStage().SetBlock(this);
+        //SetBlock();
     }
 
     // Update is called once per frame
@@ -136,7 +142,7 @@ public class Create : MonoBehaviour
     }
 
     //回転柱設定
-    private GameObject CreateTurnPiller(int side, int height, int size)
+    public GameObject CreateTurnPiller(int side, int height, int size)
     {
         //柱位置計算
         side = CalPillerid(side);
@@ -165,7 +171,7 @@ public class Create : MonoBehaviour
     //ブロック設定
     //side 横位置
     //height 高さ
-    private void CreateBlock(int side, int height)
+    public void CreateBlock(int side, int height)
     {
         side = CalPillerid(side);
 
