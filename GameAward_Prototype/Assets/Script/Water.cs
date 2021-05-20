@@ -5,7 +5,9 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     private int m_Frame;
-    [SerializeField] private int m_DelayTime; 
+    [SerializeField] private int m_DelayTime;
+   // private bool m_Flag = false;
+    public GameObject m_Player;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +18,7 @@ public class Water : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
     }
 
     private void FixedUpdate()
@@ -26,6 +28,11 @@ public class Water : MonoBehaviour
         {
             Move();
         }
+        // y座標比較
+        if(this.transform.position.y >= m_Player.transform.position.y + 0.4f)
+        {
+            Scene.ChangeScene("Test");
+        }
     }
 
     // �㏸
@@ -33,17 +40,23 @@ public class Water : MonoBehaviour
     {
         Transform myTransform = this.transform;
         Vector3 pos = myTransform.position;
-        pos.y += 0.01f;    
-        myTransform.position = pos; 
+        pos.y += 0.01f;
+        myTransform.position = pos;
     }
-    
 
-    private void OnTriggerEnter(Collider other)
+
+  /*  private void OnColliderEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
+            m_Flag = true;
             Debug.Log("ボボボ");
-            //Scene.ChangeScene("Test");
+            Scene.ChangeScene("Test");
         }
     }
+    public bool GetGameOverFlag()
+    {
+        return m_Flag;
+    }
+    */
 }
