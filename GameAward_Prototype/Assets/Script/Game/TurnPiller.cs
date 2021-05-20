@@ -64,13 +64,18 @@ public class TurnPiller : MonoBehaviour
 
         //ブロック情報等を受け取る
         Transform[] set = new Transform[size * 2];
+        for (int i = 0; i < set.Length; i++)
+        {
+            set[i] = null;
+        }
+
         int childid = 0;
         foreach(Transform child in piller.FieldPiller[field.nowPiller].transform)
         {
-            int maxheight = field.nowHeight + size - 1 - ((size * 2) - 1);
-            int minheight = field.nowHeight + size - 1 - 0;
+            int maxheight = field.nowHeight + size - 1;
+            int minheight = field.nowHeight - size;
             Field cfield = child.GetComponent<Field>();
-            if ((maxheight >= cfield.nowHeight || minheight <= cfield.nowHeight) && child.tag != "TurnPiller")
+            if (child.tag != "TurnPiller" && (maxheight >= cfield.nowHeight && minheight <= cfield.nowHeight))
             {
                 set[childid] = child;
                 childid++;
@@ -79,6 +84,10 @@ public class TurnPiller : MonoBehaviour
 
         foreach (var child in set)
         {
+            if (child == null)
+            {
+                continue;
+            }
             child.transform.parent = this.transform;
         }
 
@@ -91,8 +100,9 @@ public class TurnPiller : MonoBehaviour
             {
                 continue;
             }
-            Field block = child.GetComponent<Field>();
-            block.FallFlag = false;
+            Field field = child.GetComponent<Field>();
+            field.FallFlag = false;
+            field.AirFlag = true;
         }
 
         //回転処理
@@ -141,9 +151,13 @@ public class TurnPiller : MonoBehaviour
                     id++;
                 }
 
-                foreach(var item in obj)
+                foreach(var child in obj)
                 {
-                    item.parent = this.transform.parent;
+                    if (child == null)
+                    {
+                        continue;
+                    }
+                    child.parent = this.transform.parent;
                 }
 
                 flamecount = 0;//フレームカウントリセット

@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     //フィールド取得
     Field field;
 
+    //見てる場所
+    Vector3 look;
+
     private const int BLOCK_NONE = 0;
     private const int BLOCK_UP = 1;
     private const int BLOCK_DOWN = 2;
@@ -51,20 +54,30 @@ public class Player : MonoBehaviour
     {
         //入力処理
         ProcesInput();
+
+        if (!field.StateReverse())
+        {
+            //this.transform.LookAt(look);
+        }
+        
     }
 
     private void FixedUpdate()
     {
-
-        HitProcess();
+        if (!field.StateReverse())
+        {
+            HitProcess();
+        }
+        
         //上移動
         UpDownMove();
+
     }
 
     //入力処理
     private void ProcesInput()
     {
-        if (NowInput == INPUT_NONE && !field.StateReverse())
+        if (NowInput == INPUT_NONE && !field.StateReverse() && !field.AirFlag)
         {
             field.SetNoMove();
 
@@ -88,7 +101,6 @@ public class Player : MonoBehaviour
                 field.SetNoMove();
                 SetBlockUp();
             }
-
         }
         else
         {
@@ -100,7 +112,7 @@ public class Player : MonoBehaviour
                 {
                     NowInput = INPUT_NONE;
                 }
-                else if (NowInput == INPUT_REVERSE && !turnpiller.ReturnFlag)
+                else if (NowInput == INPUT_REVERSE && !turnpiller.ReturnFlag && !field.AirFlag)
                 {
                     NowInput = INPUT_NONE;
                 }
@@ -116,6 +128,7 @@ public class Player : MonoBehaviour
         if (obj != null)
         {
             turnpiller = obj.GetComponent<TurnPiller>();
+            this.GetComponent<Rigidbody>().isKinematic = true;
             NowInput = INPUT_REVERSE;
         }
     }
@@ -200,63 +213,92 @@ public class Player : MonoBehaviour
             }
             else
             {
-                //if (this.GetComponent<Rigidbody>().isKinematic)
-                //{
-                //    MoveFlag = MOVE_DOWN;
-                //    field.SelectChangeHeight(field.nowHeight - 1);
-                //}
-                //else
-                //{
-                    
-                //}
-
-                field.SetCenterMove(jumpflame);
-                MoveFlag = MOVE_CENTER;
-                NowInput = INPUT_SET;
+                if (NowInput != INPUT_REVERSE)
+                {
+                    field.SetCenterMove(jumpflame);
+                    MoveFlag = MOVE_CENTER;
+                    NowInput = INPUT_SET;
+                }
+                else
+                {
+                    NowInput = INPUT_SET;
+                    MoveFlag = MOVE_CENTER;
+                    field.SelectChangeHeight(field.nowHeight - 1);
+                }
+                
             }
         }
         else if (MoveFlag == MOVE_CENTER && !field.MoveCenter)
         {
-            MoveFlag = MOVE_DOWN;
-            field.SelectChangeHeight(field.nowHeight - 1);
-
+            //下にブロックがない場合
+            if (HitAir())
+            {
+                field.SelectChangeHeight(field.nowHeight - 1);
+            }
+            else
+            {
+                MoveFlag = MOVE_DOWN;
+            }
         }
-        else if (MoveFlag == MOVE_DOWN && this.GetComponent<Rigidbody>().isKinematic)//空中にいる時
+        else if (MoveFlag == MOVE_DOWN && this.GetComponent<Rigidbody>().isKinematic)
         {
             //着地した時
             MoveFlag = MOVE_NONE;
             BlockUpDownFlag = BLOCK_NONE;
             NowInput = INPUT_NONE;
+            field.AirFlag = false;
         }
     }
 
     private void HitProcess()
     {
-        GameObject obj = piller.GetObject(field.nowPiller, field.nowHeight - 1);//一個下のブロックを受け取る
-        if (obj != null)
+        var obj = piller.GetObjectMulti(field.nowPiller, field.nowHeight - 1);
+
+        bool blockflag = false;
+        foreach (var item in obj)
         {
-            if (obj.tag == "Block")
+            if (item.tag == "Block")
             {
-                field.nowHeight = obj.GetComponent<Field>().nowHeight + 1;
-            }
-            else if (obj.tag == "TurnPiller")
-            {
-                if (BlockUpDownFlag == BLOCK_NONE)
-                {
-                    BlockUpDownFlag = BLOCK_DOWN;
-                }
+                field.nowHeight = item.GetComponent<Field>().nowHeight + 1;
+                blockflag = true;
+                field.AirFlag = false;
+                break;
             }
         }
-        else
+
+
+        if (obj.Length == 0 || blockflag == false)
         {
             if (field.nowHeight <= 0)
             {
                 field.nowHeight = 0;
+                field.AirFlag = false;
             }
-            else if(BlockUpDownFlag == BLOCK_NONE)
+            else if (BlockUpDownFlag == BLOCK_NONE)
             {
                 BlockUpDownFlag = BLOCK_DOWN;
             }
         }
+    }
+
+    //今空中にいるかいないか
+    //戻り値　正で空中　負で地面
+    private bool HitAir()
+    {
+        if (field.nowHeight <= 0)
+        {
+            return false;
+        }
+
+        var obj = piller.GetObjectMulti(field.nowPiller, field.nowHeight - 1);
+        foreach (var item in obj)
+        {
+            if (item.tag == "Block")
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

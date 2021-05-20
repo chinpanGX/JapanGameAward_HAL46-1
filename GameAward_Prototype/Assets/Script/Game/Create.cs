@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Create : MonoBehaviour
@@ -87,29 +87,52 @@ public class Create : MonoBehaviour
         field.FallFlag = true;//落下フラグ
         field.nowHeight = height;//高さ
         field.nowPiller = side;
-
-        
     }
 
+    //========================================================================
     //柱を設定
     private void SetTurnPiller()
     {
-        //柱作成
-        turnpiller.PrePiller(piller.Aroundnum);
-
         //セット
-        CreateTurnPiller(1, 1, 1);
+        CreateTurnPiller(0, 2, 1);
+
+        CreateTurnPiller(1, 2, 2);
+
+        CreateTurnPiller(2, 2, 1);
+        CreateTurnPiller(2, 5, 2);
+
+        CreateTurnPiller(3, 1, 1);
+
+        CreateTurnPiller(4, 2, 2);
+
+        CreateTurnPiller(5, 2, 2);
+
+        CreateTurnPiller(21, 1, 1);
     }
 
+    //========================================================================
     //ブロックをセット
     private void SetBlock()
     {
         //ブロック生成
-        for (int i = 0; i < 10; i++)
-        {
-            CreateBlock((i + 1) % 10, i);
-        }
-        
+        CreateBlock(0, 1);
+
+        CreateBlock(1, 1);
+        CreateBlock(1, 2);
+        CreateBlock(1, 3);
+
+        CreateBlock(2, 4);
+        CreateBlock(2, 1);
+
+        CreateBlock(3, 0);
+
+        CreateBlock(4, 1);
+        CreateBlock(4, 2);
+        CreateBlock(4, 3);
+
+        CreateBlock(5, 0);
+
+        CreateBlock(21, 0);
     }
 
     //回転柱設定
@@ -117,7 +140,7 @@ public class Create : MonoBehaviour
     {
         //柱位置計算
         side = CalPillerid(side);
-        Quaternion move = CalQuaternion(size, piller.Aroundnum);
+        Quaternion move = CalQuaternion(side, piller.Aroundnum);
         Vector3 posi = CalPosition(move, DefaultPosition, height);
 
         //オブジェクト作成
@@ -125,7 +148,7 @@ public class Create : MonoBehaviour
         obj.name = "Turn" + side + "_" + height;
         obj.transform.parent = piller.FieldPiller[side].gameObject.transform;
         obj.transform.position = posi;
-        obj.GetComponent<CapsuleCollider>().height = (float)size * 2.0f;
+        obj.GetComponent<CapsuleCollider>().height = size * 2.0f;
         Field field = obj.GetComponent<Field>();
         field.FallFlag = false;
         field.nowHeight = height;
@@ -134,7 +157,7 @@ public class Create : MonoBehaviour
         turnPiller.size = size;
 
 
-        turnpiller.SetPiller(obj);
+        turnpiller.SetPiller(obj, side, height);
 
         return obj;
     }
