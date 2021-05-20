@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< HEAD
 using UnityEngine.SceneManagement;
+=======
+>>>>>>> 6afe367fa568944276f8e8780cbf494969b7ddb4
 
 public class SystemManager : MonoBehaviour
 {
