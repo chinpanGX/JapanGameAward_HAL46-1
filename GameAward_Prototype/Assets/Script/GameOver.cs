@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameOver : MonoBehaviour
 {
     private Water m_Water;
-    bool m_Flag;
+    public bool m_Flag;
 
     // Start is called before the first frame update
     void Start()

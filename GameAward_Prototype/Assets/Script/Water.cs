@@ -39,13 +39,13 @@ public class Water : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
             m_Flag = true;
             Debug.Log("ボボボ");
-            //Scene.ChangeScene("Test");
+            Scene.ChangeScene("Test");
         }
     }
     public bool GetGameOverFlag()

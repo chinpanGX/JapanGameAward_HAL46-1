@@ -94,6 +94,7 @@ public class Create : MonoBehaviour
     private void SetTurnPiller()
     {
         //ƒZƒbƒg
+<<<<<<< HEAD:GameAward_Prototype/Assets/Script/Game/Create.cs
         CreateTurnPiller(0, 2, 1);
 
         CreateTurnPiller(1, 2, 2);
@@ -108,6 +109,17 @@ public class Create : MonoBehaviour
         CreateTurnPiller(5, 2, 2);
 
         CreateTurnPiller(21, 1, 1);
+=======
+        CreateTurnPiller(1, 1, 1);
+        for(int i = 0; i < 6; i++)
+        {
+            // c‚R‚ÌˆÊ’u‚É‚UŒÂ•À‚×‚é
+            //CreateTurnPiller(i, 3, 1);
+            // ‚O‚ÌˆÊ’u‚É‚UŒÂc‚É•À‚×‚é
+            CreateTurnPiller(0 ,i , 1);
+        }
+        //CreateTurnPiller(0, 1, 1);
+>>>>>>> d835d5075abbb5bcab7012c8d6439376a8f190af:GameAward_Prototype/Assets/Script/Create.cs
     }
 
     //========================================================================
@@ -115,6 +127,7 @@ public class Create : MonoBehaviour
     private void SetBlock()
     {
         //ƒuƒƒbƒN¶¬
+<<<<<<< HEAD:GameAward_Prototype/Assets/Script/Game/Create.cs
         CreateBlock(0, 1);
 
         CreateBlock(1, 1);
@@ -133,6 +146,23 @@ public class Create : MonoBehaviour
         CreateBlock(5, 0);
 
         CreateBlock(21, 0);
+=======
+       // CreateBlock(1, 1);
+        int side = 0;
+        CreateBlock(side, 2);
+
+        for (side = 2; side < 4; side++)
+        {
+            CreateBlock(side, 1);
+        }
+
+        CreateBlock(4, 4);
+        for(int i = 3; i < 8; i++)
+        {
+            CreateBlock(i, 3);
+        }
+        CreateBlock(2, 3);
+>>>>>>> d835d5075abbb5bcab7012c8d6439376a8f190af:GameAward_Prototype/Assets/Script/Create.cs
     }
 
     //‰ñ“]’Œİ’è
