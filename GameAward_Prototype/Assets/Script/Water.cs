@@ -5,7 +5,8 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     private int m_Frame;
-    [SerializeField] private int m_DelayTime; 
+    [SerializeField] private int m_DelayTime;
+    private bool m_Flag = false;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +17,7 @@ public class Water : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
     }
 
     private void FixedUpdate()
@@ -33,17 +34,23 @@ public class Water : MonoBehaviour
     {
         Transform myTransform = this.transform;
         Vector3 pos = myTransform.position;
-        pos.y += 0.01f;    
-        myTransform.position = pos; 
+        pos.y += 0.01f;
+        myTransform.position = pos;
     }
-    
+
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
+            m_Flag = true;
             Debug.Log("ボボボ");
             //Scene.ChangeScene("Test");
         }
     }
+    public bool GetGameOverFlag()
+    {
+        return m_Flag;
+    }
+
 }
