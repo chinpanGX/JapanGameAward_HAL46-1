@@ -1267,14 +1267,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-<<<<<<< HEAD
   m_Text: "KB\u3000\u3000PAD\nAD\u3000\u3000\u30B9\u30C6\u30A3\u30C3\u30AF\u3000\u5DE6\u53F3\u79FB\u52D5\nZ\u3000\u3000  
     A\u3000\u3000\u3000\u3000    \u56DE\u8EE2\nX          X                  \u4E00\u6BB5\u767B\u308B\nESC
     \u3000\u3000\u3000\u3000\u3000\u3000   \u5F37\u5236\u7D42\u4E86"
-=======
-  m_Text: "AD\u3000\u5DE6\u53F3\u79FB\u52D5\nZ\u3000\u3000\u56DE\u8EE2\nX\u3000\u3000\u4E00\u6BB5\u767B\u308B\nESC
-    \u5F37\u5236\u7D42\u4E86"
->>>>>>> 6afe367fa568944276f8e8780cbf494969b7ddb4
 --- !u!222 &975196438
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2096,7 +2091,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04ce4a0a939dbd242899dbe776dbccf0, type: 3}
-<<<<<<< HEAD
 --- !u!1001 &5920701248804874073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2162,5 +2156,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e11b7c8d967b0244897669a70a0cbaf2, type: 3}
-=======
->>>>>>> 6afe367fa568944276f8e8780cbf494969b7ddb4
