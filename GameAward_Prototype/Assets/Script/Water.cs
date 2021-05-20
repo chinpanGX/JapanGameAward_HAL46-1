@@ -6,7 +6,8 @@ public class Water : MonoBehaviour
 {
     private int m_Frame;
     [SerializeField] private int m_DelayTime;
-    private bool m_Flag = false;
+   // private bool m_Flag = false;
+    public GameObject m_Player;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,11 @@ public class Water : MonoBehaviour
         {
             Move();
         }
+        // y座標比較
+        if(this.transform.position.y >= m_Player.transform.position.y + 0.4f)
+        {
+            Scene.ChangeScene("Test");
+        }
     }
 
     // �㏸
@@ -39,7 +45,7 @@ public class Water : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter(Collider other)
+  /*  private void OnColliderEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
@@ -52,5 +58,5 @@ public class Water : MonoBehaviour
     {
         return m_Flag;
     }
-
+    */
 }

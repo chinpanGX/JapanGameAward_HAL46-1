@@ -1052,6 +1052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DelayTime: 0
+  m_Player: {fileID: 391178964}
 --- !u!64 &786991399
 MeshCollider:
   m_ObjectHideFlags: 0
