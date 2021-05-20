@@ -81,7 +81,14 @@ public class Player : MonoBehaviour
         {
             field.SetNoMove();
 
-            if (Input.GetButton("Right"))//‰E
+            var h = Input.GetAxis("Horizontal");
+
+            if (h != 0)//ˆÚ“®
+            {
+                field.SetMove(-speed * h);
+                NowInput = INPUT_RIGHT;
+            }
+            else if (Input.GetButton("Right"))//‰E
             {
                 field.SetMove(-speed);
                 NowInput = INPUT_RIGHT;
