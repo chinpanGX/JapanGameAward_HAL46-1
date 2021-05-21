@@ -16,6 +16,8 @@ public class SystemManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
+            Debug.Log("‚ ‚¢‚¤‚¦‚¨");
+
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
