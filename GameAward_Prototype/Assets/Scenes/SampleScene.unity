@@ -971,7 +971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6a6df342b52d24092cf6bbb590c535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveHeight: 0.2
+  waveHeight: 0.5
   waveFrequency: 0.2
   waveLength: 0.5
   waveOriginPosition: {x: 0, y: 0, z: 0}
@@ -1391,7 +1391,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1109784388}
   - component: {fileID: 1109784387}
-  - component: {fileID: 1109784386}
   m_Layer: 0
   m_Name: SubCamera
   m_TagString: Untagged
@@ -1399,14 +1398,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1109784386
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109784385}
-  m_Enabled: 1
 --- !u!20 &1109784387
 Camera:
   m_ObjectHideFlags: 0
