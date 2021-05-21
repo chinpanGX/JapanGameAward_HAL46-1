@@ -160,3 +160,6 @@ MonoBehaviour:
   nowPiller: 0
   nextPiller: 0
   FallFlag: 0
+  AirFlag: 0
+  MoveCenter: 0
+  nowmoveaxis: 0
