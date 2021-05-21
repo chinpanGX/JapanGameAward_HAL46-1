@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c43a7376c8f3b489e9308d25e29312, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: 
-  Player: {x: 0, y: 13}
+  Player: {x: 0, y: 0}
   Block:
   - {x: 1, y: 1}
   - {x: 4, y: 2}
-  - {x: 3, y: 2}
+  - {x: 3, y: 3}
   - {x: 7, y: 6}
-  - {x: 4, y: 8}
   - {x: 2, y: 8}
   - {x: 4, y: 3}
   - {x: 4, y: 1}
@@ -27,8 +26,7 @@ MonoBehaviour:
   - {x: 21, y: 1}
   - {x: 19, y: 0}
   - {x: 0, y: 1}
-  - {x: 2, y: 1}
-  - {x: 2, y: 4}
+  - {x: 2, y: 2}
   - {x: 15, y: 4}
   - {x: 14, y: 4}
   - {x: 20, y: 2}
@@ -47,9 +45,8 @@ MonoBehaviour:
   - {x: 7, y: 4}
   - {x: 6, y: 4}
   - {x: 5, y: 5}
-  - {x: 3, y: 6}
-  - {x: 4, y: 6}
   - {x: 3, y: 7}
+  - {x: 4, y: 9}
   - {x: 2, y: 10}
   - {x: 2, y: 7}
   - {x: 1, y: 11}
@@ -61,10 +58,14 @@ MonoBehaviour:
   - {x: 19, y: 17}
   - {x: 18, y: 18}
   - {x: 17, y: 19}
+  - {x: 4, y: 0}
+  - {x: 4, y: 4}
+  - {x: 4, y: 8}
+  - {x: 4, y: 7}
   TurnPiller:
   - {x: 21, y: 1, z: 1}
-  - {x: 4, y: 3, z: 2}
+  - {x: 4, y: 3, z: 3}
   - {x: 18, y: 3, z: 1}
-  - {x: 4, y: 8, z: 1}
+  - {x: 4, y: 8, z: 2}
   - {x: 2, y: 10, z: 2}
   - {x: 20, y: 15, z: 3}
