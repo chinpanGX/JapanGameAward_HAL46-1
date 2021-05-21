@@ -21,6 +21,7 @@ public class TurnPiller : MonoBehaviour
     public bool ReturnFlag { get; set; }
     private Quaternion Move;
     private Vector3 Axis;
+    private float angle;
 
     private int flamecount;
 
@@ -66,7 +67,7 @@ public class TurnPiller : MonoBehaviour
 
         //回転軸を求める
         Axis = Vector3.Cross(Axis, Vector3.up);
-        Axis.Normalize();//なんとなく正規化
+        //Axis.Normalize();//なんとなく正規化
 
         //ブロック情報等を受け取る
         Transform[] set = new Transform[size * 2];
@@ -78,18 +79,24 @@ public class TurnPiller : MonoBehaviour
         int childid = 0;
         foreach(Transform child in piller.FieldPiller[field.nowPiller].transform)
         {
+            if (child.tag == "TurnPiller")
+            {
+                continue;
+            }
+
+            //プレイヤーを受け取る
+            if (child.tag == "Player")
+            {
+                player = child.gameObject;
+                continue;
+            }
+
             int maxheight = field.nowHeight + size - 1;
             int minheight = field.nowHeight - size;
             Field cfield = child.GetComponent<Field>();
-            if (child.tag != "TurnPiller" && (maxheight >= cfield.nowHeight && minheight <= cfield.nowHeight))
+            if ((maxheight >= cfield.nowHeight && minheight <= cfield.nowHeight))
             {
                 set[childid] = child;
-
-                if (child.tag == "Player")
-                {
-                    player = child.gameObject;
-                }
-
                 childid++;
             }
         }
@@ -117,8 +124,15 @@ public class TurnPiller : MonoBehaviour
             field.AirFlag = true;
         }
 
+        if (player != null)
+        {
+            Field field = player.GetComponent<Field>();
+            field.FallFlag = false;
+            field.AirFlag = true;
+        }
+
         //回転処理
-        float angle = 180.0f / (float)ReturnFlame;
+        angle = 180.0f / (float)ReturnFlame;
         if (rotedirection == false)
         {
             angle *= -1;
@@ -136,6 +150,25 @@ public class TurnPiller : MonoBehaviour
 
             //回転
             this.transform.rotation *= Move;
+            if (player != null)
+            {
+                //Quaternion PMove = Quaternion.AngleAxis(-angle, Axis);//一回の回転量
+                //Vector3 subposi = player.transform.position;//プレイヤー座標避難
+                //player.transform.position = this.transform.position;//一回柱の位置にずらす
+                //player.transform.rotation *= Move;//回転
+                //player.transform.position = subposi;//戻す
+
+                Vector3 center = this.transform.position - new Vector3(0.0f, 0.5f, 0.0f);
+
+                Vector3 posi = player.transform.position;
+                
+                posi -= center;
+                posi = Move * posi;
+                posi += center;
+
+                player.transform.position = posi;
+                
+            }
 
             //フレームカウント
             flamecount++;
@@ -151,6 +184,7 @@ public class TurnPiller : MonoBehaviour
                 int id = 0;
                 foreach (Transform child in this.transform)
                 {
+                    //違うオブジェクトの時
                     if (child.name == "Cube")
                     {
                         continue;
@@ -163,7 +197,17 @@ public class TurnPiller : MonoBehaviour
                     id++;
                 }
 
-                foreach(var child in obj)
+                if (player != null)
+                {
+                    player.GetComponent<Player>().turnpiller = null;
+
+                    Field field = player.GetComponent<Field>();
+                    field.FallFlag = true;
+                    field.ChangeHeight(this.field.nowHeight);
+                    player.transform.position = new Vector3(player.transform.position.x, field.nowHeight, player.transform.position.z);
+                }
+
+                foreach (var child in obj)
                 {
                     if (child == null)
                     {
@@ -172,6 +216,7 @@ public class TurnPiller : MonoBehaviour
                     child.parent = this.transform.parent;
                 }
 
+                player = null;
                 flamecount = 0;//フレームカウントリセット
                 ReturnFlag = false;//回転する柱をリセット
             }
