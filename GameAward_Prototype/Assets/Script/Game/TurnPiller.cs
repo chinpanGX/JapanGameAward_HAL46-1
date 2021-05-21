@@ -14,6 +14,10 @@ public class TurnPiller : MonoBehaviour
     //柱マネージャー
     private PillerManager piller;
 
+    //プレイヤー
+    GameObject player;
+
+    //回転
     public bool ReturnFlag { get; set; }
     private Quaternion Move;
     private Vector3 Axis;
@@ -36,6 +40,8 @@ public class TurnPiller : MonoBehaviour
 
         GameObject child = this.transform.Find("Cube").gameObject;
         child.transform.localScale = new Vector3(1.0f, size, 1.0f);
+
+        player = null;
     }
 
     // Update is called once per frame
@@ -78,6 +84,12 @@ public class TurnPiller : MonoBehaviour
             if (child.tag != "TurnPiller" && (maxheight >= cfield.nowHeight && minheight <= cfield.nowHeight))
             {
                 set[childid] = child;
+
+                if (child.tag == "Player")
+                {
+                    player = child.gameObject;
+                }
+
                 childid++;
             }
         }
