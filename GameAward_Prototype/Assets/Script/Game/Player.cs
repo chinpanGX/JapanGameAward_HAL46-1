@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public int jumpflame;
     private PillerManager piller;//’Œî•ñ
     private TurnPillerManager turnpillermane;
-    private TurnPiller turnpiller;
+    public TurnPiller turnpiller { get; set; }
 
     //ƒtƒB[ƒ‹ƒhæ“¾
     Field field;
@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
 
         field = this.GetComponent<Field>();
         field.DefoMoveFlag = true;
+
+        turnpiller = null;
     }
 
     // Update is called once per frame
@@ -55,7 +57,7 @@ public class Player : MonoBehaviour
         //“ü—Íˆ—
         ProcesInput();
 
-        if (!field.StateReverse())
+        if (turnpiller == null)
         {
             //this.transform.LookAt(look);
         }
@@ -64,7 +66,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!field.StateReverse())
+        if (turnpiller == null)
         {
             HitProcess();
         }
@@ -77,7 +79,7 @@ public class Player : MonoBehaviour
     //“ü—Íˆ—
     private void ProcesInput()
     {
-        if (NowInput == INPUT_NONE && !field.StateReverse() && !field.AirFlag)
+        if (NowInput == INPUT_NONE && turnpiller == null && !field.AirFlag)
         {
             field.SetNoMove();
 
@@ -119,7 +121,7 @@ public class Player : MonoBehaviour
                 {
                     NowInput = INPUT_NONE;
                 }
-                else if (NowInput == INPUT_REVERSE && !turnpiller.ReturnFlag && !field.AirFlag)
+                else if (NowInput == INPUT_REVERSE && turnpiller == null && !field.AirFlag)
                 {
                     NowInput = INPUT_NONE;
                 }
@@ -168,7 +170,7 @@ public class Player : MonoBehaviour
     private void UpDownMove()
     {
         //‰ñ“]’†‚Í“o‚è~‚è‚µ‚È‚¢
-        if (field.StateReverse())
+        if (turnpiller != null)
         {
             return;
         }
