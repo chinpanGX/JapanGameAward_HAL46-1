@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08c3d8f3fb90c448a7572ea2a179c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NowStage: 1
+  NowStage: 2
   stage:
   - {fileID: 11400000, guid: a4bceea815149bb4da71a32fd4c9f487, type: 2}
   - {fileID: 11400000, guid: 08f20849c80b5d041acf17c0e078075e, type: 2}
+  - {fileID: 11400000, guid: 102a221cb0568a9459af4070a7f5295d, type: 2}
