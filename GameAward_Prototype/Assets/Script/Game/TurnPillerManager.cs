@@ -104,7 +104,17 @@ public class TurnPillerManager : MonoBehaviour
 
         if (obj != null)
         {
-            obj.GetComponent<TurnPiller>().ReverseStart(true);
+            bool rotadirection = true;
+            if (obj.GetComponent<Field>().nowHeight <= height)//プレイヤーの位置で回転方向を変更
+            {
+                rotadirection = true;
+            }
+            else
+            {
+                rotadirection = false;
+            }
+
+            obj.GetComponent<TurnPiller>().ReverseStart(rotadirection);
         }
         return obj;
     }
