@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public float speed;//移動速度
     public int jumpflame;
-    private PillerManager piller;//柱情報
+    public PillerManager piller { get; set; }//柱情報
     private TurnPillerManager turnpillermane;
     public TurnPiller turnpiller { get; set; }
 
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     private const int MOVE_CENTER = 3;//中央移動
     private const int MOVE_DOWN = 4;//落下
     private const int MOVE_SIDE = 5;//横指定移動
-    public int MoveFlag = MOVE_NONE;
+    private int MoveFlag = MOVE_NONE;
 
     private const int INPUT_NONE = 0;//入力してない
     private const int INPUT_SET = 1;//入力しているまたは何かしら処理中
@@ -45,7 +45,16 @@ public class Player : MonoBehaviour
     private const int INPUT_REVERSE = 4;//回転
     private const int INPUT_JUMP = 5;
     private const int INPUT_STICK = 6;
-    public int NowInput = INPUT_NONE;
+    private int NowInput = INPUT_NONE;
+
+
+    private const int CLEAR_NONE = 0;//まだ
+    private const int CLEAR_CENTER = 1;//中央に移動
+    private const int CLEAR_ANIME = 2;//アニメーション
+    private const int CLEAR_ROTA1 = 3;//回転1
+    private const int CLEAR_ROTA2 = 4;//回転2
+    public int ClearFlag = CLEAR_NONE;
+    private Vector3 clearmove;
     
     // Start is called before the first frame update
     void Start()
@@ -76,30 +85,38 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (turnpiller == null)
+        if (ClearFlag == CLEAR_NONE)
         {
-            DownHitProcess();
+            if (turnpiller == null)
+            {
+                DownHitProcess();
+            }
+
+            //入力処理
+            ProcesInput();
+
+            //プレイヤー向き
+            CalLook();
         }
-
-        //入力処理
-        ProcesInput();
-
-        //プレイヤー向き
-        CalLook();
     }
 
     private void FixedUpdate()
     {
-        
-        
-        //上移動
-        UpDownMove();
+        ClearMove();
 
+        if (ClearFlag == CLEAR_NONE)
+        {
+            //上移動
+            UpDownMove();
+        }
+        
     }
 
     //入力処理
     private void ProcesInput()
     {
+        
+
         //回転＆ジャンプボタン押せるか？
         ButtunUI();
 
@@ -108,9 +125,6 @@ public class Player : MonoBehaviour
         {
             //移動リセット
             field.SetNoMove();
-
-            
-
             var h = Input.GetAxis("Horizontal");
             if (h >= 0.9f || h <= -0.9f)//移動
             {
@@ -124,7 +138,7 @@ public class Player : MonoBehaviour
                     nowlook = 1;
                 }
                 animator.SetBool("Move", true);
-                NowInput = INPUT_RIGHT;
+                NowInput = INPUT_STICK;
             }
             else if (Input.GetButton("Right"))//右
             {
@@ -134,36 +148,71 @@ public class Player : MonoBehaviour
             {
                 SetMove(false);
             }
-            else if (Input.GetButtonDown("Reverce"))//回転
+            else
             {
-                field.SetNoMove();
-                SetReverse();
+                animator.SetBool("Move", false);
             }
-            else if (Input.GetButtonDown("Jump"))//ブロック上る
+            
+            if (Input.GetButton("Reverce"))//回転
             {
-                field.SetNoMove();
-                SetBlockUp();
+                if (SetReverse())
+                {
+                    field.SetNoMove();
+                }
+            }
+            else if (Input.GetButton("Jump"))//ブロック上る
+            {
+                if (SetBlockUp())
+                {
+                    field.SetNoMove();
+                }
             }
         }
         else
         {
             if (BlockUpDownFlag == BLOCK_NONE)
             {
-                var h = Input.GetAxis("Horizontal");
-                if ((NowInput == INPUT_LEFT && !Input.GetButton("Left")) ||
-                (NowInput == INPUT_RIGHT && !Input.GetButton("Right")
-                ))
+                if (NowInput == INPUT_STICK)//スティック入力
                 {
-                    animator.SetBool("Move", false);
+                    var h = Input.GetAxis("Horizontal");
+                    if (h <= 0.9f && h >= -0.9f)
+                    {
+                        animator.SetBool("Move", false);
+                        NowInput = INPUT_NONE;
+                    }
+                    else
+                    {
+                        NowInput = INPUT_NONE;
+                    }
+                }
+                else if (NowInput == INPUT_REVERSE && turnpiller == null && !field.AirFlag)//回転処理
+                {
                     NowInput = INPUT_NONE;
                 }
-                else if (NowInput == INPUT_STICK)
+                else if (NowInput == INPUT_LEFT)//右移動
                 {
-                    NowInput = INPUT_NONE;
+                    if (Input.GetButton("Left"))
+                    {
+                        NowInput = INPUT_NONE;
+                    }
+                    else
+                    {
+                        animator.SetBool("Move", false);
+                        NowInput = INPUT_NONE;
+                    }
+
                 }
-                else if (NowInput == INPUT_REVERSE && turnpiller == null && !field.AirFlag)
+                else if (NowInput == INPUT_RIGHT)//左ボタン
                 {
-                    NowInput = INPUT_NONE;
+                    if (Input.GetButton("Right"))
+                    {
+                        NowInput = INPUT_NONE;
+                    }
+                    else
+                    {
+                        animator.SetBool("Move", false);
+                        NowInput = INPUT_NONE;
+                    }
                 }
             }
             
@@ -171,7 +220,7 @@ public class Player : MonoBehaviour
     }
 
     //回転処理セット
-    private void SetReverse()
+    private bool SetReverse()
     {
         GameObject obj = turnpillermane.StartReverse(field.nowPiller, field.nowHeight);
         if (obj != null)
@@ -179,11 +228,13 @@ public class Player : MonoBehaviour
             turnpiller = obj.GetComponent<TurnPiller>();
             this.GetComponent<Rigidbody>().isKinematic = true;
             NowInput = INPUT_REVERSE;
+            return true;
         }
+        return false;
     }
 
     //ブロック一個上るセット
-    private void SetBlockUp()
+    private bool SetBlockUp()
     {
         if (field.NowWay())//右にいる場合
         {
@@ -199,12 +250,14 @@ public class Player : MonoBehaviour
             piller.GetPillerBlock(field.MovePillerID(Way), field.nowHeight + 1) ||
             piller.GetPillerBlock(field.nowPiller, field.nowHeight + 1))
         {
-            return;
+            return false;
         }
 
 
         BlockUpDownFlag = BLOCK_UP;
         NowInput = INPUT_JUMP;
+
+        return true;
     }
 
     private void UpDownMove()
@@ -233,9 +286,21 @@ public class Player : MonoBehaviour
         {
             //field.SetYMove(field.nowHeight + 1, jumpflame);
             //MoveFlag = MOVE_UP;
-            field.SetXMove(field.MovePillerID(Way), jumpflame);//横移動
-            MoveFlag = MOVE_SIDE;
-            animator.SetBool("Move", true);
+
+            if (!field.MoveRest())
+            {
+                field.SetXMove(field.MovePillerID(Way), jumpflame);//横移動
+                MoveFlag = MOVE_SIDE;
+                animator.SetBool("Move", true);
+            }
+            else
+            {
+                field.SetYMove(field.nowHeight + 1, jumpflame);
+                MoveFlag = MOVE_UP;
+                field.XMoveFlag = false;
+                animator.SetBool("Move", false);
+            }
+            
 
             if (Way)
             {
@@ -447,5 +512,77 @@ public class Player : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void ClearMove()
+    {
+        //最上階　回転してない　空中にいない　移動フラグが動いてない
+        if(field.nowHeight == 20 && turnpiller == null && !field.AirFlag && BlockUpDownFlag == BLOCK_NONE)
+        {
+
+
+            if (ClearFlag == CLEAR_NONE)//クリア処理開始
+            {
+                //座標補正
+                this.transform.position = new Vector3(this.transform.position.x, 20.0f, this.transform.position.z);
+
+                //重力の影響を受けなくする
+                this.GetComponent<Rigidbody>().isKinematic = true;
+
+                //落下処理をしなくする
+                field.FallFlag = false;
+
+                //移動方向を計算する
+                clearmove = new Vector3(0.0f, this.transform.position.y, 0.0f) - this.transform.position;
+                clearmove = Vector3.Normalize(clearmove);
+
+                //カメラをプレイヤーの子に入れる
+                Camera.main.transform.parent = this.transform;
+
+                //フラグ変更
+                ClearFlag = CLEAR_ROTA1;
+                animator.SetBool("Move", true);
+            }
+            else if (ClearFlag == CLEAR_ROTA1)//最初の回転
+            {
+                //中央に向くように回転
+                Quaternion target = Quaternion.LookRotation(clearmove);
+                this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
+                if (target == this.transform.rotation)//中央に向いたら
+                {
+                    ClearFlag = CLEAR_CENTER;
+                }
+            }
+            else if (ClearFlag == CLEAR_CENTER)//中央移動
+            {
+                //移動
+                this.transform.position += clearmove * 0.1f;
+
+                //中央に移動したら
+                if (this.transform.position.x <= 0.1f && this.transform.position.x >= -0.1f)
+                {
+                    if (this.transform.position.z <= 0.1f && this.transform.position.z >= -0.1f)
+                    {
+                        this.transform.position = new Vector3(0.0f, 20.0f, 0.0f);
+                        Camera.main.transform.parent = null;
+                        ClearFlag = CLEAR_ROTA2;
+                    }
+                }
+            }
+            else if (ClearFlag == CLEAR_ROTA2)
+            {
+                Quaternion target = Quaternion.LookRotation(new Vector3(Camera.main.transform.position.x, 20.0f, Camera.main.transform.position.z) - this.transform.position);
+                this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
+                if (target == this.transform.rotation)
+                {
+                    ClearFlag = CLEAR_ANIME;
+                    animator.SetBool("Move", false);
+                }
+            }
+            else if (ClearFlag == CLEAR_ANIME)
+            {
+                
+            }
+        }
     }
 }
