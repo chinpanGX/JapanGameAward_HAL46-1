@@ -8,10 +8,18 @@ public class Water : MonoBehaviour
     [SerializeField] int m_StartHeight;
     [SerializeField] GameObject m_Player;
 
+    private bool moveflag;
+    //警告
+    [SerializeField] GameObject m_warning;
+    private int m_flamecount;
+
+
     // Start is called before the first frame update
     void Start()
     {
-
+        m_warning.SetActive(false);
+        m_flamecount = 0;
+        moveflag = false;
     }
 
     // Update is called once per frame
@@ -22,16 +30,43 @@ public class Water : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (m_Player.transform.position.y >= m_StartHeight && m_Player.transform.position.y < 20)//指定された高さに達したら移動が始まる
+        if (m_Player.transform.position.y >= m_StartHeight)//指定された高さに達したら移動が始まる
         {
-            Move();
+            moveflag = true;
         }
 
-        // y座標比較
-        if(this.transform.position.y >= m_Player.transform.position.y + 0.2f)
+
+        if (moveflag == true && m_Player.transform.position.y < 20)
+        {
+            Move();
+
+            //警告表示
+            if (m_flamecount % 40 == 0 && m_flamecount <= 280)
+            {
+                bool active = m_warning.activeSelf;
+                m_warning.SetActive(!active);
+            }
+            else if (m_flamecount >= 280)
+            {
+                m_warning.SetActive(false);
+            }
+
+            m_flamecount++;
+        }
+        else
+        {
+            m_warning.SetActive(false);
+            m_flamecount = 0;
+            moveflag = false;
+        }
+
+        // ヒット判定
+        if (this.transform.position.y >= m_Player.transform.position.y + 0.2f)
         {
             Scene.ChangeScene("Test");
         }
+
+        
     }
 
     // �㏸
