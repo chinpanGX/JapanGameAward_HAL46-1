@@ -35,6 +35,14 @@ public class Water : MonoBehaviour
             moveflag = true;
         }
 
+        // ヒット判定
+        if (this.transform.position.y >= m_Player.transform.position.y + 0.2f)
+        {
+            m_warning.SetActive(false);
+            m_flamecount = 0;
+            moveflag = false;
+            Scene.ChangeScene("Test");
+        }
 
         if (moveflag == true && m_Player.transform.position.y < 20)
         {
@@ -60,13 +68,9 @@ public class Water : MonoBehaviour
             moveflag = false;
         }
 
-        // ヒット判定
-        if (this.transform.position.y >= m_Player.transform.position.y + 0.2f)
-        {
-            Scene.ChangeScene("Test");
-        }
-
         
+
+
     }
 
     // �㏸

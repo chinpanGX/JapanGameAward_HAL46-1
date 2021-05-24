@@ -152,11 +152,6 @@ public class TurnPiller : MonoBehaviour
             this.transform.rotation *= Move;
             if (player != null)
             {
-                //Quaternion PMove = Quaternion.AngleAxis(-angle, Axis);//一回の回転量
-                //Vector3 subposi = player.transform.position;//プレイヤー座標避難
-                //player.transform.position = this.transform.position;//一回柱の位置にずらす
-                //player.transform.rotation *= Move;//回転
-                //player.transform.position = subposi;//戻す
 
                 Vector3 center = this.transform.position - new Vector3(0.0f, 0.5f, 0.0f);
 
