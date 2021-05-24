@@ -13,8 +13,12 @@ public class Player : MonoBehaviour
     //フィールド取得
     Field field;
 
+    //アニメーション
+    Animator animator;
+
     //見てる場所
-    Vector3 look;
+    Vector3 look;//向いてる基準
+    int nowlook;//向いてる方向
 
     private const int BLOCK_NONE = 0;
     private const int BLOCK_UP = 1;
@@ -23,10 +27,11 @@ public class Player : MonoBehaviour
     private bool Way;
 
     private const int MOVE_NONE = 0;
-    private const int MOVE_UP = 1;
-    private const int MOVE_X = 2;
-    private const int MOVE_CENTER = 3;
-    private const int MOVE_DOWN = 4;
+    private const int MOVE_UP = 1;//上る
+    private const int MOVE_X = 2;//横移動
+    private const int MOVE_CENTER = 3;//中央移動
+    private const int MOVE_DOWN = 4;//落下
+    private const int MOVE_SIDE = 5;//横指定移動
     public int MoveFlag = MOVE_NONE;
 
     private const int INPUT_NONE = 0;//入力してない
@@ -35,41 +40,49 @@ public class Player : MonoBehaviour
     private const int INPUT_RIGHT = 3;//右
     private const int INPUT_REVERSE = 4;//回転
     private const int INPUT_JUMP = 5;
+    private const int INPUT_STICK = 6;
     public int NowInput = INPUT_NONE;
     
     // Start is called before the first frame update
     void Start()
     {
+        //マネージャー関係
         GameObject manager = GameObject.Find("Manager");
         piller = manager.GetComponent<PillerManager>();
         turnpillermane = manager.GetComponent<TurnPillerManager>();
 
+        //アニメーター
+        GameObject playermodel = this.transform.Find("PlayerModel").gameObject;
+        animator = playermodel.GetComponent<Animator>();
 
+        //フィールド
         field = this.GetComponent<Field>();
         field.DefoMoveFlag = true;
 
+        //変数初期化
         turnpiller = null;
+
+        nowlook = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (turnpiller == null)
+        {
+            DownHitProcess();
+        }
+
         //入力処理
         ProcesInput();
 
-        if (turnpiller == null)
-        {
-            //this.transform.LookAt(look);
-        }
-        
+        //プレイヤー向き
+        CalLook();
     }
 
     private void FixedUpdate()
     {
-        if (turnpiller == null)
-        {
-            HitProcess();
-        }
+        
         
         //上移動
         UpDownMove();
@@ -88,17 +101,24 @@ public class Player : MonoBehaviour
             if (h != 0)//移動
             {
                 field.SetMove(-speed * h);
-                NowInput = INPUT_RIGHT;
+                if (h < 0)
+                {
+                    nowlook = 1;
+                }
+                else
+                {
+                    nowlook = -1;
+                }
+                animator.SetBool("Move", true);
+                NowInput = INPUT_STICK;
             }
             else if (Input.GetButton("Right"))//右
             {
-                field.SetMove(-speed);
-                NowInput = INPUT_RIGHT;
+                SetMove(true);
             }
             else if (Input.GetButton("Left"))//左
             {
-                field.SetMove(speed);
-                NowInput = INPUT_LEFT;
+                SetMove(false);
             }
             else if (Input.GetButtonDown("Reverce"))//回転
             {
@@ -115,10 +135,13 @@ public class Player : MonoBehaviour
         {
             if (BlockUpDownFlag == BLOCK_NONE)
             {
+                var h = Input.GetAxis("Horizontal");
                 if ((NowInput == INPUT_LEFT && !Input.GetButton("Left")) ||
-                (NowInput == INPUT_RIGHT && !Input.GetButton("Right"))
+                (NowInput == INPUT_RIGHT && !Input.GetButton("Right") || 
+                (NowInput == INPUT_STICK && h == 0))
                 )
                 {
+                    animator.SetBool("Move", false);
                     NowInput = INPUT_NONE;
                 }
                 else if (NowInput == INPUT_REVERSE && turnpiller == null && !field.AirFlag)
@@ -191,8 +214,27 @@ public class Player : MonoBehaviour
     {
         if (MoveFlag == MOVE_NONE)//登る開始
         {
+            //field.SetYMove(field.nowHeight + 1, jumpflame);
+            //MoveFlag = MOVE_UP;
+            field.SetXMove(field.MovePillerID(Way), jumpflame);//横移動
+            MoveFlag = MOVE_SIDE;
+            animator.SetBool("Move", true);
+
+            if (Way)
+            {
+                nowlook = 1;
+            }
+            else
+            {
+                nowlook = -1;
+            }
+        }
+        else if(MoveFlag == MOVE_SIDE && field.MoveRest())//壁にぶつかったら
+        {
             field.SetYMove(field.nowHeight + 1, jumpflame);
             MoveFlag = MOVE_UP;
+            field.XMoveFlag = false;
+            animator.SetBool("Move", false);
         }
         else if (MoveFlag == MOVE_UP && !field.YMoveFlag)//登り中
         {
@@ -259,7 +301,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void HitProcess()
+    private void DownHitProcess()
     {
         var obj = piller.GetObjectMulti(field.nowPiller, field.nowHeight - 1);
 
@@ -285,6 +327,7 @@ public class Player : MonoBehaviour
             }
             else if (BlockUpDownFlag == BLOCK_NONE)
             {
+                animator.SetBool("Move", false);
                 BlockUpDownFlag = BLOCK_DOWN;
             }
         }
@@ -309,5 +352,35 @@ public class Player : MonoBehaviour
         }
 
         return true;
+    }
+
+    //移動
+    //direction true=右　false=左
+    void SetMove(bool direction)
+    {
+        if (direction)//右
+        {
+            field.SetMove(-speed);
+            nowlook = 1;
+            NowInput = INPUT_RIGHT;
+        }
+        else//左
+        {
+            field.SetMove(speed);
+            nowlook = -1;
+            NowInput = INPUT_LEFT;
+        }
+
+        animator.SetBool("Move", true);
+    }
+
+    //見る方向を計算するやぁつ
+    void CalLook()
+    {
+        Vector3 center = new Vector3(0.0f, this.transform.position.y, 0.0f);
+        Vector3 vec = center - this.transform.position;
+        look = Vector3.Cross(Vector3.up, vec);
+        look = Vector3.Normalize(look);
+        this.transform.LookAt(this.transform.position + (nowlook * look));
     }
 }

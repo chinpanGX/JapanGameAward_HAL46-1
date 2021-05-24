@@ -157,7 +157,10 @@ public class Field : MonoBehaviour
         else if(DefoMoveFlag == true)
         {
             //左右移動制限処理
-            MoveRest();
+            if (MoveRest())
+            {
+                SetNoMove();
+            }
 
             //左右移動
             ProcesMove();
@@ -291,7 +294,7 @@ public class Field : MonoBehaviour
     }
 
     //移動停止処理
-    private bool MoveRest()
+    public bool MoveRest()
     {
         float nextmove = nowmoveaxis + moveaxis;//次の移動角度を計算
         if (Mathf.Abs(nextmove) + 1.0f > ProcessPillerPosi())
@@ -299,14 +302,11 @@ public class Field : MonoBehaviour
             if ((NowWay() && piller.GetPillerBlock(MovePillerID(true), nowHeight)) || //右にいる
                 (!NowWay() && piller.GetPillerBlock(MovePillerID(false), nowHeight)))   //左にいる
             {
-                //移動しない
-                SetNoMove();
-
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     //柱移動

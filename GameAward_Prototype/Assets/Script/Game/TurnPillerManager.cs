@@ -23,8 +23,6 @@ public class TurnPillerManager : MonoBehaviour
     void Start()
     {
         FieldPiller = this.GetComponent<PillerManager>();
-
-        
     }
 
     // Update is called once per frame
@@ -104,17 +102,7 @@ public class TurnPillerManager : MonoBehaviour
 
         if (obj != null)
         {
-            bool rotadirection = true;
-            if (obj.GetComponent<Field>().nowHeight <= height)//プレイヤーの位置で回転方向を変更
-            {
-                rotadirection = true;
-            }
-            else
-            {
-                rotadirection = false;
-            }
-
-            obj.GetComponent<TurnPiller>().ReverseStart(rotadirection);
+            obj.GetComponent<TurnPiller>().ReverseStart(true);
         }
         return obj;
     }
