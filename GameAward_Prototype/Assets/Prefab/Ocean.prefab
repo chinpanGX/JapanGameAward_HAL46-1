@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4287489047389136449}
   - component: {fileID: 4287489047389136448}
   - component: {fileID: 2087752716969035058}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ocean
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4287489047389136451}
-  m_Mesh: {fileID: 4300000, guid: ebfb4988eb16add4784122504f75fe2f, type: 2}
+  m_Mesh: {fileID: 0}
 --- !u!23 &4287489047389136449
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -112,5 +112,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_speed: 0.01
-  m_DelayTime: 0
+  m_StartHeight: 0
   m_Player: {fileID: 0}

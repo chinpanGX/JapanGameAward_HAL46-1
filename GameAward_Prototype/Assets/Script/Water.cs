@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-    private int m_Frame;
     [SerializeField] float m_speed;
-    [SerializeField] private int m_DelayTime;
+    [SerializeField] int m_StartHeight;
     [SerializeField] GameObject m_Player;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_Frame = 0;
+
     }
 
     // Update is called once per frame
@@ -23,13 +22,13 @@ public class Water : MonoBehaviour
 
     private void FixedUpdate()
     {
-        m_Frame++;
-        if (m_Frame > m_DelayTime)
+        if (m_Player.transform.position.y >= m_StartHeight && m_Player.transform.position.y < 20)//指定された高さに達したら移動が始まる
         {
             Move();
         }
+
         // y座標比較
-        if(this.transform.position.y >= m_Player.transform.position.y + 0.4f)
+        if(this.transform.position.y >= m_Player.transform.position.y + 0.2f)
         {
             Scene.ChangeScene("Test");
         }

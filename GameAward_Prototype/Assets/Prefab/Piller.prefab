@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4946530280209192539}
   - component: {fileID: 6866934112417847300}
   - component: {fileID: 901971800519548871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Piller
   m_TagString: TurnPiller
   m_Icon: {fileID: 0}
@@ -94,6 +94,7 @@ MonoBehaviour:
   nowPiller: 0
   nextPiller: 0
   FallFlag: 0
+  AirFlag: 0
   MoveCenter: 0
   nowmoveaxis: 0
 --- !u!1 &6080450438313849398
@@ -107,7 +108,7 @@ GameObject:
   - component: {fileID: 3058098325322158591}
   - component: {fileID: 3883869909718975122}
   - component: {fileID: 6674204613185421182}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

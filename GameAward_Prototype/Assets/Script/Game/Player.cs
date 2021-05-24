@@ -16,6 +16,10 @@ public class Player : MonoBehaviour
     //アニメーション
     Animator animator;
 
+    //ボタン合図UI
+    public GameObject Abutton;
+    public GameObject Bbutton;
+
     //見てる場所
     Vector3 look;//向いてる基準
     int nowlook;//向いてる方向
@@ -62,6 +66,10 @@ public class Player : MonoBehaviour
         //変数初期化
         turnpiller = null;
 
+        //ボタン操作UI
+        Abutton.SetActive(false);
+        Bbutton.SetActive(false);
+
         nowlook = 1;
     }
 
@@ -92,25 +100,31 @@ public class Player : MonoBehaviour
     //入力処理
     private void ProcesInput()
     {
+        //回転＆ジャンプボタン押せるか？
+        ButtunUI();
+
+
         if (NowInput == INPUT_NONE && turnpiller == null && !field.AirFlag)
         {
+            //移動リセット
             field.SetNoMove();
 
-            var h = Input.GetAxis("Horizontal");
+            
 
-            if (h != 0)//移動
+            var h = Input.GetAxis("Horizontal");
+            if (h >= 0.9f || h <= -0.9f)//移動
             {
                 field.SetMove(-speed * h);
                 if (h < 0)
                 {
-                    nowlook = 1;
+                    nowlook = -1;
                 }
                 else
                 {
-                    nowlook = -1;
+                    nowlook = 1;
                 }
                 animator.SetBool("Move", true);
-                NowInput = INPUT_STICK;
+                NowInput = INPUT_RIGHT;
             }
             else if (Input.GetButton("Right"))//右
             {
@@ -137,11 +151,14 @@ public class Player : MonoBehaviour
             {
                 var h = Input.GetAxis("Horizontal");
                 if ((NowInput == INPUT_LEFT && !Input.GetButton("Left")) ||
-                (NowInput == INPUT_RIGHT && !Input.GetButton("Right") || 
-                (NowInput == INPUT_STICK && h == 0))
-                )
+                (NowInput == INPUT_RIGHT && !Input.GetButton("Right")
+                ))
                 {
                     animator.SetBool("Move", false);
+                    NowInput = INPUT_NONE;
+                }
+                else if (NowInput == INPUT_STICK)
+                {
                     NowInput = INPUT_NONE;
                 }
                 else if (NowInput == INPUT_REVERSE && turnpiller == null && !field.AirFlag)
@@ -382,5 +399,53 @@ public class Player : MonoBehaviour
         look = Vector3.Cross(Vector3.up, vec);
         look = Vector3.Normalize(look);
         this.transform.LookAt(this.transform.position + (nowlook * look));
+    }
+
+    void ButtunUI()
+    {
+        Abutton.SetActive(false);
+        Bbutton.SetActive(false);
+
+        if (turnpiller == null && !field.AirFlag && BlockUpDownFlag == BLOCK_NONE)
+        {
+            if (JudgeReverce())//回転
+            {
+                Abutton.SetActive(true);
+            }
+
+            if (JudgeJump())//ブロック上る
+            {
+                Bbutton.SetActive(true);
+            }
+        }
+    }
+
+    //判定回転
+    bool JudgeReverce()
+    {
+        return turnpillermane.JudgePiller(field.nowPiller, field.nowHeight);
+    }
+
+    //判定ジャンプ
+    bool JudgeJump()
+    {
+        if (field.NowWay())//右にいる場合
+        {
+            Way = true;
+        }
+        else//左にいる場合
+        {
+            Way = false;
+        }
+
+        //ブロックが指定した方向にあるか
+        if (!piller.GetPillerBlock(field.MovePillerID(Way), field.nowHeight) ||
+            piller.GetPillerBlock(field.MovePillerID(Way), field.nowHeight + 1) ||
+            piller.GetPillerBlock(field.nowPiller, field.nowHeight + 1))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

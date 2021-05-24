@@ -106,4 +106,32 @@ public class TurnPillerManager : MonoBehaviour
         }
         return obj;
     }
+
+    public bool JudgePiller(int pillerid, int height)
+    {
+        for (int i = 0; i < Piller.Count; i++)
+        {
+
+            //ƒf[ƒ^Žó‚¯Žæ‚é
+            Field field = Piller[i].GetComponent<Field>();
+            TurnPiller turnPiller = Piller[i].GetComponent<TurnPiller>();
+
+            //“¯‚¶’Œ‚¶‚á‚È‚¢ê‡
+            if (field.nowPiller != pillerid)
+            {
+                continue;
+            }
+
+
+            //“¯‚¶’Œ‚Å‚È‚¨‚©‚Â’Œ‚Ì”ÍˆÍ‚É‚¢‚é‚©
+            int ereamax = field.nowHeight + turnPiller.size - 1;
+            int ereamin = field.nowHeight - turnPiller.size;
+            if (ereamax >= height && ereamin <= height)//‚ ‚Á‚½ê‡
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
