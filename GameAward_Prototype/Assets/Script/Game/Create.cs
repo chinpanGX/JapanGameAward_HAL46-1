@@ -21,13 +21,6 @@ public class Create : MonoBehaviour
 
     [SerializeField] StageManager stagemanager;
 
-
-
-    private void Awake()
-    {
-        
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -41,22 +34,13 @@ public class Create : MonoBehaviour
         SetFieldPiller();
 
         //プレイヤーセット
-        stagemanager.GetStage().SetPlayer(this);
-        //SetPlayer(0, 0);
+        stagemanager.GetStage(StatusFlagManager.SelectStageID).SetPlayer(this);
 
         //回転柱セット
-        stagemanager.GetStage().SetTurnPiller(this);
-        //SetTurnPiller();
+        stagemanager.GetStage(StatusFlagManager.SelectStageID).SetTurnPiller(this);
 
         //ブロックセット
-        stagemanager.GetStage().SetBlock(this);
-        //SetBlock();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        stagemanager.GetStage(StatusFlagManager.SelectStageID).SetBlock(this);
     }
 
     private void SetFieldPiller()
@@ -93,52 +77,6 @@ public class Create : MonoBehaviour
         field.FallFlag = true;//落下フラグ
         field.nowHeight = height;//高さ
         field.nowPiller = side;
-    }
-
-    //========================================================================
-    //柱を設定
-    private void SetTurnPiller()
-    {
-        //セット
-        //CreateTurnPiller(0, 2, 1);
-
-        CreateTurnPiller(1, 2, 2);
-
-        CreateTurnPiller(2, 2, 1);
-        CreateTurnPiller(2, 5, 2);
-
-        CreateTurnPiller(3, 1, 1);
-
-        CreateTurnPiller(4, 2, 2);
-
-        CreateTurnPiller(5, 2, 2);
-
-        //CreateTurnPiller(21, 1, 1);
-    }
-
-    //========================================================================
-    //ブロックをセット
-    private void SetBlock()
-    {
-        //ブロック生成
-        //CreateBlock(0, 1);
-
-        CreateBlock(1, 1);
-        CreateBlock(1, 2);
-        CreateBlock(1, 3);
-
-        CreateBlock(2, 4);
-        CreateBlock(2, 1);
-
-        CreateBlock(3, 0);
-
-        CreateBlock(4, 1);
-        CreateBlock(4, 2);
-        CreateBlock(4, 3);
-
-        CreateBlock(5, 0);
-
-        CreateBlock(21, 0);
     }
 
     //回転柱設定

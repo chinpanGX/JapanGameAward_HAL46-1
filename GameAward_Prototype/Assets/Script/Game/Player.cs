@@ -581,7 +581,7 @@ public class Player : MonoBehaviour
             }
             else if (ClearFlag == CLEAR_ANIME)
             {
-                
+                Scene.ChangeScene("Title");
             }
         }
     }
