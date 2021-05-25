@@ -17,6 +17,7 @@ public class StatusFlagManager : MonoBehaviour
     static public readonly int SCENE_STAGESELECT = 2;
     static public readonly int SCENE_PAUSE = 3;
     static public readonly int SCENE_RESULT = 4;
+    static public readonly int SCENE_GAME = 5;
     static public int SceneFlag = SCENE_NONE;//シーンの現在の状態
 
     [SerializeField] StageManager stagecon;//ステージマネージャー

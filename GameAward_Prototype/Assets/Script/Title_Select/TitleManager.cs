@@ -42,8 +42,8 @@ public class TitleManager : MonoBehaviour
     {
         if (select == nextselect && StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE && select != SELECT_NONE)
         {
-            var h = Input.GetAxis("Vertical");
-            if (h > 0.0f || Input.GetKey(KeyCode.W))//è„
+            var v = Input.GetAxis("Vertical");
+            if (v > 0.0f || Input.GetKey(KeyCode.W))//è„
             {
                 if (select != SELECT_NEWGAME)//àÍî‘è„Ç≈ÇÕÇ»Ç¢èÍçá
                 {
@@ -51,7 +51,7 @@ public class TitleManager : MonoBehaviour
                     SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
                 }
             }
-            else if (h < 0.0f ||Input.GetKey(KeyCode.S))//â∫
+            else if (v < 0.0f ||Input.GetKey(KeyCode.S))//â∫
             {
                 if (select != SELECT_EXIT)//àÍî‘â∫Ç≈ÇÕÇ»Ç¢èÍçá
                 {

@@ -57,7 +57,9 @@ public class StageSelectManager : MonoBehaviour
         {
             if (nowselect == nextselect)
             {
-                if (Input.GetKey(KeyCode.W))//è„
+                var h = Input.GetAxis("Horizontal");
+                var v = Input.GetAxis("Vertical");
+                if (v > 0.5f || Input.GetKey(KeyCode.W))//è„
                 {
                     if (nowselect > 1)//àÍî‘è„ÇÃéû
                     {
@@ -67,7 +69,7 @@ public class StageSelectManager : MonoBehaviour
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, stageobj[nextselect].transform.position.y, icon.transform.position.z));
                     }
                 }
-                else if (Input.GetKey(KeyCode.S))//â∫
+                else if (v < -0.5f || Input.GetKey(KeyCode.S))//â∫
                 {
                     if (nowselect < 4)//àÍî‘è„ÇÃéû
                     {
@@ -77,7 +79,7 @@ public class StageSelectManager : MonoBehaviour
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, stageobj[nextselect].transform.position.y, icon.transform.position.z));
                     }
                 }
-                else if (Input.GetKey(KeyCode.A))//ç∂
+                else if (h < -0.5f || Input.GetKey(KeyCode.A))//ç∂
                 {
                     if (nowselect % 2 == 1)
                     {
@@ -96,7 +98,7 @@ public class StageSelectManager : MonoBehaviour
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x - 2, stageobj[nextselect].transform.position.y, icon.transform.position.z));
                     }
                 }
-                else if (Input.GetKey(KeyCode.D))//âE
+                else if (h > 0.5f || Input.GetKey(KeyCode.D))//âE
                 {
                     if (nowselect % 2 != 1)
                     {
@@ -115,10 +117,11 @@ public class StageSelectManager : MonoBehaviour
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x + 2, stageobj[nextselect].transform.position.y, icon.transform.position.z));
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.Space))
+                else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))
                 {
+                    StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
                     StatusFlagManager.SelectStageID = selectstageid;
-                    Scene.ChangeScene("SampleScene");
+                    Fade.FadeOut("SampleScene");
                 }
             }
             else if (nowselect != nextselect)
