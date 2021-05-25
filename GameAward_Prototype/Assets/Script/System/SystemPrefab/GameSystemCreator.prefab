@@ -46,3 +46,4 @@ MonoBehaviour:
   GameSystemPrefabs:
   - {fileID: 4010098432141755743, guid: 4f15d7af4d2de8e43a48fe3df2d4cf06, type: 3}
   - {fileID: 9143210331450759250, guid: 65e3ee29e2fb2c342a8afb09d6947c81, type: 3}
+  - {fileID: 282944343562306336, guid: ecc9c517f41df43458ee65c8a352c254, type: 3}

@@ -46,3 +46,6 @@ MonoBehaviour:
   NowStage: 0
   stage:
   - {fileID: 11400000, guid: 08f20849c80b5d041acf17c0e078075e, type: 2}
+  - {fileID: 11400000, guid: 102a221cb0568a9459af4070a7f5295d, type: 2}
+  - {fileID: 11400000, guid: 80e0da5ce41cb264ba0951f092946cc2, type: 2}
+  - {fileID: 11400000, guid: f3e2b8787f9112c4b842d3b2f2cc0b98, type: 2}
