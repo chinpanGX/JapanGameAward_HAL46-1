@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] ScoreManager score;
+
     public float speed;//移動速度
     public int jumpflame;
     public PillerManager piller { get; set; }//柱情報
@@ -85,6 +87,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (StatusFlagManager.SceneFlag != StatusFlagManager.SCENE_GAME)
+        {
+            return;
+        }
+
         if (ClearFlag == CLEAR_NONE)
         {
             if (turnpiller == null)
@@ -102,6 +109,11 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (StatusFlagManager.SceneFlag != StatusFlagManager.SCENE_GAME)
+        {
+            return;
+        }
+
         if (ClearFlag == CLEAR_NONE)
         {
             //上移動
@@ -155,6 +167,7 @@ public class Player : MonoBehaviour
                 if (SetReverse())
                 {
                     field.SetNoMove();
+                    score.CountAction();
                 }
             }
             else if (Input.GetButton("Jump"))//ブロック上る
@@ -162,6 +175,7 @@ public class Player : MonoBehaviour
                 if (SetBlockUp())
                 {
                     field.SetNoMove();
+                    score.CountAction();
                 }
             }
         }

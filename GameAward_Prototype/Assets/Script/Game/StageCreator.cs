@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class StageCreator : ScriptableObject
 {
+    [SerializeField] int ActionCount;
+    [SerializeField] int TimeCount;
 
     [SerializeField] Vector2Int Player;
 
