@@ -15,8 +15,11 @@ public class StageSelectManager : MonoBehaviour
 
     public int selectstageid;//現在選択してるステージID
 
-    private int nowselect;
+    public int nowselect;
     private int nextselect;
+
+    private int changemove;
+    private int changetext;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +33,7 @@ public class StageSelectManager : MonoBehaviour
             stagetext[i] = stageobj[i].transform.Find("Canvas").gameObject;
             stagetext[i].transform.Find("Text").GetComponent<Text>().text = "Stage " + (i + 1);
         }
+        changetext = 0;
 
         //アイコンイメージ受け取る
         iconimage = icon.transform.Find("Canvas").Find("Image").gameObject;
@@ -48,6 +52,7 @@ public class StageSelectManager : MonoBehaviour
 
         //フラグ
         turnicon = -1.0f;
+        changemove = 0;
     }
 
     // Update is called once per frame
@@ -68,6 +73,15 @@ public class StageSelectManager : MonoBehaviour
                         nextselect = nowselect - 2;
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, stageobj[nextselect].transform.position.y, icon.transform.position.z));
                     }
+                    else if (selectstageid > 1)
+                    {
+                        selectstageid -= 2;
+                        nextselect = nowselect + 4;
+                        changetext -= 6;
+                        changemove = 1;
+
+                        select.GetComponent<BlockMove>().StartMove(new Vector3(0.0f, 10.0f, 0.0f));
+                    }
                 }
                 else if (v < -0.5f || Input.GetKey(KeyCode.S))//下
                 {
@@ -77,6 +91,15 @@ public class StageSelectManager : MonoBehaviour
 
                         nextselect = nowselect + 2;
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, stageobj[nextselect].transform.position.y, icon.transform.position.z));
+                    }
+                    else if(selectstageid < StatusFlagManager.StageMaxNum - 2)
+                    {
+                        selectstageid += 2;
+                        nextselect = nowselect - 4;
+                        changetext += 6;
+                        changemove = 1;
+
+                        select.GetComponent<BlockMove>().StartMove(new Vector3(0.0f, 10.0f, 0.0f));
                     }
                 }
                 else if (h < -0.5f || Input.GetKey(KeyCode.A))//左
@@ -89,14 +112,14 @@ public class StageSelectManager : MonoBehaviour
                         nextselect = nowselect - 1;
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x + 2, icon.transform.position.y, icon.transform.position.z));
                     }
-                    else if(nowselect != 0)
-                    {
-                        selectstageid -= 1;
+                    //else if(nowselect != 0)
+                    //{
+                    //    selectstageid -= 1;
 
-                        turnicon = 180.0f;
-                        nextselect = nowselect - 1;
-                        icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x - 2, stageobj[nextselect].transform.position.y, icon.transform.position.z));
-                    }
+                    //    turnicon = 180.0f;
+                    //    nextselect = nowselect - 1;
+                    //    icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x - 2, stageobj[nextselect].transform.position.y, icon.transform.position.z));
+                    //}
                 }
                 else if (h > 0.5f || Input.GetKey(KeyCode.D))//右
                 {
@@ -108,14 +131,14 @@ public class StageSelectManager : MonoBehaviour
                         nextselect = nowselect + 1;
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x - 2, icon.transform.position.y, icon.transform.position.z));
                     }
-                    else if (nowselect != 5)
-                    {
-                        selectstageid += 1;
+                    //else if (nowselect != 5)
+                    //{
+                    //    selectstageid += 1;
 
-                        turnicon = 0.0f;
-                        nextselect = nowselect + 1;
-                        icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x + 2, stageobj[nextselect].transform.position.y, icon.transform.position.z));
-                    }
+                    //    turnicon = 0.0f;
+                    //    nextselect = nowselect + 1;
+                    //    icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x + 2, stageobj[nextselect].transform.position.y, icon.transform.position.z));
+                    //}
                 }
                 else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))
                 {
@@ -128,7 +151,24 @@ public class StageSelectManager : MonoBehaviour
             {
                 if (selectstageid != -1)
                 {
-                    if (!icon.GetComponent<BlockMove>().moveflag)
+                    if (changemove == 1 && !select.GetComponent<BlockMove>().moveflag)
+                    {
+                        changemove = 0;
+                        for (int i = 0; i < 6; i++)
+                        {
+                            stagetext[i].transform.Find("Text").GetComponent<Text>().text = "Stage " + (i + 1 + changetext);
+                        }
+                        select.GetComponent<BlockMove>().StartMove(new Vector3(0.0f, 0.0f, 0.0f));
+                        if (nowselect <= 1)
+                        {
+                            icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, 0.1f, icon.transform.position.z));
+                        }
+                        else if (nowselect >= 4)
+                        {
+                            icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, 4.1f, icon.transform.position.z));
+                        }
+                    }
+                    else if (changemove == 0 && !icon.GetComponent<BlockMove>().moveflag)
                     {
                         nowselect = nextselect;
                     }

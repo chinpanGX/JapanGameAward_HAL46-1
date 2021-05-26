@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 87654351}
   - component: {fileID: 87654348}
   - component: {fileID: 87654347}
+  - component: {fileID: 87654352}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -481,6 +482,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Aroundnum: 22
   FieldPiller: []
+--- !u!114 &87654352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87654346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaab4845f32e56f4eaa2c6e47cb1f143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &87654353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3253,7 +3266,7 @@ GameObject:
   - component: {fileID: 971084542}
   - component: {fileID: 971084541}
   m_Layer: 5
-  m_Name: Floor
+  m_Name: Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3275,8 +3288,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -696, y: 407}
-  m_SizeDelta: {x: 407.0313, y: 210.5443}
+  m_AnchoredPosition: {x: -526.52594, y: 427}
+  m_SizeDelta: {x: 745.98, y: 210.544}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &971084541
 MonoBehaviour:
@@ -3291,7 +3304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3299,7 +3312,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8e758947d4709384e8e903464a420f98, type: 3}
     m_FontSize: 150
     m_FontStyle: 0
     m_BestFit: 0
@@ -3311,7 +3324,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "1\u968E"
+  m_Text: Action  9999
 --- !u!222 &971084542
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5915,7 +5928,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 669, y: 407}
+  m_AnchoredPosition: {x: 768, y: 438}
   m_SizeDelta: {x: 868.0441, y: 210.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1888134432
@@ -5931,7 +5944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5939,7 +5952,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8e758947d4709384e8e903464a420f98, type: 3}
     m_FontSize: 150
     m_FontStyle: 0
     m_BestFit: 0
@@ -5951,7 +5964,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Time 9999
+  m_Text: Time  9999
 --- !u!222 &1888134433
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -580,7 +580,6 @@ public class Player : MonoBehaviour
             {
                 StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
                 Fade.FadeOut("Title");
-                
             }
         }
     }

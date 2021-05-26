@@ -23,6 +23,8 @@ public class StatusFlagManager : MonoBehaviour
     [SerializeField] StageManager stagecon;//ステージマネージャー
     static public int SelectStageID = 0;//現在選んでるステージID
 
+    static public int StageMaxNum = 0;
+
     private void Awake()
     {
         //一番最初のシーン
@@ -30,5 +32,8 @@ public class StatusFlagManager : MonoBehaviour
 
         //現在選んでるステージ(デバッグのやつ)
         SelectStageID = stagecon.NowStage;
+
+        //最大ステージ数
+        StageMaxNum = stagecon.stage.Length;
     }
 }
