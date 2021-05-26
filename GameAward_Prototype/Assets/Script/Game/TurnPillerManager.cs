@@ -25,19 +25,6 @@ public class TurnPillerManager : MonoBehaviour
         FieldPiller = this.GetComponent<PillerManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-    //フレーム固定の更新
-    private void FixedUpdate()
-    {
-
-    }
-
     //回転柱情報を配列にセット
     public void SetPiller(GameObject piller, int side, int height)
     {

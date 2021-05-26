@@ -42,6 +42,7 @@ public class Water : MonoBehaviour
             m_flamecount = 0;
             moveflag = false;
             Fade.FadeOut("Title");
+            StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
         }
 
         if (moveflag == true && m_Player.transform.position.y < 20)

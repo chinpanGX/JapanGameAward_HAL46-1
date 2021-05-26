@@ -28,6 +28,7 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (playerplayer.ClearFlag == 0)
         {
             playerposi.x = player.transform.position.x;

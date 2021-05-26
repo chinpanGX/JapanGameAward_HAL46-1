@@ -8,23 +8,6 @@ public class PillerManager : MonoBehaviour
     public int Aroundnum;//ˆêü‚Ì’Œ‚Ì”
     [HideInInspector] public GameObject[] FieldPiller;//’ŒŠÇ—
 
-    private void Awake()
-    {
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 
     //’Œ‚Ì”z—ñ‚ğ€”õ‚·‚é
     public void PreFieldPiller()
