@@ -144,14 +144,21 @@ public class StageSelectManager : MonoBehaviour
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
                     StatusFlagManager.SelectStageID = selectstageid;
+                    StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
                     Fade.FadeOut("SampleScene");
+                }
+                else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.X))//戻るBボタン
+                {
+                    changemove = 2;
+                    nextselect = -1;
+                    select.GetComponent<BlockMove>().StartMove(new Vector3(0.0f, 10.0f, 0.0f));
                 }
             }
             else if (nowselect != nextselect)
             {
-                if (selectstageid != -1)
+                if (selectstageid != -1)//ステージ選択中
                 {
-                    if (changemove == 1 && !select.GetComponent<BlockMove>().moveflag)
+                    if (changemove == 1 && !select.GetComponent<BlockMove>().moveflag)//ステージブロックチェンジ
                     {
                         changemove = 0;
                         for (int i = 0; i < 6; i++)
@@ -168,12 +175,40 @@ public class StageSelectManager : MonoBehaviour
                             icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, 4.1f, icon.transform.position.z));
                         }
                     }
-                    else if (changemove == 0 && !icon.GetComponent<BlockMove>().moveflag)
+                    else if (changemove == 0 && !icon.GetComponent<BlockMove>().moveflag)//アイコン移動
                     {
                         nowselect = nextselect;
                     }
+                    else if (nextselect == -1 && !select.GetComponent<BlockMove>().moveflag)//タイトル戻る
+                    {
+                        for (int i = 0; i < 6; i++)
+                        {
+                            stagetext[i].transform.Find("Text").GetComponent<Text>().text = "Stage " + (i + 1);
+                        }
+                        changetext = 0;
+
+                        //アイコンイメージ受け取る
+                        iconimage = icon.transform.Find("Canvas").Find("Image").gameObject;
+
+                        //ステージセレクト初期位置
+                        select.transform.position = new Vector3(0.0f, 10.0f, 0.0f);
+
+                        //ステージセレクト非アクティブ
+                        select.SetActive(false);
+
+                        //現在選択してるステージ
+                        selectstageid = -1;
+
+                        nowselect = selectstageid;
+                        nextselect = 0;
+
+                        //フラグ
+                        turnicon = -1.0f;
+                        changemove = 0;
+                        StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
+                    }
                 }
-                else if (selectstageid == -1)
+                else if (selectstageid == -1)//ステージ選択前
                 {
                     select.SetActive(true);
                     selectstageid = 0;
@@ -188,6 +223,7 @@ public class StageSelectManager : MonoBehaviour
                 {
                     nowselect = nextselect;
                 }
+                
             }
             
         }

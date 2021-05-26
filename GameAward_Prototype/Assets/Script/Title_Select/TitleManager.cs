@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject title;
     private Vector3[] TitleObj;
 
+    private const int SELECT_RETURN2 = -3;
+    private const int SELECT_RETURN = -2;//ステージ選択から戻ってきたとき
     private const int SELECT_NONE = -1;
     private const int SELECT_NEWGAME = 0;
     private const int SELECT_CONTINU = 1;
@@ -45,7 +48,7 @@ public class TitleManager : MonoBehaviour
     {
         if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE)
         {
-            if (select == nextselect && select != SELECT_NONE)
+            if (select == nextselect && select > SELECT_NONE)
             {
                 var v = Input.GetAxis("Vertical");
                 if (v > 0.0f || Input.GetKey(KeyCode.W))//上
@@ -103,9 +106,41 @@ public class TitleManager : MonoBehaviour
                     {
                         title.SetActive(false);
                         StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_STAGESELECT;
+                        select = SELECT_RETURN;
+                        nextselect = select;
                     }
                 }
+                else if(select == SELECT_RETURN)//戻ってきたとき
+                {
+                    title.SetActive(true);
+
+                    BlockMove block = title.GetComponent<BlockMove>();
+                    block.StartMove(new Vector3(0.0f, 0.0f, 0.0f));
+
+                    SelectIcon.StartMove(new Vector3(-1, TitleObj[0].y, SelectIcon.transform.position.z));
+
+                    select = SELECT_RETURN2;
+                    nextselect = select;
+                }
+                else if (select == SELECT_RETURN2 && !title.GetComponent<BlockMove>().moveflag)
+                {
+                    select = SELECT_NEWGAME;
+                    nextselect = select;
+                }
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (select == SELECT_RETURN2)
+        {
+            GameObject iconimage = SelectIcon.transform.Find("Canvas").Find("Image").gameObject;
+            if (iconimage.transform.eulerAngles.z == 0.0f)
+            {
+                iconimage.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            }
+            iconimage.transform.rotation = Quaternion.RotateTowards(iconimage.transform.rotation, Quaternion.Euler(0.0f, 0.0f, 0.0f), 180.0f / 14.0f);
         }
     }
 }

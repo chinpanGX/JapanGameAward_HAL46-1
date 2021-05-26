@@ -13,10 +13,16 @@ using UnityEngine;
 
 public class CallFadeIn : MonoBehaviour
 {
+
+    private void Awake()
+    {
+        Fade.FadeIn();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Fade.FadeIn();
+        
     }
 
     // Update is called once per frame

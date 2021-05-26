@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (StatusFlagManager.SceneFlag != StatusFlagManager.SCENE_GAME)
+        if (StatusFlagManager.SceneFlag != StatusFlagManager.SCENE_GAME || StatusFlagManager.GameStatusFlag != StatusFlagManager.GAME_PLAY)
         {
             return;
         }
@@ -109,18 +109,28 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (StatusFlagManager.SceneFlag != StatusFlagManager.SCENE_GAME)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME)
         {
-            return;
+            if (StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_PLAY)
+            {
+                if (ClearFlag == CLEAR_NONE)
+                {
+                    //上移動
+                    UpDownMove();
+                }
+
+                SetClear();
+            }
+            else if (StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_CLEAR)
+            {
+                ClearMove();
+            }
+            
+
+            
         }
 
-        if (ClearFlag == CLEAR_NONE)
-        {
-            //上移動
-            UpDownMove();
-        }
-
-        ClearMove();
+        
     }
 
     //入力処理
@@ -525,13 +535,11 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    private void ClearMove()
+    private void SetClear()
     {
         //最上階　回転してない　空中にいない　移動フラグが動いてない
-        if(field.nowHeight == 20 && turnpiller == null && !field.AirFlag && BlockUpDownFlag == BLOCK_NONE)
+        if (field.nowHeight == 20 && turnpiller == null && !field.AirFlag && BlockUpDownFlag == BLOCK_NONE)
         {
-
-
             if (ClearFlag == CLEAR_NONE)//クリア処理開始
             {
                 //座標補正
@@ -553,48 +561,55 @@ public class Player : MonoBehaviour
                 //フラグ変更
                 ClearFlag = CLEAR_ROTA1;
                 animator.SetBool("Move", true);
+                //field.SetNoMove();
+                StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_CLEAR;
             }
-            else if (ClearFlag == CLEAR_ROTA1)//最初の回転
-            {
-                //中央に向くように回転
-                Quaternion target = Quaternion.LookRotation(clearmove);
-                this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
-                if (target == this.transform.rotation)//中央に向いたら
-                {
-                    ClearFlag = CLEAR_CENTER;
-                }
-            }
-            else if (ClearFlag == CLEAR_CENTER)//中央移動
-            {
-                //移動
-                this.transform.position += clearmove * 0.1f;
+        }
+    }
 
-                //中央に移動したら
-                if (this.transform.position.x <= 0.1f && this.transform.position.x >= -0.1f)
+    private void ClearMove()
+    {
+        if (ClearFlag == CLEAR_ROTA1)//最初の回転
+        {
+            //中央に向くように回転
+            Quaternion target = Quaternion.LookRotation(clearmove);
+            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
+            if (target == this.transform.rotation)//中央に向いたら
+            {
+                ClearFlag = CLEAR_CENTER;
+            }
+        }
+        else if (ClearFlag == CLEAR_CENTER)//中央移動
+        {
+            //移動
+            this.transform.position += clearmove * 0.1f;
+
+            //中央に移動したら
+            if (this.transform.position.x <= 0.1f && this.transform.position.x >= -0.1f)
+            {
+                if (this.transform.position.z <= 0.1f && this.transform.position.z >= -0.1f)
                 {
-                    if (this.transform.position.z <= 0.1f && this.transform.position.z >= -0.1f)
-                    {
-                        this.transform.position = new Vector3(0.0f, 20.0f, 0.0f);
-                        Camera.main.transform.parent = null;
-                        ClearFlag = CLEAR_ROTA2;
-                    }
+                    this.transform.position = new Vector3(0.0f, 20.0f, 0.0f);
+                    Camera.main.transform.parent = null;
+                    ClearFlag = CLEAR_ROTA2;
                 }
             }
-            else if (ClearFlag == CLEAR_ROTA2)
+        }
+        else if (ClearFlag == CLEAR_ROTA2)
+        {
+            Quaternion target = Quaternion.LookRotation(new Vector3(Camera.main.transform.position.x, 20.0f, Camera.main.transform.position.z) - this.transform.position);
+            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
+            if (target.y == this.transform.rotation.y)
             {
-                Quaternion target = Quaternion.LookRotation(new Vector3(Camera.main.transform.position.x, 20.0f, Camera.main.transform.position.z) - this.transform.position);
-                this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
-                if (target == this.transform.rotation)
-                {
-                    ClearFlag = CLEAR_ANIME;
-                    animator.SetBool("Move", false);
-                }
+                ClearFlag = CLEAR_ANIME;
+                animator.SetBool("Move", false);
             }
-            else if (ClearFlag == CLEAR_ANIME)
-            {
-                StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
-                Fade.FadeOut("Title");
-            }
+        }
+        else if (ClearFlag == CLEAR_ANIME)
+        {
+            //StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_RESULT;
+            StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
+            Fade.FadeOut("Title");
         }
     }
 }

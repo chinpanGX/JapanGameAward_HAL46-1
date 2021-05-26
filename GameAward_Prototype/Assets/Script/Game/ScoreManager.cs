@@ -24,21 +24,27 @@ public class ScoreManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (StatusFlagManager.SceneFlag != StatusFlagManager.SCENE_GAME)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME && StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_PLAY)
         {
+            if (flamecount % 60 == 0)
+            {
+                time++;
+
+                if (time <= 9999)
+                {
+                    Time.text = "Time  " + time;
+                }
+            }
+            flamecount++;
+        }
+        else if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_RESULT)
+        {
+            Action.gameObject.SetActive(false);
+            Time.gameObject.SetActive(false);
             return;
         }
 
-        if (flamecount % 60 == 0)
-        {
-            time++;
-
-            if (time <= 9999)
-            {
-                Time.text = "Time  " + time;
-            }
-        }
-        flamecount++;
+        
     }
 
     public void CountAction()

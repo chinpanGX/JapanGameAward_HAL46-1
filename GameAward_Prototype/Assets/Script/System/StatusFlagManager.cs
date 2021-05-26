@@ -28,7 +28,9 @@ public class StatusFlagManager : MonoBehaviour
 
     private void Awake()
     {
-        //一番最初のシーン
+        GameStatusFlag = GAME_START;
+
+        //デバッグ用設定
         SceneFlag = SCENE_GAME;
 
         //現在選んでるステージ(デバッグのやつ)

@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08c3d8f3fb90c448a7572ea2a179c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NowStage: 0
+  NowStage: 7
   stage:
   - {fileID: 11400000, guid: 102a221cb0568a9459af4070a7f5295d, type: 2}
   - {fileID: 11400000, guid: 80e0da5ce41cb264ba0951f092946cc2, type: 2}
@@ -52,3 +52,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f3e2b8787f9112c4b842d3b2f2cc0b98, type: 2}
   - {fileID: 11400000, guid: 13df8b9410ee1fb47a27000d24ce3777, type: 2}
   - {fileID: 11400000, guid: a4bceea815149bb4da71a32fd4c9f487, type: 2}
+  - {fileID: 11400000, guid: 244deb85cb21ae64e8aebe8725aa8fdd, type: 2}
