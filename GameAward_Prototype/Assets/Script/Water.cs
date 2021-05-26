@@ -23,6 +23,8 @@ public class Water : MonoBehaviour
         m_flamecount = 0;
         m_Time = 0;
         moveflag = false;
+
+        this.transform.position = new Vector3(0.0f, -2.0f, 0.0f);
     }
 
     // Update is called once per frame
@@ -33,6 +35,11 @@ public class Water : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (StatusFlagManager.SceneFlag != StatusFlagManager.SCENE_GAME || StatusFlagManager.GameStatusFlag != StatusFlagManager.GAME_PLAY)
+        {
+            return;
+        }
+
         m_Time++;
         if (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まる
         {
@@ -40,12 +47,15 @@ public class Water : MonoBehaviour
         }
 
         // ヒット判定
-        if (this.transform.position.y >= m_Player.transform.position.y + 0.2f)
+        if (moveflag == true && this.transform.position.y >= m_Player.transform.position.y + 0.2f && !Fade.m_isFadeOut)
         {
             m_warning.SetActive(false);
             m_flamecount = 0;
             moveflag = false;
-            Fade.FadeOut("Title");
+            m_Player.transform.Find("PlayerModel").GetComponent<Animator>().SetBool("GameOver", true);
+            StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
+            StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
+            Fade.FadeOut("SampleScene");
         }
 
         if (moveflag == true && m_Player.transform.position.y < 20)
@@ -71,10 +81,6 @@ public class Water : MonoBehaviour
             m_flamecount = 0;
             moveflag = false;
         }
-
-        
-
-
     }
 
     // �㏸
