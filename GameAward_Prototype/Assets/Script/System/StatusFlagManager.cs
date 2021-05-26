@@ -26,7 +26,7 @@ public class StatusFlagManager : MonoBehaviour
     private void Awake()
     {
         //一番最初のシーン
-        SceneFlag = SCENE_TITLE;
+        SceneFlag = SCENE_GAME;
 
         //現在選んでるステージ(デバッグのやつ)
         SelectStageID = stagecon.NowStage;

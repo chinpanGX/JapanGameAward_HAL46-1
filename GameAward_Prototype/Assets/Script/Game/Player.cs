@@ -102,21 +102,18 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ClearMove();
-
         if (ClearFlag == CLEAR_NONE)
         {
             //上移動
             UpDownMove();
         }
-        
+
+        ClearMove();
     }
 
     //入力処理
     private void ProcesInput()
     {
-        
-
         //回転＆ジャンプボタン押せるか？
         ButtunUI();
 
@@ -581,7 +578,9 @@ public class Player : MonoBehaviour
             }
             else if (ClearFlag == CLEAR_ANIME)
             {
-                Scene.ChangeScene("Title");
+                StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
+                Fade.FadeOut("Title");
+                
             }
         }
     }
