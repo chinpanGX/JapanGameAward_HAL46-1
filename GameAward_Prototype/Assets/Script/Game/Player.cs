@@ -600,6 +600,7 @@ public class Player : MonoBehaviour
             {
                 ClearFlag = CLEAR_ANIME;
                 animator.SetBool("Move", false);
+                animator.SetBool("WavaHands", true);
             }
         }
         else if (ClearFlag == CLEAR_ANIME)
