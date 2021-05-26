@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class Create : MonoBehaviour
 {
-    FloorManager floor;//階層
     PillerManager piller;//柱
     BlockManager block;//ブロック
-    PlayerManager player;//プレイヤー
+    [SerializeField] GameObject player;//プレイヤー
     TurnPillerManager turnpiller;//回転柱
 
 
@@ -24,10 +23,8 @@ public class Create : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        floor = this.GetComponent<FloorManager>();
         piller = this.GetComponent<PillerManager>();
         block = this.GetComponent<BlockManager>();
-        player = this.GetComponent<PlayerManager>();
         turnpiller = this.GetComponent<TurnPillerManager>();
 
         //ステージ柱作成
@@ -67,13 +64,13 @@ public class Create : MonoBehaviour
 
         //座標計算
         Vector3 posi = CalPosition(move, DefaultPosition, height);
-        Quaternion rotation = CalRotation(move, player.Player.transform.rotation);
+        Quaternion rotation = CalRotation(move, player.transform.rotation);
 
         //セット
-        player.Player.transform.parent = piller.FieldPiller[side].gameObject.transform;//親設定
-        player.Player.transform.position = posi;//座標
-        player.Player.transform.rotation = rotation;//回転
-        Field field = player.Player.GetComponent<Field>();//フィールド受け取る
+        player.transform.parent = piller.FieldPiller[side].gameObject.transform;//親設定
+        player.transform.position = posi;//座標
+        player.transform.rotation = rotation;//回転
+        Field field = player.GetComponent<Field>();//フィールド受け取る
         field.FallFlag = true;//落下フラグ
         field.nowHeight = height;//高さ
         field.nowPiller = side;

@@ -35,69 +35,75 @@ public class TitleManager : MonoBehaviour
 
         //タイトルをアクティブをtrueにする
         title.SetActive(true);
+
+        //フラグ
+        StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (select == nextselect && StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE && select != SELECT_NONE)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE)
         {
-            var v = Input.GetAxis("Vertical");
-            if (v > 0.0f || Input.GetKey(KeyCode.W))//上
+            if (select == nextselect && select != SELECT_NONE)
             {
-                if (select != SELECT_NEWGAME)//一番上ではない場合
+                var v = Input.GetAxis("Vertical");
+                if (v > 0.0f || Input.GetKey(KeyCode.W))//上
                 {
-                    nextselect = select - 1;
-                    SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
+                    if (select != SELECT_NEWGAME)//一番上ではない場合
+                    {
+                        nextselect = select - 1;
+                        SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
+                    }
                 }
-            }
-            else if (v < 0.0f ||Input.GetKey(KeyCode.S))//下
-            {
-                if (select != SELECT_EXIT)//一番下ではない場合
+                else if (v < 0.0f || Input.GetKey(KeyCode.S))//下
                 {
-                    nextselect = select + 1;
-                    SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
+                    if (select != SELECT_EXIT)//一番下ではない場合
+                    {
+                        nextselect = select + 1;
+                        SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
+                    }
                 }
-            }
-            else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))//決定
-            {
-                if (select == SELECT_NEWGAME)
+                else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))//決定
                 {
-                    select = SELECT_NONE;
-                    nextselect = select;
+                    if (select == SELECT_NEWGAME)
+                    {
+                        select = SELECT_NONE;
+                        nextselect = select;
 
-                    BlockMove block = title.GetComponent<BlockMove>();
-                    block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
-                }
-                else if (select == SELECT_CONTINU)
-                {
-                    select = SELECT_NONE;
-                    nextselect = select;
-                    BlockMove block = title.GetComponent<BlockMove>();
-                    block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
-                }
-                else if (select == SELECT_EXIT)
-                {
-                    UnityEngine.Application.Quit();
-                }
-            }
-        }
-        else
-        {
-            if (select != nextselect)
-            {
-                if (!SelectIcon.moveflag)
-                {
-                    select = nextselect;
+                        BlockMove block = title.GetComponent<BlockMove>();
+                        block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
+                    }
+                    else if (select == SELECT_CONTINU)
+                    {
+                        select = SELECT_NONE;
+                        nextselect = select;
+                        BlockMove block = title.GetComponent<BlockMove>();
+                        block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
+                    }
+                    else if (select == SELECT_EXIT)
+                    {
+                        UnityEngine.Application.Quit();
+                    }
                 }
             }
-            else if (select == SELECT_NONE)
+            else
             {
-                BlockMove block = title.GetComponent<BlockMove>();
-                if (!block.moveflag)
+                if (select != nextselect)
                 {
-                    title.SetActive(false);
-                    StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_STAGESELECT;
+                    if (!SelectIcon.moveflag)
+                    {
+                        select = nextselect;
+                    }
+                }
+                else if (select == SELECT_NONE)
+                {
+                    BlockMove block = title.GetComponent<BlockMove>();
+                    if (!block.moveflag)
+                    {
+                        title.SetActive(false);
+                        StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_STAGESELECT;
+                    }
                 }
             }
         }
