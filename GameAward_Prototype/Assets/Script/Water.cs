@@ -13,12 +13,15 @@ public class Water : MonoBehaviour
     [SerializeField] GameObject m_warning;
     private int m_flamecount;
 
+    private int m_Time; // 
+    [SerializeField] private int m_MaxTime;
 
     // Start is called before the first frame update
     void Start()
     {
         m_warning.SetActive(false);
         m_flamecount = 0;
+        m_Time = 0;
         moveflag = false;
     }
 
@@ -30,7 +33,8 @@ public class Water : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (m_Player.transform.position.y >= m_StartHeight)//指定された高さに達したら移動が始まる
+        m_Time++;
+        if (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まる
         {
             moveflag = true;
         }
@@ -41,7 +45,7 @@ public class Water : MonoBehaviour
             m_warning.SetActive(false);
             m_flamecount = 0;
             moveflag = false;
-            Fade.FadeOut("Title");
+            Fade.FadeOut("SampleScene");
         }
 
         if (moveflag == true && m_Player.transform.position.y < 20)
