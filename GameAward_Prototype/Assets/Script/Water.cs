@@ -34,7 +34,7 @@ public class Water : MonoBehaviour
     private void FixedUpdate()
     {
         m_Time++;
-        if (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まる
+        if (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まるまたはフレームが超えたとき
         {
             moveflag = true;
         }
