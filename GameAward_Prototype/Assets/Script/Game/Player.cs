@@ -121,16 +121,12 @@ public class Player : MonoBehaviour
 
                 SetClear();
             }
-            else if (StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_CLEAR)
-            {
-                ClearMove();
-            }
-            
-
-            
         }
 
-        
+        if (StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_CLEAR)
+        {
+            ClearMove();
+        }
     }
 
     //ì¸óÕèàóù
@@ -599,6 +595,7 @@ public class Player : MonoBehaviour
         {
             Quaternion target = Quaternion.LookRotation(new Vector3(Camera.main.transform.position.x, 20.0f, Camera.main.transform.position.z) - this.transform.position);
             this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
+            StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_RESULT;
             if (target.y == this.transform.rotation.y)
             {
                 ClearFlag = CLEAR_ANIME;
@@ -607,9 +604,7 @@ public class Player : MonoBehaviour
         }
         else if (ClearFlag == CLEAR_ANIME)
         {
-            //StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_RESULT;
-            StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
-            Fade.FadeOut("Title");
+            StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_RESULT;
         }
     }
 }

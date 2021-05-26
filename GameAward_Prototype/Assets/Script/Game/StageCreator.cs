@@ -35,4 +35,14 @@ public class StageCreator : ScriptableObject
             create.CreateTurnPiller(piller.x, piller.y, piller.z);
         }
     }
+
+    public int GetActionCount()
+    {
+        return ActionCount;
+    }
+
+    public int GetTimeCount()
+    {
+        return TimeCount;
+    }
 }

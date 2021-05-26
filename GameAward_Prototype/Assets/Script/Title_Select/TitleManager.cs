@@ -36,11 +36,22 @@ public class TitleManager : MonoBehaviour
         //次の選択を今ので上書き
         nextselect = select;
 
-        //タイトルをアクティブをtrueにする
         title.SetActive(true);
 
         //フラグ
-        StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME)
+        {
+            StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
+        }
+
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_STAGESELECT)
+        {
+            title.SetActive(false);
+            select = SELECT_RETURN;
+            nextselect = select;
+
+            title.transform.position = new Vector3(0.0f, 10.0f, 0.0f);
+        }
     }
 
     // Update is called once per frame
