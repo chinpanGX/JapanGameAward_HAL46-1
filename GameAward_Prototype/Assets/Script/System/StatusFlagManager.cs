@@ -10,6 +10,7 @@ public class StatusFlagManager : MonoBehaviour
     static public readonly int GAME_START = 1;
     static public readonly int GAME_OVER = 2;
     static public readonly int GAME_CLEAR = 3;
+    static public readonly int GAME_PLAY = 4;
     static public int GameStatusFlag = GAME_NONE;//ƒQ[ƒ€‚ÌŒ»İ‚Ìó‘Ô
 
     static public readonly int SCENE_NONE = 0;
