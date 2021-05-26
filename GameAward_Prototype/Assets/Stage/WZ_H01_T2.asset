@@ -136,7 +136,6 @@ MonoBehaviour:
   - {x: 10, y: 18}
   - {x: 11, y: 18}
   - {x: 12, y: 18}
-  - {x: 14, y: 19}
   - {x: 14, y: 18}
   - {x: 13, y: 18}
   TurnPiller:
