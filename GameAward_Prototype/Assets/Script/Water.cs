@@ -53,6 +53,10 @@ public class Water : MonoBehaviour
 
             return;
         }
+        else if (moveflag == false && Fade.m_isFadeOut)
+        {
+            return;
+        }
 
         m_Time++;
         if (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まる
