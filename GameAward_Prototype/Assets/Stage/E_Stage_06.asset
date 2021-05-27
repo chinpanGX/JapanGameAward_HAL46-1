@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58c43a7376c8f3b489e9308d25e29312, type: 3}
-  m_Name: S_90004
+  m_Name: E_Stage_06
   m_EditorClassIdentifier: 
-  ActionCount: 15
-  TimeCount: 20
+  ActionCount: 24
+  TimeCount: 40
   Player: {x: 0, y: 0}
   Block:
   - {x: 1, y: 1}
@@ -64,6 +64,17 @@ MonoBehaviour:
   - {x: 4, y: 4}
   - {x: 4, y: 8}
   - {x: 4, y: 7}
+  - {x: 20, y: 16}
+  - {x: 20, y: 11}
+  - {x: 21, y: 16}
+  - {x: 21, y: 14}
+  - {x: 20, y: 13}
+  - {x: 20, y: 12}
+  - {x: 0, y: 12}
+  - {x: 17, y: 12}
+  - {x: 18, y: 7}
+  - {x: 15, y: 9}
+  - {x: 19, y: 11}
   TurnPiller:
   - {x: 21, y: 1, z: 1}
   - {x: 4, y: 3, z: 3}
@@ -72,3 +83,5 @@ MonoBehaviour:
   - {x: 2, y: 10, z: 2}
   - {x: 20, y: 15, z: 3}
   - {x: 1, y: 1, z: 1}
+  - {x: 21, y: 14, z: 3}
+  - {x: 0, y: 13, z: 1}
