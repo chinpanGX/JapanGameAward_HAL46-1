@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c43a7376c8f3b489e9308d25e29312, type: 3}
   m_Name: 90007
   m_EditorClassIdentifier: 
+  ActionCount: 29
+  TimeCount: 45
   Player: {x: 0, y: 0}
   Block:
   - {x: 1, y: 1}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: E_Stage_05
   m_EditorClassIdentifier: 
   ActionCount: 26
-  TimeCount: 45
+  TimeCount: 40
   Player: {x: 15, y: 0}
   Block:
   - {x: 14, y: 0}

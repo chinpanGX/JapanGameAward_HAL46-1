@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58c43a7376c8f3b489e9308d25e29312, type: 3}
-  m_Name: 90006
+  m_Name: E_Stage_07
   m_EditorClassIdentifier: 
+  ActionCount: 32
+  TimeCount: 40
   Player: {x: 14, y: 0}
   Block:
   - {x: 7, y: 1}
