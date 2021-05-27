@@ -93,7 +93,7 @@ public class ResultManager : MonoBehaviour
                 canvas.transform.Find("Star01").GetComponent<Animator>().SetBool("Move", true);
             }
 
-            if (stage.stage[StatusFlagManager.SelectStageID].GetActionCount() >= score.time)//アクション
+            if (stage.stage[StatusFlagManager.SelectStageID].GetActionCount() >= score.action)//アクション
             {
                 canvas.transform.Find("Star02").GetComponent<Animator>().SetBool("Move", true);
             }
