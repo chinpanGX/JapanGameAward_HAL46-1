@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 282944343562306367}
   - component: {fileID: 282944343562306366}
   - component: {fileID: 282944343562306337}
-  - component: {fileID: 4018666491532176326}
   - component: {fileID: 282944343562306363}
   - component: {fileID: 282944343562306362}
+  - component: {fileID: 1540522803483452246}
   m_Layer: 5
   m_Name: Fade
   m_TagString: Untagged
@@ -115,18 +115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07fba34ac6b9db541aba0819d4531d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4018666491532176326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282944343562306336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c40515b08ebf12441b7d4f664346567f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &282944343562306363
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -165,3 +153,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1540522803483452246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282944343562306336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40515b08ebf12441b7d4f664346567f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

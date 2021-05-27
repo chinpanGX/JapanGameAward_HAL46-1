@@ -13,7 +13,7 @@ public class Water : MonoBehaviour
     [SerializeField] GameObject m_warning;
     private int m_flamecount;
 
-    private int m_Time; // 
+    private int m_Time;
     [SerializeField] private int m_MaxTime;
 
     // Start is called before the first frame update
@@ -40,12 +40,6 @@ public class Water : MonoBehaviour
             return;
         }
 
-        m_Time++;
-        if (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まる
-        {
-            moveflag = true;
-        }
-
         // ヒット判定
         if (moveflag == true && this.transform.position.y >= m_Player.transform.position.y + 0.2f && !Fade.m_isFadeOut)
         {
@@ -56,6 +50,14 @@ public class Water : MonoBehaviour
             StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
             StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
             Fade.FadeOut("SampleScene");
+
+            return;
+        }
+
+        m_Time++;
+        if (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まる
+        {
+            moveflag = true;
         }
 
         if (moveflag == true && m_Player.transform.position.y < 20)
