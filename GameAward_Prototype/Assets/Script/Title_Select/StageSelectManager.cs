@@ -144,7 +144,7 @@ public class StageSelectManager : MonoBehaviour
                 }
                 else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))
                 {
-                    selectaudio.FadeOutStart(20);
+                    selectaudio.FadeOutStart();
                     selectaudio = null;
 
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
@@ -212,7 +212,7 @@ public class StageSelectManager : MonoBehaviour
                         changemove = 0;
                         StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
 
-                        selectaudio.FadeOutStart(20);
+                        selectaudio.FadeOutStart();
                         selectaudio = null;
                     }
                 }

@@ -127,7 +127,7 @@ public class TitleManager : MonoBehaviour
                         select = SELECT_RETURN;
                         nextselect = select;
 
-                        titleaudio.FadeOutStart(20);
+                        titleaudio.FadeOutStart();
                         titleaudio = null;
                     }
                 }

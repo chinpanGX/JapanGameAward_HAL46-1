@@ -103,6 +103,8 @@ public class AudioController : MonoBehaviour
     {
         fadeout = true;
         fadein = false;
+
+        fadespeed = 1.0f / (float)fadeflame;
     }
 
     //ˆê’â~

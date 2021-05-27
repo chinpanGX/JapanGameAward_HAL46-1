@@ -9,7 +9,7 @@ public class Water : MonoBehaviour
     [SerializeField] GameObject m_Player;
 
     private bool moveflag;
-    private bool hitflag;
+    private bool hitflag = false;
 
     //警告
     [SerializeField] GameObject m_warning;
@@ -54,7 +54,7 @@ public class Water : MonoBehaviour
             moveflag = false;
             hitflag = true;
             m_Player.transform.Find("PlayerModel").GetComponent<Animator>().SetBool("GameOver", true);
-            gameaudio.FadeOutStart(20);
+            gameaudio.FadeOutStart();
             StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
             StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
             Fade.FadeOut("SampleScene");
@@ -67,7 +67,7 @@ public class Water : MonoBehaviour
         }
 
         m_Time++;
-        if (!moveflag && !hitflag && m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まる
+        if (!moveflag && !hitflag && (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime))//指定された高さに達したら移動が始まる
         {
             moveflag = true;
             gameaudio.FadeOutStart(20);
@@ -93,13 +93,7 @@ public class Water : MonoBehaviour
         }
         else if (m_Player.transform.position.y >= 20)
         {
-            gameaudio.FadeOutStart(120);
-        }
-        else
-        {
-            m_warning.SetActive(false);
-            m_flamecount = 0;
-            moveflag = false;
+            gameaudio.FadeOutStart(300);
         }
     }
 
