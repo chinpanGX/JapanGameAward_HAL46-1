@@ -66,6 +66,7 @@ public class TitleManager : MonoBehaviour
                 {
                     if (select != SELECT_NEWGAME)//àÍî‘è„Ç≈ÇÕÇ»Ç¢èÍçá
                     {
+                        AudioManager.Instance.PlayAudioEffect(AudioEffectSet.Hit);
                         nextselect = select - 1;
                         SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
                     }
@@ -74,6 +75,7 @@ public class TitleManager : MonoBehaviour
                 {
                     if (select != SELECT_EXIT)//àÍî‘â∫Ç≈ÇÕÇ»Ç¢èÍçá
                     {
+                        AudioManager.Instance.PlayAudioEffect(AudioEffectSet.Hit);
                         nextselect = select + 1;
                         SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
                     }
