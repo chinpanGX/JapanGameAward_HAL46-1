@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionCount: 0
   TimeCount: 0
-  Player: {x: 5, y: 19}
+  Player: {x: 20, y: 19}
   Block:
-  - {x: 5, y: 18}
-  - {x: 6, y: 19}
+  - {x: 20, y: 18}
+  - {x: 21, y: 19}
   TurnPiller: []

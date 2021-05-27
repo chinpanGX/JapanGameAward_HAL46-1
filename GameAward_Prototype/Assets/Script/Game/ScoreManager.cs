@@ -9,11 +9,14 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] Text Time;
 
     //時間
-    private int time { get; set; }
+    public int time { get; set; }
     private int flamecount;
 
     //アクション
     public int action { get; set; }
+
+    //ミス
+    public int miss { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -24,24 +27,27 @@ public class ScoreManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME && StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_PLAY)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME)
         {
-            if (flamecount % 60 == 0)
+            if (StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_PLAY)
             {
-                time++;
-
-                if (time <= 9999)
+                if (flamecount % 60 == 0)
                 {
-                    Time.text = "Time  " + time;
+                    time++;
+
+                    if (time <= 9999)
+                    {
+                        Time.text = "Time  " + time;
+                    }
                 }
+                flamecount++;
             }
-            flamecount++;
-        }
-        else if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_RESULT)
-        {
-            Action.gameObject.SetActive(false);
-            Time.gameObject.SetActive(false);
-            return;
+            else if (StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_CLEAR)
+            {
+                Action.gameObject.SetActive(false);
+                Time.gameObject.SetActive(false);
+                return;
+            }
         }
 
         
