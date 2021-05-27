@@ -1,4 +1,0 @@
-Hit,Audio/Hit
-Bonus,Audio/Bonus
-GameOver,Audio/GameOver
-Click,Audio/Click

@@ -10,7 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58c43a7376c8f3b489e9308d25e29312, type: 3}
+<<<<<<< Updated upstream:GameAward_Prototype/Assets/Stage/99998.asset
   m_Name: 99998
+=======
+  m_Name: S_0ebugStage
+>>>>>>> Stashed changes:GameAward_Prototype/Assets/Stage/S_0ebugStage.asset
   m_EditorClassIdentifier: 
   ActionCount: 0
   TimeCount: 0

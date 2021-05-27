@@ -20,6 +20,8 @@ public class TitleManager : MonoBehaviour
     private int select = SELECT_NEWGAME;
     private int nextselect;
 
+    private AudioController titleaudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +44,11 @@ public class TitleManager : MonoBehaviour
         if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME)
         {
             StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
+            titleaudio = AudioManager.PlayAudio("Title", true, true);
+        }
+        else if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE)
+        {
+            titleaudio = AudioManager.PlayAudio("Title", true, true);
         }
 
         if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_STAGESELECT)
@@ -66,7 +73,6 @@ public class TitleManager : MonoBehaviour
                 {
                     if (select != SELECT_NEWGAME)//àÍî‘è„Ç≈ÇÕÇ»Ç¢èÍçá
                     {
-                        AudioManager.Instance.PlayAudioEffect(AudioEffectSet.Hit);
                         nextselect = select - 1;
                         SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
                     }
@@ -75,7 +81,6 @@ public class TitleManager : MonoBehaviour
                 {
                     if (select != SELECT_EXIT)//àÍî‘â∫Ç≈ÇÕÇ»Ç¢èÍçá
                     {
-                        AudioManager.Instance.PlayAudioEffect(AudioEffectSet.Hit);
                         nextselect = select + 1;
                         SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
                     }
@@ -121,6 +126,9 @@ public class TitleManager : MonoBehaviour
                         StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_STAGESELECT;
                         select = SELECT_RETURN;
                         nextselect = select;
+
+                        titleaudio.FadeOutStart(20);
+                        titleaudio = null;
                     }
                 }
                 else if(select == SELECT_RETURN)//ñﬂÇ¡ÇƒÇ´ÇΩÇ∆Ç´
@@ -134,6 +142,8 @@ public class TitleManager : MonoBehaviour
 
                     select = SELECT_RETURN2;
                     nextselect = select;
+
+                    titleaudio = AudioManager.PlayAudio("Title", true, true);
                 }
                 else if (select == SELECT_RETURN2 && !title.GetComponent<BlockMove>().moveflag)
                 {

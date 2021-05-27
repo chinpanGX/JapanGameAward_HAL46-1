@@ -21,6 +21,8 @@ public class StageSelectManager : MonoBehaviour
     private int changemove;
     private int changetext;
 
+    AudioController selectaudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -142,6 +144,9 @@ public class StageSelectManager : MonoBehaviour
                 }
                 else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))
                 {
+                    selectaudio.FadeOutStart(20);
+                    selectaudio = null;
+
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
                     StatusFlagManager.SelectStageID = selectstageid;
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
@@ -206,6 +211,9 @@ public class StageSelectManager : MonoBehaviour
                         turnicon = -1.0f;
                         changemove = 0;
                         StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
+
+                        selectaudio.FadeOutStart(20);
+                        selectaudio = null;
                     }
                 }
                 else if (selectstageid == -1)//ステージ選択前
@@ -218,6 +226,8 @@ public class StageSelectManager : MonoBehaviour
 
                     Vector3 set = icon.transform.position;
                     icon.GetComponent<BlockMove>().StartMove(new Vector3(set.x, 4.1f, set.z));
+
+                    selectaudio = AudioManager.PlayAudio("StageSelect", true, true);
                 }
                 else if (nowselect == -1 && !select.GetComponent<BlockMove>().moveflag && !icon.GetComponent<BlockMove>().moveflag)
                 {
