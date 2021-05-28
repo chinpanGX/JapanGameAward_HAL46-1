@@ -77,12 +77,13 @@ public class ResultManager : MonoBehaviour
                 audioA.FadeOutStart(20);
                 StatusFlagManager.MissCount = 0;
             }
-            else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//タイトルに進む
+            else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//リトライ
             {
                 if (StatusFlagManager.SelectStageID < StatusFlagManager.StageMaxNum - 1)
                 {
-                    StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
-                    Fade.FadeOut("Title");
+                    StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
+                    StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
+                    Fade.FadeOut("SampleScene");
                     audioA.FadeOutStart(20);
                     StatusFlagManager.MissCount = 0;
                 }
@@ -100,7 +101,7 @@ public class ResultManager : MonoBehaviour
                 AudioManager.PlayAudio("ResultSE", false, false);
                 result = RESULT_KEY;
             }
-            else if(anime.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            else if(!anime.GetBool("WavaHands"))
             {
                 result = RESULT_KEY;
             }

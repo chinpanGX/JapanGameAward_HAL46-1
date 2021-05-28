@@ -24,8 +24,11 @@ public class ScoreManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME && !Fade.m_isFadeOut)
         {
+            Action.gameObject.SetActive(true);
+            Time.gameObject.SetActive(true);
+
             if (StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_PLAY)
             {
                 if (flamecount % 60 == 0)
@@ -44,6 +47,11 @@ public class ScoreManager : MonoBehaviour
                 Time.gameObject.SetActive(false);
                 return;
             }
+        }
+        else
+        {
+            Action.gameObject.SetActive(false);
+            Time.gameObject.SetActive(false);
         }
 
         
