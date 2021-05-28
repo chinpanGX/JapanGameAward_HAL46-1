@@ -79,7 +79,7 @@ public class ResultManager : MonoBehaviour
             }
             else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//リトライ
             {
-                if (StatusFlagManager.SelectStageID <=  StatusFlagManager.StageMaxNum - 1)
+                if (StatusFlagManager.SelectStageID <= StatusFlagManager.StageMaxNum - 1)
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
@@ -101,7 +101,7 @@ public class ResultManager : MonoBehaviour
                 AudioManager.PlayAudio("ResultSE", false, false);
                 result = RESULT_KEY;
             }
-            else if(!anime.GetBool("WavaHands"))
+            else if (!anime.GetBool("WavaHands"))
             {
                 result = RESULT_KEY;
             }
@@ -133,7 +133,7 @@ public class ResultManager : MonoBehaviour
             {
                 GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
             }
-            
+
             canvasanime.SetBool("Move", false);
             result = RESULT_STAR;
         }
@@ -176,7 +176,7 @@ public class ResultManager : MonoBehaviour
 
             if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
             {
-                canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "Title";
+                canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "TiTle";
                 canvas.transform.Find("B").Find("Btext").GetComponent<Text>().text = "Retry";
             }
 
