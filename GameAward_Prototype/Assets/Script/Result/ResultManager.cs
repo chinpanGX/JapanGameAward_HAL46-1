@@ -77,19 +77,11 @@ public class ResultManager : MonoBehaviour
                 audioA.FadeOutStart(20);
                 StatusFlagManager.MissCount = 0;
             }
-            else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//タイトルに進む
+            else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//リトライ
             {
-                if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
-                {
-                    StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
-                    Fade.FadeOut("Title");
-                    audioA.FadeOutStart(20);
-                    StatusFlagManager.MissCount = 0;
-                }
-                else
+                if (StatusFlagManager.SelectStageID <=  StatusFlagManager.StageMaxNum - 1)
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
-                    //StatusFlagManager.SelectStageID++;
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
                     Fade.FadeOut("SampleScene");
                     audioA.FadeOutStart(20);
@@ -109,7 +101,7 @@ public class ResultManager : MonoBehaviour
                 AudioManager.PlayAudio("ResultSE", false, false);
                 result = RESULT_KEY;
             }
-            else if(anime.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            else if(!anime.GetBool("WavaHands"))
             {
                 result = RESULT_KEY;
             }
@@ -184,8 +176,9 @@ public class ResultManager : MonoBehaviour
 
             if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
             {
-                canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "Retry";
-                canvas.transform.Find("B").gameObject.SetActive(false);
+                //canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "TiTle";
+                canvas.transform.Find("A").gameObject.SetActive(false);
+                canvas.transform.Find("B").Find("Btext").GetComponent<Text>().text = "Retry";
             }
 
 
