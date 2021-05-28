@@ -27,6 +27,8 @@ public class StatusFlagManager : MonoBehaviour
 
     static public int StageMaxNum = 0;
 
+    static public int MissCount = 0;
+
     private void Awake()
     {
         GameStatusFlag = GAME_START;

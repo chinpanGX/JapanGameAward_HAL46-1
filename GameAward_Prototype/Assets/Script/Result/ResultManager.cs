@@ -24,7 +24,7 @@ public class ResultManager : MonoBehaviour
     private const int RESULT_KEY = 4;
     private int result;
 
-    private AudioController audio;
+    private AudioController audioA;
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +57,8 @@ public class ResultManager : MonoBehaviour
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
                     Fade.FadeOut("Title");
-                    audio.FadeOutStart(20);
+                    audioA.FadeOutStart(20);
+                    StatusFlagManager.MissCount = 0;
                 }
                 else
                 {
@@ -65,14 +66,16 @@ public class ResultManager : MonoBehaviour
                     StatusFlagManager.SelectStageID++;
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
                     Fade.FadeOut("SampleScene");
-                    audio.FadeOutStart(20);
+                    audioA.FadeOutStart(20);
+                    StatusFlagManager.MissCount = 0;
                 }
             }
             else if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.X))//ステージ選択に進む
             {
                 StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_STAGESELECT;
                 Fade.FadeOut("Title");
-                audio.FadeOutStart(20);
+                audioA.FadeOutStart(20);
+                StatusFlagManager.MissCount = 0;
             }
             else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//タイトルに進む
             {
@@ -80,7 +83,8 @@ public class ResultManager : MonoBehaviour
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
                     Fade.FadeOut("Title");
-                    audio.FadeOutStart(20);
+                    audioA.FadeOutStart(20);
+                    StatusFlagManager.MissCount = 0;
                 }
             }
         }
@@ -90,27 +94,40 @@ public class ResultManager : MonoBehaviour
             canvas.transform.Find("Star02").GetComponent<Animator>().SetBool("Move", false);
             canvas.transform.Find("Star03").GetComponent<Animator>().SetBool("Move", false);
 
-            result = RESULT_KEY;
+            if (GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerModel").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("WaveHands"))
+            {
+                AudioManager.PlayAudio("ResultSE", false, false);
+                result = RESULT_KEY;
+            }
         }
         else if (result == RESULT_START && canvasanime.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
+            int starcount = 0;
             if (stage.stage[StatusFlagManager.SelectStageID].GetTimeCount() >= score.time)//タイム
             {
                 canvas.transform.Find("Star01").GetComponent<Animator>().SetBool("Move", true);
+                starcount++;
             }
 
             if (stage.stage[StatusFlagManager.SelectStageID].GetActionCount() >= score.action)//アクション
             {
                 canvas.transform.Find("Star02").GetComponent<Animator>().SetBool("Move", true);
+                starcount++;
             }
 
-            if (0 >= score.miss)//ミス
+            if (0 >= StatusFlagManager.MissCount)//ミス
             {
                 canvas.transform.Find("Star03").GetComponent<Animator>().SetBool("Move", true);
+                starcount++;
+            }
+
+            AudioManager.PlayAudio("Star", false, false);
+
+            if (starcount == 3)
+            {
+                GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
             }
             
-            
-
             canvasanime.SetBool("Move", false);
             result = RESULT_STAR;
         }
@@ -136,7 +153,7 @@ public class ResultManager : MonoBehaviour
             //テキスト設定
             canvas.transform.Find("Time").Find("Timetext").GetComponent<Text>().text = score.time.ToString();
             canvas.transform.Find("Action").Find("Actiontext").GetComponent<Text>().text = score.action.ToString();
-            canvas.transform.Find("Miss").Find("Misstext").GetComponent<Text>().text = score.miss.ToString();
+            canvas.transform.Find("Miss").Find("Misstext").GetComponent<Text>().text = StatusFlagManager.MissCount.ToString();
             canvas.transform.Find("Stage").GetComponent<Text>().text = "Stage " + (StatusFlagManager.SelectStageID + 1);
 
             if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
@@ -146,7 +163,7 @@ public class ResultManager : MonoBehaviour
             }
 
 
-            audio = AudioManager.PlayAudio("Result", true, true);
+            audioA = AudioManager.PlayAudio("Result", true, true);
 
             //フラグ設定
             canvas.SetActive(true);

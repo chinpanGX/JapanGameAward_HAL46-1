@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     private const int INPUT_REVERSE = 4;//回転
     private const int INPUT_JUMP = 5;
     private const int INPUT_STICK = 6;
+    private const int INPUT_PAUSE = 7;
     private int NowInput = INPUT_NONE;
 
 
@@ -135,6 +136,14 @@ public class Player : MonoBehaviour
         //回転＆ジャンプボタン押せるか？
         ButtunUI();
 
+        if (NowInput != INPUT_PAUSE && (Input.GetKeyDown("joystick button 7") || Input.GetKeyDown(KeyCode.P)))//ポーズ画面
+        {
+            animator.SetBool("Move", false);
+            field.SetNoMove();
+            StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_PAUSE;
+            NowInput = INPUT_PAUSE;
+            return;
+        }
 
         if (NowInput == INPUT_NONE && turnpiller == null && !field.AirFlag)
         {
@@ -167,11 +176,13 @@ public class Player : MonoBehaviour
             {
                 animator.SetBool("Move", false);
             }
+
             
             if (Input.GetButton("Reverce"))//回転
             {
                 if (SetReverse())
                 {
+                    AudioManager.PlayAudio("Warp", false, false);
                     field.SetNoMove();
                     score.CountAction();
                 }
@@ -230,6 +241,10 @@ public class Player : MonoBehaviour
                         animator.SetBool("Move", false);
                         NowInput = INPUT_NONE;
                     }
+                }
+                else if (NowInput == INPUT_PAUSE)
+                {
+                    NowInput = INPUT_NONE;
                 }
             }
             
@@ -600,7 +615,7 @@ public class Player : MonoBehaviour
             {
                 ClearFlag = CLEAR_ANIME;
                 animator.SetBool("Move", false);
-                animator.SetBool("WavaHands", true);
+                //animator.SetBool("WavaHands", true);
             }
         }
         else if (ClearFlag == CLEAR_ANIME)

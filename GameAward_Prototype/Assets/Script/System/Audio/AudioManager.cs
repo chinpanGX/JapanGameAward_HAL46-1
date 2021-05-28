@@ -8,12 +8,19 @@ public class AudioManager : MonoBehaviour
     [SerializeField] GameObject audioprefab;
     static GameObject audioset;
 
+    public enum AudioType
+    {
+        BGM,
+        SE,
+    }
+
     //音データ構造体
     [System.Serializable]
     public struct K_Audio
     {
         public string name;
         public AudioClip audioclip;
+        public AudioType audiotype;
         public float loopstart;//設定しない場合は0
         public float loopend;//設定しない場合は0
     }
@@ -22,11 +29,30 @@ public class AudioManager : MonoBehaviour
     [SerializeField] K_Audio[] AudioData;
     static K_Audio[] AudioDataSet;
 
+
+    static private List<AudioController> audiolist;
+
     private void Awake()
     {
         audioset = audioprefab;
         AudioDataSet = AudioData;
+
+        audiolist = new List<AudioController>();
     }
+
+    private void Update()
+    {
+
+        for (int i = 0; i < audiolist.Count; i++)
+        {
+            if (!audiolist[i].gameObject.activeSelf)
+            {
+                Destroy(audiolist[i].gameObject);
+                audiolist.RemoveAt(i);
+            }
+        }
+    }
+
 
     //音再生
     //name = 配列に設定した音の名前
@@ -48,7 +74,28 @@ public class AudioManager : MonoBehaviour
                 break;
             }
         }
-
+        audiolist.Add(audiocon);
         return audiocon;
     }
+
+    static public void AllFadeOutAudio()
+    {
+        foreach (var faudio in audiolist)
+        {
+            faudio.FadeOutStart();
+        }
+
+        audiolist.Clear();
+    }
+
+    static public void AllStopAudio()
+    {
+        foreach (var saudio in audiolist)
+        {
+            saudio.Stop();
+        }
+
+        audiolist.Clear();
+    }
+    
 }
