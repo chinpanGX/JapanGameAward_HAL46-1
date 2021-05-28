@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58c43a7376c8f3b489e9308d25e29312, type: 3}
-  m_Name: K_Stage90005
+  m_Name: E_Stage_08
   m_EditorClassIdentifier: 
   ActionCount: 28
   TimeCount: 45
@@ -95,10 +95,11 @@ MonoBehaviour:
   - {x: 15, y: 5}
   - {x: 11, y: 4}
   - {x: 10, y: 4}
+  - {x: 10, y: 2}
+  - {x: 9, y: 2}
   TurnPiller:
   - {x: 19, y: 2, z: 2}
   - {x: 3, y: 1, z: 1}
-  - {x: 8, y: 6, z: 3}
   - {x: 14, y: 7, z: 2}
   - {x: 6, y: 10, z: 2}
   - {x: 4, y: 14, z: 3}
@@ -106,5 +107,6 @@ MonoBehaviour:
   - {x: 17, y: 4, z: 1}
   - {x: 0, y: 9, z: 1}
   - {x: 21, y: 9, z: 2}
-  - {x: 19, y: 10, z: 2}
+  - {x: 19, y: 9, z: 1}
   - {x: 17, y: 9, z: 2}
+  - {x: 10, y: 6, z: 3}
