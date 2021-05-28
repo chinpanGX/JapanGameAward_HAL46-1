@@ -47,21 +47,56 @@ MonoBehaviour:
   AudioData:
   - name: Title
     audioclip: {fileID: 8300000, guid: e00c07bfa4f624d4eb1d27734b8d695b, type: 3}
+    audiotype: 0
     loopstart: 0
     loopend: 115
   - name: Result
     audioclip: {fileID: 8300000, guid: f28d6a64e890a4f4c8dfe6ac46fc1184, type: 3}
+    audiotype: 0
     loopstart: 0
     loopend: 0
   - name: StageSelect
     audioclip: {fileID: 8300000, guid: 564d748e4bec41c4a84026d166a76d70, type: 3}
+    audiotype: 0
     loopstart: 0
     loopend: 244
   - name: Game01
     audioclip: {fileID: 8300000, guid: ac1269ea97d874e45b2827d879062840, type: 3}
+    audiotype: 0
     loopstart: 0
     loopend: 154
   - name: Game02
     audioclip: {fileID: 8300000, guid: aba6491474a964544b5c6bc40020f950, type: 3}
+    audiotype: 0
     loopstart: 0
     loopend: 75
+  - name: ResultSE
+    audioclip: {fileID: 8300000, guid: 92425bbd9107dba4e8fc3f467c3fbdf6, type: 3}
+    audiotype: 0
+    loopstart: 0
+    loopend: 0
+  - name: Warning
+    audioclip: {fileID: 8300000, guid: 58af0ce958e986f4da19d82db9793973, type: 3}
+    audiotype: 1
+    loopstart: 0
+    loopend: 0
+  - name: Warp
+    audioclip: {fileID: 8300000, guid: 55001b516c72eab459a74c7b29f273aa, type: 3}
+    audiotype: 1
+    loopstart: 0
+    loopend: 0
+  - name: Water
+    audioclip: {fileID: 8300000, guid: 63dc264af8c4ad3468a8c6e20d301fe4, type: 3}
+    audiotype: 1
+    loopstart: 0
+    loopend: 0
+  - name: IconMove
+    audioclip: {fileID: 8300000, guid: 491877ec737f0f9419dd70dfb602a8cf, type: 3}
+    audiotype: 1
+    loopstart: 0
+    loopend: 0
+  - name: Star
+    audioclip: {fileID: 8300000, guid: e1c07eb25649a2443967f91ee129314f, type: 3}
+    audiotype: 1
+    loopstart: 0
+    loopend: 0

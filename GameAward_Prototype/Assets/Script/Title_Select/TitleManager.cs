@@ -75,6 +75,7 @@ public class TitleManager : MonoBehaviour
                     {
                         nextselect = select - 1;
                         SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                 }
                 else if (v < 0.0f || Input.GetKey(KeyCode.S))//‰º
@@ -83,6 +84,7 @@ public class TitleManager : MonoBehaviour
                     {
                         nextselect = select + 1;
                         SelectIcon.StartMove(new Vector3(SelectIcon.transform.position.x, TitleObj[nextselect].y, SelectIcon.transform.position.z));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                 }
                 else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))//Œˆ’è

@@ -182,6 +182,7 @@ public class Player : MonoBehaviour
             {
                 if (SetReverse())
                 {
+                    AudioManager.PlayAudio("Warp", false, false);
                     field.SetNoMove();
                     score.CountAction();
                 }
@@ -614,7 +615,7 @@ public class Player : MonoBehaviour
             {
                 ClearFlag = CLEAR_ANIME;
                 animator.SetBool("Move", false);
-                animator.SetBool("WavaHands", true);
+                //animator.SetBool("WavaHands", true);
             }
         }
         else if (ClearFlag == CLEAR_ANIME)

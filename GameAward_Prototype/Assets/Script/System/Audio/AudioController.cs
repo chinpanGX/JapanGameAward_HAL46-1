@@ -18,8 +18,6 @@ public class AudioController : MonoBehaviour
     private float loopstart;
     private float loopend;
 
-    public float time;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -37,10 +35,7 @@ public class AudioController : MonoBehaviour
             }
         }
 
-        time = setaudio.time;
-
-        
-
+        //音が流し終わった場合ストップ処理をする
         if (!setaudio.isPlaying)
         {
             Stop();
@@ -79,6 +74,8 @@ public class AudioController : MonoBehaviour
         loopstart = audioloopstart;
         loopend = audioloopend;
 
+        
+
         if (fadein)//フェード分岐
         {
             this.fadein = true;
@@ -114,7 +111,7 @@ public class AudioController : MonoBehaviour
     }
 
     //一時停止解除
-    public void InPause()
+    public void UnPause()
     {
         setaudio.UnPause();
     }
@@ -123,6 +120,7 @@ public class AudioController : MonoBehaviour
     //注意　オブジェクト事消すのでまた最初から再生する際はAudioManagerから
     public void Stop()
     {
-        Destroy(this.gameObject);
+        setaudio.Stop();
+        this.gameObject.SetActive(false);
     }
 }

@@ -79,6 +79,7 @@ public class StageSelectManager : MonoBehaviour
 
                         nextselect = nowselect - 2;
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, stageobj[nextselect].transform.position.y, icon.transform.position.z));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                     else if (selectstageid > 1)
                     {
@@ -88,6 +89,7 @@ public class StageSelectManager : MonoBehaviour
                         changemove = 1;
 
                         select.GetComponent<BlockMove>().StartMove(new Vector3(0.0f, 10.0f, 0.0f));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                 }
                 else if (v < -0.5f || Input.GetKey(KeyCode.S))//‰º
@@ -98,6 +100,7 @@ public class StageSelectManager : MonoBehaviour
 
                         nextselect = nowselect + 2;
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, stageobj[nextselect].transform.position.y, icon.transform.position.z));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                     else if(selectstageid < StatusFlagManager.StageMaxNum - 2)
                     {
@@ -107,6 +110,7 @@ public class StageSelectManager : MonoBehaviour
                         changemove = 1;
 
                         select.GetComponent<BlockMove>().StartMove(new Vector3(0.0f, 10.0f, 0.0f));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                 }
                 else if (h < -0.5f || Input.GetKey(KeyCode.A))//¶
@@ -118,6 +122,7 @@ public class StageSelectManager : MonoBehaviour
                         turnicon = 0.0f;
                         nextselect = nowselect - 1;
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x + 2, icon.transform.position.y, icon.transform.position.z));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                     //else if(nowselect != 0)
                     //{
@@ -137,6 +142,7 @@ public class StageSelectManager : MonoBehaviour
                         turnicon = 180.0f;
                         nextselect = nowselect + 1;
                         icon.GetComponent<BlockMove>().StartMove(new Vector3(stageobj[nextselect].transform.position.x - 2, icon.transform.position.y, icon.transform.position.z));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                     //else if (nowselect != 5)
                     //{

@@ -59,6 +59,7 @@ public class Water : MonoBehaviour
             StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
             StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
             Fade.FadeOut("SampleScene");
+            AudioManager.PlayAudio("Water", false, false);
 
             return;
         }
@@ -73,6 +74,7 @@ public class Water : MonoBehaviour
             moveflag = true;
             gameaudio.FadeOutStart(20);
             gameaudio = AudioManager.PlayAudio("Game02", true, true);
+            AudioManager.PlayAudio("Warning", false, false);
         }
 
         if (moveflag == true && m_Player.transform.position.y < 20)

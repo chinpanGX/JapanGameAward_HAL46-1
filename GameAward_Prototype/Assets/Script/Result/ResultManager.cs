@@ -94,27 +94,40 @@ public class ResultManager : MonoBehaviour
             canvas.transform.Find("Star02").GetComponent<Animator>().SetBool("Move", false);
             canvas.transform.Find("Star03").GetComponent<Animator>().SetBool("Move", false);
 
-            result = RESULT_KEY;
+            if (GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerModel").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("WaveHands"))
+            {
+                AudioManager.PlayAudio("ResultSE", false, false);
+                result = RESULT_KEY;
+            }
         }
         else if (result == RESULT_START && canvasanime.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
+            int starcount = 0;
             if (stage.stage[StatusFlagManager.SelectStageID].GetTimeCount() >= score.time)//タイム
             {
                 canvas.transform.Find("Star01").GetComponent<Animator>().SetBool("Move", true);
+                starcount++;
             }
 
             if (stage.stage[StatusFlagManager.SelectStageID].GetActionCount() >= score.action)//アクション
             {
                 canvas.transform.Find("Star02").GetComponent<Animator>().SetBool("Move", true);
+                starcount++;
             }
 
             if (0 >= StatusFlagManager.MissCount)//ミス
             {
                 canvas.transform.Find("Star03").GetComponent<Animator>().SetBool("Move", true);
+                starcount++;
+            }
+
+            AudioManager.PlayAudio("Star", false, false);
+
+            if (starcount == 3)
+            {
+                GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
             }
             
-            
-
             canvasanime.SetBool("Move", false);
             result = RESULT_STAR;
         }
