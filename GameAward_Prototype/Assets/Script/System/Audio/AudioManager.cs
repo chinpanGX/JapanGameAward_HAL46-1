@@ -22,11 +22,17 @@ public class AudioManager : MonoBehaviour
     [SerializeField] K_Audio[] AudioData;
     static K_Audio[] AudioDataSet;
 
+
+    static private List<AudioController> audiolist;
+
     private void Awake()
     {
         audioset = audioprefab;
         AudioDataSet = AudioData;
+
+        audiolist = new List<AudioController>();
     }
+
 
     //âπçƒê∂
     //name = îzóÒÇ…ê›íËÇµÇΩâπÇÃñºëO
@@ -48,7 +54,28 @@ public class AudioManager : MonoBehaviour
                 break;
             }
         }
-
+        audiolist.Add(audiocon);
         return audiocon;
     }
+
+    static public void AllFadeOutAudio()
+    {
+        foreach (var faudio in audiolist)
+        {
+            faudio.FadeOutStart();
+        }
+
+        audiolist.Clear();
+    }
+
+    static public void AllStopAudio()
+    {
+        foreach (var saudio in audiolist)
+        {
+            saudio.Stop();
+        }
+
+        audiolist.Clear();
+    }
+    
 }

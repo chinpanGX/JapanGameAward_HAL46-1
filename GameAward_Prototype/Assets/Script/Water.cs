@@ -53,6 +53,7 @@ public class Water : MonoBehaviour
             m_flamecount = 0;
             moveflag = false;
             hitflag = true;
+            StatusFlagManager.MissCount++;
             m_Player.transform.Find("PlayerModel").GetComponent<Animator>().SetBool("GameOver", true);
             gameaudio.FadeOutStart();
             StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;

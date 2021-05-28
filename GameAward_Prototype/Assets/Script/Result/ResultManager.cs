@@ -24,7 +24,7 @@ public class ResultManager : MonoBehaviour
     private const int RESULT_KEY = 4;
     private int result;
 
-    private AudioController audio;
+    private AudioController audioA;
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +57,8 @@ public class ResultManager : MonoBehaviour
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
                     Fade.FadeOut("Title");
-                    audio.FadeOutStart(20);
+                    audioA.FadeOutStart(20);
+                    StatusFlagManager.MissCount = 0;
                 }
                 else
                 {
@@ -65,14 +66,16 @@ public class ResultManager : MonoBehaviour
                     StatusFlagManager.SelectStageID++;
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
                     Fade.FadeOut("SampleScene");
-                    audio.FadeOutStart(20);
+                    audioA.FadeOutStart(20);
+                    StatusFlagManager.MissCount = 0;
                 }
             }
             else if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.X))//ステージ選択に進む
             {
                 StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_STAGESELECT;
                 Fade.FadeOut("Title");
-                audio.FadeOutStart(20);
+                audioA.FadeOutStart(20);
+                StatusFlagManager.MissCount = 0;
             }
             else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//タイトルに進む
             {
@@ -80,7 +83,8 @@ public class ResultManager : MonoBehaviour
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
                     Fade.FadeOut("Title");
-                    audio.FadeOutStart(20);
+                    audioA.FadeOutStart(20);
+                    StatusFlagManager.MissCount = 0;
                 }
             }
         }
@@ -104,7 +108,7 @@ public class ResultManager : MonoBehaviour
                 canvas.transform.Find("Star02").GetComponent<Animator>().SetBool("Move", true);
             }
 
-            if (0 >= score.miss)//ミス
+            if (0 >= StatusFlagManager.MissCount)//ミス
             {
                 canvas.transform.Find("Star03").GetComponent<Animator>().SetBool("Move", true);
             }
@@ -136,7 +140,7 @@ public class ResultManager : MonoBehaviour
             //テキスト設定
             canvas.transform.Find("Time").Find("Timetext").GetComponent<Text>().text = score.time.ToString();
             canvas.transform.Find("Action").Find("Actiontext").GetComponent<Text>().text = score.action.ToString();
-            canvas.transform.Find("Miss").Find("Misstext").GetComponent<Text>().text = score.miss.ToString();
+            canvas.transform.Find("Miss").Find("Misstext").GetComponent<Text>().text = StatusFlagManager.MissCount.ToString();
             canvas.transform.Find("Stage").GetComponent<Text>().text = "Stage " + (StatusFlagManager.SelectStageID + 1);
 
             if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
@@ -146,7 +150,7 @@ public class ResultManager : MonoBehaviour
             }
 
 
-            audio = AudioManager.PlayAudio("Result", true, true);
+            audioA = AudioManager.PlayAudio("Result", true, true);
 
             //フラグ設定
             canvas.SetActive(true);
