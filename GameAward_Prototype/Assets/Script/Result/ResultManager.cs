@@ -79,11 +79,6 @@ public class ResultManager : MonoBehaviour
             }
             else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//リトライ
             {
-
-                if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
-                {
-                    StatusFlagManager.SelectStageID = StatusFlagManager.StageMaxNum - 1;
-                }
                 if (StatusFlagManager.SelectStageID <=  StatusFlagManager.StageMaxNum - 1)
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
