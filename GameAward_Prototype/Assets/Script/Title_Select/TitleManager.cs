@@ -96,6 +96,7 @@ public class TitleManager : MonoBehaviour
 
                         BlockMove block = title.GetComponent<BlockMove>();
                         block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                     else if (select == SELECT_CONTINU)
                     {
@@ -103,6 +104,7 @@ public class TitleManager : MonoBehaviour
                         nextselect = select;
                         BlockMove block = title.GetComponent<BlockMove>();
                         block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
+                        AudioManager.PlayAudio("IconMove", false, false);
                     }
                     else if (select == SELECT_EXIT)
                     {

@@ -30,10 +30,9 @@ public class ScoreManager : MonoBehaviour
             {
                 if (flamecount % 60 == 0)
                 {
-                    time++;
-
                     if (time <= 9999)
                     {
+                        time++;
                         Time.text = "Time  " + time;
                     }
                 }
@@ -52,12 +51,11 @@ public class ScoreManager : MonoBehaviour
 
     public void CountAction()
     {
-
-        action++;
         if (action > 9999)
         {
             return;
         }
+        action++;
         Action.text = "Action  " + action;
     }
 }

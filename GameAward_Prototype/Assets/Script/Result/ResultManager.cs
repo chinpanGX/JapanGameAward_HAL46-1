@@ -94,7 +94,8 @@ public class ResultManager : MonoBehaviour
             canvas.transform.Find("Star02").GetComponent<Animator>().SetBool("Move", false);
             canvas.transform.Find("Star03").GetComponent<Animator>().SetBool("Move", false);
 
-            if (GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerModel").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("WaveHands"))
+            Animator anime = GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerModel").GetComponent<Animator>();
+            if (anime.GetCurrentAnimatorStateInfo(0).IsName("WaveHands") || anime.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 AudioManager.PlayAudio("ResultSE", false, false);
                 result = RESULT_KEY;
@@ -150,10 +151,22 @@ public class ResultManager : MonoBehaviour
             Came.GetComponent<BlockMove>().StartMove(player.transform.position + front + side + up);
             result = RESULT_START;
 
-            //テキスト設定
-            canvas.transform.Find("Time").Find("Timetext").GetComponent<Text>().text = score.time.ToString();
-            canvas.transform.Find("Action").Find("Actiontext").GetComponent<Text>().text = score.action.ToString();
-            canvas.transform.Find("Miss").Find("Misstext").GetComponent<Text>().text = StatusFlagManager.MissCount.ToString();
+            //タイムテキスト
+            GameObject Time = canvas.transform.Find("Time").gameObject;
+            Time.transform.Find("Timetext").GetComponent<Text>().text = score.time.ToString();
+            Time.transform.Find("TimetextMax").GetComponent<Text>().text = "/ " + stage.stage[StatusFlagManager.SelectStageID].GetTimeCount().ToString();
+
+            //アクションテキスト
+            GameObject Action = canvas.transform.Find("Action").gameObject;
+            Action.transform.Find("Actiontext").GetComponent<Text>().text = score.action.ToString();
+            Action.transform.Find("ActiontextMax").GetComponent<Text>().text = "/ " + stage.stage[StatusFlagManager.SelectStageID].GetActionCount().ToString();
+
+            //ミステキスト
+            GameObject Miss = canvas.transform.Find("Miss").gameObject;
+            Miss.transform.Find("Misstext").GetComponent<Text>().text = StatusFlagManager.MissCount.ToString();
+            Miss.transform.Find("MisstextMax").GetComponent<Text>().text = "/ 0";
+
+            //ステージテキスト
             canvas.transform.Find("Stage").GetComponent<Text>().text = "Stage " + (StatusFlagManager.SelectStageID + 1);
 
             if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
