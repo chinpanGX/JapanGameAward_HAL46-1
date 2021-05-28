@@ -79,10 +79,19 @@ public class ResultManager : MonoBehaviour
             }
             else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//タイトルに進む
             {
-                if (StatusFlagManager.SelectStageID < StatusFlagManager.StageMaxNum - 1)
+                if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
                     Fade.FadeOut("Title");
+                    audioA.FadeOutStart(20);
+                    StatusFlagManager.MissCount = 0;
+                }
+                else
+                {
+                    StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
+                    //StatusFlagManager.SelectStageID++;
+                    StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
+                    Fade.FadeOut("SampleScene");
                     audioA.FadeOutStart(20);
                     StatusFlagManager.MissCount = 0;
                 }
@@ -175,7 +184,7 @@ public class ResultManager : MonoBehaviour
 
             if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
             {
-                canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "Title";
+                canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "Retry";
                 canvas.transform.Find("B").gameObject.SetActive(false);
             }
 
