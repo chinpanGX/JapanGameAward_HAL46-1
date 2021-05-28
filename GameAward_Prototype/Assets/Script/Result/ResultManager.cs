@@ -24,6 +24,8 @@ public class ResultManager : MonoBehaviour
     private const int RESULT_KEY = 4;
     private int result;
 
+    private AudioController audio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +57,7 @@ public class ResultManager : MonoBehaviour
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
                     Fade.FadeOut("Title");
+                    audio.FadeOutStart(20);
                 }
                 else
                 {
@@ -62,12 +65,14 @@ public class ResultManager : MonoBehaviour
                     StatusFlagManager.SelectStageID++;
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
                     Fade.FadeOut("SampleScene");
+                    audio.FadeOutStart(20);
                 }
             }
             else if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.X))//ステージ選択に進む
             {
                 StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_STAGESELECT;
                 Fade.FadeOut("Title");
+                audio.FadeOutStart(20);
             }
             else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//タイトルに進む
             {
@@ -75,6 +80,7 @@ public class ResultManager : MonoBehaviour
                 {
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_TITLE;
                     Fade.FadeOut("Title");
+                    audio.FadeOutStart(20);
                 }
             }
         }
@@ -138,6 +144,9 @@ public class ResultManager : MonoBehaviour
                 canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "Title";
                 canvas.transform.Find("B").gameObject.SetActive(false);
             }
+
+
+            audio = AudioManager.PlayAudio("Result", true, true);
 
             //フラグ設定
             canvas.SetActive(true);

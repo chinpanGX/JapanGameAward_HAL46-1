@@ -9,12 +9,16 @@ public class Water : MonoBehaviour
     [SerializeField] GameObject m_Player;
 
     private bool moveflag;
+    private bool hitflag = false;
+
     //警告
     [SerializeField] GameObject m_warning;
     private int m_flamecount;
 
     private int m_Time;
     [SerializeField] private int m_MaxTime;
+
+    private AudioController gameaudio;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +29,8 @@ public class Water : MonoBehaviour
         moveflag = false;
 
         this.transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+
+        gameaudio = AudioManager.PlayAudio("Game01", true, true);
     }
 
     // Update is called once per frame
@@ -46,22 +52,26 @@ public class Water : MonoBehaviour
             m_warning.SetActive(false);
             m_flamecount = 0;
             moveflag = false;
+            hitflag = true;
             m_Player.transform.Find("PlayerModel").GetComponent<Animator>().SetBool("GameOver", true);
+            gameaudio.FadeOutStart();
             StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
             StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
             Fade.FadeOut("SampleScene");
 
             return;
         }
-        else if (moveflag == false && Fade.m_isFadeOut)
+        else if (hitflag)
         {
             return;
         }
 
         m_Time++;
-        if (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime)//指定された高さに達したら移動が始まる
+        if (!moveflag && !hitflag && (m_Player.transform.position.y >= m_StartHeight || m_Time > m_MaxTime))//指定された高さに達したら移動が始まる
         {
             moveflag = true;
+            gameaudio.FadeOutStart(20);
+            gameaudio = AudioManager.PlayAudio("Game02", true, true);
         }
 
         if (moveflag == true && m_Player.transform.position.y < 20)
@@ -81,11 +91,9 @@ public class Water : MonoBehaviour
 
             m_flamecount++;
         }
-        else
+        else if (m_Player.transform.position.y >= 20)
         {
-            m_warning.SetActive(false);
-            m_flamecount = 0;
-            moveflag = false;
+            gameaudio.FadeOutStart(300);
         }
     }
 

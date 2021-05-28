@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8949685433520156052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4693579665384850005}
+  - component: {fileID: 7623407062500282549}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4693579665384850005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8949685433520156052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.502188, y: 10.844954, z: 111.82555}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7623407062500282549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8949685433520156052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6d5100db681eb4788c5c1e9d3161f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioprefab: {fileID: 236859964043240991, guid: c8e972095280b1b49837e4f0a2ba2707, type: 3}
+  AudioData:
+  - name: Title
+    audioclip: {fileID: 8300000, guid: e00c07bfa4f624d4eb1d27734b8d695b, type: 3}
+    loopstart: 0
+    loopend: 115
+  - name: Result
+    audioclip: {fileID: 8300000, guid: f28d6a64e890a4f4c8dfe6ac46fc1184, type: 3}
+    loopstart: 0
+    loopend: 0
+  - name: StageSelect
+    audioclip: {fileID: 8300000, guid: 564d748e4bec41c4a84026d166a76d70, type: 3}
+    loopstart: 0
+    loopend: 244
+  - name: Game01
+    audioclip: {fileID: 8300000, guid: ac1269ea97d874e45b2827d879062840, type: 3}
+    loopstart: 0
+    loopend: 154
+  - name: Game02
+    audioclip: {fileID: 8300000, guid: aba6491474a964544b5c6bc40020f950, type: 3}
+    loopstart: 0
+    loopend: 75
