@@ -6,6 +6,11 @@ using UnityEngine;
 //ステータスやフラグを管理するマネージャー
 public class StatusFlagManager : MonoBehaviour
 {
+    static public readonly int TS_NONE = 0;
+    static public readonly int TS_START = 1;
+    static public readonly int TS_PLAY = 2;
+    static public int TitleSelectFlag = TS_START;
+
     static public readonly int GAME_NONE = 0;
     static public readonly int GAME_START = 1;
     static public readonly int GAME_OVER = 2;
