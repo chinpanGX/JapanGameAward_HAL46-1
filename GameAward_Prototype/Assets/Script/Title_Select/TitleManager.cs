@@ -64,9 +64,9 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE && StatusFlagManager.TitleSelectFlag == StatusFlagManager.TS_PLAY)
         {
-            if (select == nextselect && select > SELECT_NONE)
+            if (select == nextselect && select > SELECT_NONE && !title.GetComponent<BlockMove>().moveflag)
             {
                 var v = Input.GetAxis("Vertical");
                 if (v > 0.0f || Input.GetKey(KeyCode.W))//è„

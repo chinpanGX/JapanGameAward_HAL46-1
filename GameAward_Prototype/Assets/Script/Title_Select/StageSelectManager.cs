@@ -63,11 +63,9 @@ public class StageSelectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_STAGESELECT)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_STAGESELECT && StatusFlagManager.TitleSelectFlag == StatusFlagManager.TS_PLAY)
         {
-            
-
-            if (nowselect == nextselect)
+            if (nowselect == nextselect && !select.GetComponent<BlockMove>().moveflag)
             {
                 var h = Input.GetAxis("Horizontal");
                 var v = Input.GetAxis("Vertical");
@@ -158,16 +156,19 @@ public class StageSelectManager : MonoBehaviour
                     selectaudio.FadeOutStart();
                     selectaudio = null;
 
+                    StatusFlagManager.TitleSelectFlag = StatusFlagManager.TS_START;
                     StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_GAME;
                     StatusFlagManager.SelectStageID = selectstageid;
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
                     Fade.FadeOut("SampleScene");
+                    AudioManager.PlayAudio("IconMove", false, false);
                 }
                 else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.X))//–ß‚éBƒ{ƒ^ƒ“
                 {
                     changemove = 2;
                     nextselect = -1;
                     select.GetComponent<BlockMove>().StartMove(new Vector3(0.0f, 10.0f, 0.0f));
+                    AudioManager.PlayAudio("IconMove", false, false);
                 }
             }
             else if (nowselect != nextselect)
