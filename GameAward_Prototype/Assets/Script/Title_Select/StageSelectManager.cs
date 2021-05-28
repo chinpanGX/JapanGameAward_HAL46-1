@@ -13,6 +13,9 @@ public class StageSelectManager : MonoBehaviour
     private GameObject[] stageobj;
     private GameObject[] stagetext;
 
+    [SerializeField] GameObject arrowdown;
+    [SerializeField] GameObject arrowup;
+
     public int selectstageid;//現在選択してるステージID
 
     public int nowselect;
@@ -62,6 +65,8 @@ public class StageSelectManager : MonoBehaviour
     {
         if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_STAGESELECT)
         {
+            
+
             if (nowselect == nextselect)
             {
                 var h = Input.GetAxis("Horizontal");
@@ -179,6 +184,24 @@ public class StageSelectManager : MonoBehaviour
                         {
                             icon.GetComponent<BlockMove>().StartMove(new Vector3(icon.transform.position.x, 4.1f, icon.transform.position.z));
                         }
+
+                        if (changetext == 0)//上矢印非表示
+                        {
+                            arrowup.SetActive(false);
+                        }
+                        else
+                        {
+                            arrowup.SetActive(true);
+                        }
+
+                        if (changetext + 6 > StatusFlagManager.StageMaxNum - 2)
+                        {
+                            arrowdown.SetActive(false);
+                        }
+                        else
+                        {
+                            arrowdown.SetActive(true);
+                        }
                     }
                     else if (changemove == 0 && !icon.GetComponent<BlockMove>().moveflag)//アイコン移動
                     {
@@ -228,6 +251,24 @@ public class StageSelectManager : MonoBehaviour
                     icon.GetComponent<BlockMove>().StartMove(new Vector3(set.x, 4.1f, set.z));
 
                     selectaudio = AudioManager.PlayAudio("StageSelect", true, true);
+
+                    if (changetext == 0)//上矢印非表示
+                    {
+                        arrowup.SetActive(false);
+                    }
+                    else
+                    {
+                        arrowup.SetActive(true);
+                    }
+
+                    if (changetext + 6 > StatusFlagManager.StageMaxNum - 2)
+                    {
+                        arrowdown.SetActive(false);
+                    }
+                    else
+                    {
+                        arrowdown.SetActive(true);
+                    }
                 }
                 else if (nowselect == -1 && !select.GetComponent<BlockMove>().moveflag && !icon.GetComponent<BlockMove>().moveflag)
                 {
