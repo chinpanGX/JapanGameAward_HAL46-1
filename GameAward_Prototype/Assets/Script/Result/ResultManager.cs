@@ -176,8 +176,7 @@ public class ResultManager : MonoBehaviour
 
             if (StatusFlagManager.SelectStageID >= StatusFlagManager.StageMaxNum - 1)//現在のステージが最大の場合
             {
-                //canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "TiTle";
-                canvas.transform.Find("A").gameObject.SetActive(false);
+                canvas.transform.Find("A").Find("Atext").GetComponent<Text>().text = "Title";
                 canvas.transform.Find("B").Find("Btext").GetComponent<Text>().text = "Retry";
             }
 
