@@ -95,9 +95,13 @@ public class ResultManager : MonoBehaviour
             canvas.transform.Find("Star03").GetComponent<Animator>().SetBool("Move", false);
 
             Animator anime = GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerModel").GetComponent<Animator>();
-            if (anime.GetCurrentAnimatorStateInfo(0).IsName("WaveHands") || anime.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            if (anime.GetCurrentAnimatorStateInfo(0).IsName("WaveHands"))
             {
                 AudioManager.PlayAudio("ResultSE", false, false);
+                result = RESULT_KEY;
+            }
+            else if(anime.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
                 result = RESULT_KEY;
             }
         }
