@@ -7,7 +7,7 @@ public class ScoreSave : MonoBehaviour
     //セーブデータ
     public const int SD_TIME = 1 << 0;
     public const int SD_ACTION = 1 << 1;
-    public const int SD_MISS = 1 << 1;
+    public const int SD_MISS = 1 << 2;
     public static int[] SavaData = null;
 
 
