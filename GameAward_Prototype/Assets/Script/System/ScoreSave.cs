@@ -8,7 +8,7 @@ public class ScoreSave : MonoBehaviour
     public const int SD_TIME = 1 << 0;
     public const int SD_ACTION = 1 << 1;
     public const int SD_MISS = 1 << 1;
-    public static int[] SavaData;
+    public static int[] SavaData = null;
 
 
     private void Start()
@@ -99,6 +99,11 @@ public class ScoreSave : MonoBehaviour
     //セーブデータの有無
     public static bool IsSavaData()
     {
+        if (SavaData == null)
+        {
+            return false;
+        }
+
         foreach (var item in SavaData)
         {
             if (item != 0)
