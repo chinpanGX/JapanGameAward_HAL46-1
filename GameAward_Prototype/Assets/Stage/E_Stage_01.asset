@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionCount: 15
   TimeCount: 20
-  Player: {x: 0, y: 0}
+  Player: {x: 15, y: 18}
   Block:
   - {x: 7, y: 1}
   - {x: 6, y: 3}
