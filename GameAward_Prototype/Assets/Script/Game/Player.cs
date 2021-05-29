@@ -616,7 +616,11 @@ public class Player : MonoBehaviour
         {
             Quaternion target = Quaternion.LookRotation(new Vector3(Camera.main.transform.position.x, 20.0f, Camera.main.transform.position.z) - this.transform.position);
             this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
-            StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_RESULT;
+            // シーンのフラグがゲームのときなら
+            if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME)
+            {
+                StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_RESULT;
+            }
             animator.SetBool("Move", false);
             //if (target.y + 1.0f < this.transform.rotation.y && target.y - 1.0f > this.transform.rotation.y)
             //{
