@@ -31,6 +31,12 @@ public class TitleManager : MonoBehaviour
         TitleObj[1] = title.transform.Find("Continue").position;//コンティニュー
         TitleObj[2] = title.transform.Find("Exit").position;//出口
 
+        //セーブデータがある場合コンティニューにアイコンを合わせる
+        if (ScoreSave.IsSavaData())
+        {
+            select = SELECT_CONTINU;
+        }
+
         //アイコンの座標を設定
         Vector3 icon = SelectIcon.transform.position;
         SelectIcon.transform.position = new Vector3(icon.x, TitleObj[select].y, icon.z);
@@ -64,9 +70,9 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE && StatusFlagManager.TitleSelectFlag == StatusFlagManager.TS_PLAY)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE )
         {
-            if (select == nextselect && select > SELECT_NONE && !title.GetComponent<BlockMove>().moveflag)
+            if (select == nextselect && select > SELECT_NONE && !title.GetComponent<BlockMove>().moveflag && StatusFlagManager.TitleSelectFlag == StatusFlagManager.TS_PLAY)
             {
                 var v = Input.GetAxis("Vertical");
                 if (v > 0.0f || Input.GetKey(KeyCode.W))//上
@@ -89,7 +95,7 @@ public class TitleManager : MonoBehaviour
                 }
                 else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))//決定
                 {
-                    if (select == SELECT_NEWGAME)
+                    if (select == SELECT_NEWGAME)//ニューゲーム
                     {
                         select = SELECT_NONE;
                         nextselect = select;
@@ -98,7 +104,7 @@ public class TitleManager : MonoBehaviour
                         block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
                         AudioManager.PlayAudio("IconMove", false, false);
                     }
-                    else if (select == SELECT_CONTINU)
+                    else if (select == SELECT_CONTINU && ScoreSave.IsSavaData())//コンティニュー
                     {
                         select = SELECT_NONE;
                         nextselect = select;
@@ -106,7 +112,7 @@ public class TitleManager : MonoBehaviour
                         block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
                         AudioManager.PlayAudio("IconMove", false, false);
                     }
-                    else if (select == SELECT_EXIT)
+                    else if (select == SELECT_EXIT)//終了
                     {
                         UnityEngine.Application.Quit();
                     }

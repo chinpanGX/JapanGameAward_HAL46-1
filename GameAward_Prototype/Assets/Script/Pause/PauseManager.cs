@@ -79,6 +79,7 @@ public class PauseManager : MonoBehaviour
                 Fade.FadeOut("Title");
                 AudioManager.AllFadeOutAudio();
                 StatusFlagManager.MissCount = 0;
+                ScoreSave.ScoreSava();
             }
             else if (select == SELECT_TITLE)
             {
@@ -86,6 +87,7 @@ public class PauseManager : MonoBehaviour
                 Fade.FadeOut("Title");
                 AudioManager.AllFadeOutAudio();
                 StatusFlagManager.MissCount = 0;
+                ScoreSave.ScoreSava();
             }
         }
         else if (inputflag && (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 7") || Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.X)))//É|Å[ÉYâÊñ 

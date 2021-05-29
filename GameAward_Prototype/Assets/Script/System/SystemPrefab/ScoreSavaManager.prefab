@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3392303038898072186
+--- !u!1 &3805755777126645381
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3392303038898072188}
-  - component: {fileID: 3392303038898072187}
+  - component: {fileID: 9113392932829003177}
+  - component: {fileID: 6459374759142109369}
   m_Layer: 0
-  m_Name: GameSystemCreator
+  m_Name: ScoreSavaManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3392303038898072188
+--- !u!4 &9113392932829003177
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3392303038898072186}
+  m_GameObject: {fileID: 3805755777126645381}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 699.7746, y: 574.7002, z: -29.894367}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3392303038898072187
+--- !u!114 &6459374759142109369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3392303038898072186}
+  m_GameObject: {fileID: 3805755777126645381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fc96b794f8f63d47a7228a5816f27e3, type: 3}
+  m_Script: {fileID: 11500000, guid: d50a39313bed2a548a6e959b97159832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameSystemPrefabs:
-  - {fileID: 4010098432141755743, guid: 4f15d7af4d2de8e43a48fe3df2d4cf06, type: 3}
-  - {fileID: 9143210331450759250, guid: 65e3ee29e2fb2c342a8afb09d6947c81, type: 3}
-  - {fileID: 8949685433520156052, guid: 150f5de818143b04a836b892d39ff346, type: 3}
-  - {fileID: 3805755777126645381, guid: 2658aee133972734f941b6631a4d6993, type: 3}

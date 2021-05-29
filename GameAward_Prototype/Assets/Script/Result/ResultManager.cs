@@ -76,6 +76,7 @@ public class ResultManager : MonoBehaviour
                 Fade.FadeOut("Title");
                 audioA.FadeOutStart(20);
                 StatusFlagManager.MissCount = 0;
+                ScoreSave.ScoreSava();
             }
             else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.B))//リトライ
             {
@@ -112,18 +113,21 @@ public class ResultManager : MonoBehaviour
             if (stage.stage[StatusFlagManager.SelectStageID].GetTimeCount() >= score.time)//タイム
             {
                 canvas.transform.Find("Star01").GetComponent<Animator>().SetBool("Move", true);
+                ScoreSave.SetTime(StatusFlagManager.SelectStageID);
                 starcount++;
             }
 
             if (stage.stage[StatusFlagManager.SelectStageID].GetActionCount() >= score.action)//アクション
             {
                 canvas.transform.Find("Star02").GetComponent<Animator>().SetBool("Move", true);
+                ScoreSave.SetAction(StatusFlagManager.SelectStageID);
                 starcount++;
             }
 
             if (0 >= StatusFlagManager.MissCount)//ミス
             {
                 canvas.transform.Find("Star03").GetComponent<Animator>().SetBool("Move", true);
+                ScoreSave.SetMiss(StatusFlagManager.SelectStageID);
                 starcount++;
             }
 
