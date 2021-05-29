@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: E_Stage_10
   m_EditorClassIdentifier: 
   ActionCount: 40
-  TimeCount: 55
+  TimeCount: 60
   Player: {x: 0, y: 0}
   Block:
   - {x: 1, y: 1}
@@ -99,6 +99,24 @@ MonoBehaviour:
   - {x: 12, y: 19}
   - {x: 14, y: 19}
   - {x: 16, y: 17}
+  - {x: 5, y: 8}
+  - {x: 9, y: 8}
+  - {x: 10, y: 9}
+  - {x: 11, y: 10}
+  - {x: 11, y: 11}
+  - {x: 6, y: 8}
+  - {x: 6, y: 10}
+  - {x: 6, y: 12}
+  - {x: 8, y: 8}
+  - {x: 7, y: 11}
+  - {x: 8, y: 12}
+  - {x: 8, y: 10}
+  - {x: 18, y: 11}
+  - {x: 12, y: 11}
+  - {x: 13, y: 11}
+  - {x: 14, y: 11}
+  - {x: 15, y: 11}
+  - {x: 16, y: 12}
   TurnPiller:
   - {x: 21, y: 1, z: 1}
   - {x: 4, y: 3, z: 3}
@@ -122,3 +140,6 @@ MonoBehaviour:
   - {x: 17, y: 17, z: 2}
   - {x: 14, y: 19, z: 1}
   - {x: 16, y: 17, z: 1}
+  - {x: 6, y: 11, z: 2}
+  - {x: 8, y: 11, z: 2}
+  - {x: 18, y: 12, z: 1}
