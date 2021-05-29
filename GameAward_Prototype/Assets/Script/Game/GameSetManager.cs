@@ -9,7 +9,7 @@ public class GameSetManager : MonoBehaviour
     {
         if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_GAME && StatusFlagManager.GameStatusFlag == StatusFlagManager.GAME_START)
         {
-            if (!Fade.m_isFadeIn)//フェードが終わったら
+            if (!Fade.m_isFadeIn && !Fade.m_isFadeOut)//フェードが終わったら
             {
                 StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_PLAY;
             }
