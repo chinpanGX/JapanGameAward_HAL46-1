@@ -103,6 +103,8 @@ public class TitleManager : MonoBehaviour
                         BlockMove block = title.GetComponent<BlockMove>();
                         block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
                         AudioManager.PlayAudio("IconMove", false, false);
+                        ScoreSave.SavaDataClear();
+                        ScoreSave.SavaDataDelete();
                     }
                     else if (select == SELECT_CONTINU && ScoreSave.IsSavaData())//コンティニュー
                     {
@@ -145,10 +147,20 @@ public class TitleManager : MonoBehaviour
                 {
                     title.SetActive(true);
 
+                    //セーブデータがある場合コンティニューにアイコンを合わせる
+                    if (ScoreSave.IsSavaData())
+                    {
+                        select = SELECT_CONTINU;
+                    }
+                    else
+                    {
+                        select = 0;
+                    }
+
                     BlockMove block = title.GetComponent<BlockMove>();
                     block.StartMove(new Vector3(0.0f, 0.0f, 0.0f));
 
-                    SelectIcon.StartMove(new Vector3(-1, TitleObj[0].y, SelectIcon.transform.position.z));
+                    SelectIcon.StartMove(new Vector3(-1, TitleObj[select].y, SelectIcon.transform.position.z));
 
                     select = SELECT_RETURN2;
                     nextselect = select;
@@ -157,7 +169,14 @@ public class TitleManager : MonoBehaviour
                 }
                 else if (select == SELECT_RETURN2 && !title.GetComponent<BlockMove>().moveflag)
                 {
-                    select = SELECT_NEWGAME;
+                    if (ScoreSave.IsSavaData())
+                    {
+                        select = SELECT_CONTINU;
+                    }
+                    else
+                    {
+                        select = SELECT_NEWGAME;
+                    }
                     nextselect = select;
                 }
             }

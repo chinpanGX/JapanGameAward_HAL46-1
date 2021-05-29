@@ -84,13 +84,7 @@ public class ScoreSave : MonoBehaviour
     //セーブデータ削除
     public static void SavaDataDelete()
     {
-        //セーブデータがない場合処理しない
-        if (!IsSavaData())
-        {
-            return;
-        }
-
-        PlayerPrefs.DeleteKey("GamaDeta");
+        PlayerPrefs.DeleteKey("GameDeta");
     }
 
     public static void SavaDataClear()
@@ -105,6 +99,13 @@ public class ScoreSave : MonoBehaviour
     //セーブデータの有無
     public static bool IsSavaData()
     {
-        return PlayerPrefs.HasKey("GameData");
+        foreach (var item in SavaData)
+        {
+            if (item != 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
