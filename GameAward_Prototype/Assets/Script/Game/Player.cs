@@ -105,6 +105,8 @@ public class Player : MonoBehaviour
 
             //プレイヤー向き
             CalLook();
+
+            SetClear();
         }
     }
 
@@ -120,7 +122,7 @@ public class Player : MonoBehaviour
                     UpDownMove();
                 }
 
-                SetClear();
+                
             }
         }
 
@@ -553,6 +555,10 @@ public class Player : MonoBehaviour
         {
             if (ClearFlag == CLEAR_NONE)//クリア処理開始
             {
+                //移動停止
+                field.SetNoMove();
+                field.SetNoDown();
+
                 //座標補正
                 this.transform.position = new Vector3(this.transform.position.x, 20.0f, this.transform.position.z);
 
@@ -611,12 +617,13 @@ public class Player : MonoBehaviour
             Quaternion target = Quaternion.LookRotation(new Vector3(Camera.main.transform.position.x, 20.0f, Camera.main.transform.position.z) - this.transform.position);
             this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, target, 2.0f);
             StatusFlagManager.SceneFlag = StatusFlagManager.SCENE_RESULT;
-            if (target.y == this.transform.rotation.y)
-            {
-                ClearFlag = CLEAR_ANIME;
-                animator.SetBool("Move", false);
-                //animator.SetBool("WavaHands", true);
-            }
+            animator.SetBool("Move", false);
+            //if (target.y + 1.0f < this.transform.rotation.y && target.y - 1.0f > this.transform.rotation.y)
+            //{
+            //    ClearFlag = CLEAR_ANIME;
+                
+            //    //animator.SetBool("WavaHands", true);
+            //}
         }
         else if (ClearFlag == CLEAR_ANIME)
         {

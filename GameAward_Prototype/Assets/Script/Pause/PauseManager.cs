@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
+    [SerializeField] StageManager stage;
+
     //ƒXƒRƒAŽæ“¾
     [SerializeField] ScoreManager score;
 
@@ -27,12 +29,17 @@ public class PauseManager : MonoBehaviour
 
     bool inputflag;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
         inputflag = false;
         PauseObj.SetActive(false);
         PauseObj.transform.Find("StageText").GetComponent<Text>().text = "Stage " + (StatusFlagManager.SelectStageID + 1);
+        PauseObj.transform.Find("Time").Find("TimeTextMax").GetComponent<Text>().text = "/ " + stage.stage[StatusFlagManager.SelectStageID].GetTimeCount().ToString();
+        PauseObj.transform.Find("Action").Find("ActionTextMax").GetComponent<Text>().text = "/ " + stage.stage[StatusFlagManager.SelectStageID].GetActionCount().ToString();
+        PauseObj.transform.Find("Miss").Find("MissTextMax").GetComponent<Text>().text = "/ 0";
     }
 
     // Update is called once per frame
