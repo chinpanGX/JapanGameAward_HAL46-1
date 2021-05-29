@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c43a7376c8f3b489e9308d25e29312, type: 3}
   m_Name: E_Stage_11
   m_EditorClassIdentifier: 
-  ActionCount: 33
+  ActionCount: 31
   TimeCount: 60
-  Player: {x: 0, y: 0}
+  Player: {x: 20, y: 2}
   Block:
   - {x: 0, y: 3}
   - {x: 0, y: 4}
@@ -173,13 +173,13 @@ MonoBehaviour:
   - {x: 4, y: 17}
   - {x: 3, y: 17}
   - {x: 3, y: 19}
-  - {x: 2, y: 19}
   - {x: 0, y: 19}
   - {x: 1, y: 19}
   - {x: 1, y: 16}
   - {x: 2, y: 16}
   - {x: 2, y: 18}
   - {x: 1, y: 17}
+  - {x: 7, y: 1}
   TurnPiller:
   - {x: 2, y: 2, z: 2}
   - {x: 5, y: 4, z: 3}

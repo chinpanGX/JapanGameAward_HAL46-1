@@ -4194,7 +4194,7 @@ MonoBehaviour:
   m_StartHeight: 8
   m_Player: {fileID: 391178964}
   m_warning: {fileID: 1638129622}
-  m_MaxTime: 1600
+  m_MaxTime: 1800
 --- !u!1 &919832015
 GameObject:
   m_ObjectHideFlags: 0
@@ -4785,6 +4785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbeacfef2abe50443815929d92776b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stage: {fileID: 0}
   score: {fileID: 87654352}
   PauseObj: {fileID: 190818288}
   Time: {fileID: 477147097}
