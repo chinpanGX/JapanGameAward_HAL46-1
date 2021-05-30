@@ -105,14 +105,24 @@ public class TitleManager : MonoBehaviour
                         AudioManager.PlayAudio("IconMove", false, false);
                         ScoreSave.SavaDataClear();
                         ScoreSave.SavaDataDelete();
+                        SelectIcon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
                     }
-                    else if (select == SELECT_CONTINU && ScoreSave.IsSavaData())//コンティニュー
+                    else if (select == SELECT_CONTINU)//コンティニュー
                     {
-                        select = SELECT_NONE;
-                        nextselect = select;
-                        BlockMove block = title.GetComponent<BlockMove>();
-                        block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
-                        AudioManager.PlayAudio("IconMove", false, false);
+                        if (ScoreSave.IsSavaData())
+                        {
+                            select = SELECT_NONE;
+                            nextselect = select;
+                            BlockMove block = title.GetComponent<BlockMove>();
+                            block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
+                            AudioManager.PlayAudio("IconMove", false, false);
+                            SelectIcon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
+                        }
+                        else
+                        {
+                            SelectIcon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetTrigger("No");
+                        }
+                        
                     }
                     else if (select == SELECT_EXIT)//終了
                     {
@@ -129,7 +139,7 @@ public class TitleManager : MonoBehaviour
                         select = nextselect;
                     }
                 }
-                else if (select == SELECT_NONE)
+                else if (select == SELECT_NONE)//タイトルからステージ選択移動
                 {
                     BlockMove block = title.GetComponent<BlockMove>();
                     if (!block.moveflag)
@@ -141,6 +151,7 @@ public class TitleManager : MonoBehaviour
 
                         titleaudio.FadeOutStart();
                         titleaudio = null;
+                        SelectIcon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", false);
                     }
                 }
                 else if(select == SELECT_RETURN)//戻ってきたとき

@@ -162,6 +162,7 @@ public class StageSelectManager : MonoBehaviour
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
                     Fade.FadeOut("SampleScene");
                     AudioManager.PlayAudio("IconMove", false, false);
+                    icon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
                 }
                 else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.X))//–ß‚éBƒ{ƒ^ƒ“
                 {
