@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c43a7376c8f3b489e9308d25e29312, type: 3}
   m_Name: E_Stage_12
   m_EditorClassIdentifier: 
-  ActionCount: 40
+  ActionCount: 38
   TimeCount: 65
   Player: {x: 0, y: 2}
   Block:
