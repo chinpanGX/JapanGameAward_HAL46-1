@@ -63,9 +63,9 @@ public class StageSelectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_STAGESELECT && StatusFlagManager.TitleSelectFlag == StatusFlagManager.TS_PLAY)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_STAGESELECT)
         {
-            if (nowselect == nextselect && !select.GetComponent<BlockMove>().moveflag)
+            if (nowselect == nextselect && !select.GetComponent<BlockMove>().moveflag && StatusFlagManager.TitleSelectFlag == StatusFlagManager.TS_PLAY)
             {
                 var h = Input.GetAxis("Horizontal");
                 var v = Input.GetAxis("Vertical");
@@ -162,6 +162,7 @@ public class StageSelectManager : MonoBehaviour
                     StatusFlagManager.GameStatusFlag = StatusFlagManager.GAME_START;
                     Fade.FadeOut("SampleScene");
                     AudioManager.PlayAudio("IconMove", false, false);
+                    icon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
                 }
                 else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.X))//戻るBボタン
                 {
@@ -209,6 +210,8 @@ public class StageSelectManager : MonoBehaviour
                         {
                             arrowdown.SetActive(true);
                         }
+
+                        SetStarActive();
                     }
                     else if (changemove == 0 && !icon.GetComponent<BlockMove>().moveflag)//アイコン移動
                     {
@@ -276,6 +279,10 @@ public class StageSelectManager : MonoBehaviour
                     {
                         arrowdown.SetActive(true);
                     }
+
+                    SetStarActive();
+
+                    
                 }
                 else if (nowselect == -1 && !select.GetComponent<BlockMove>().moveflag && !icon.GetComponent<BlockMove>().moveflag)
                 {
@@ -297,5 +304,48 @@ public class StageSelectManager : MonoBehaviour
                 turnicon = -1.0f;
             }
         }
+    }
+
+    private void SetStarActive()
+    {
+        //星設定
+        for (int i = 0; i < stageobj.Length; i++)
+        {
+            //キャンバス取得
+            GameObject canvas = stageobj[i].transform.Find("Canvas").gameObject;
+            GameObject star01 = canvas.transform.Find("Star01").gameObject;
+            GameObject star02 = canvas.transform.Find("Star02").gameObject;
+            GameObject star03 = canvas.transform.Find("Star03").gameObject;
+
+            //星の表示非表示設定
+            if ((ScoreSave.SavaData[changetext + i] & ScoreSave.SD_TIME) != 0)//タイム
+            {
+                star01.SetActive(true);
+            }
+            else
+            {
+                star01.SetActive(false);
+            }
+
+            if ((ScoreSave.SavaData[changetext + i] & ScoreSave.SD_ACTION) != 0)//アクション
+            {
+                star02.SetActive(true);
+            }
+            else
+            {
+                star02.SetActive(false);
+            }
+
+            if ((ScoreSave.SavaData[changetext + i] & ScoreSave.SD_MISS) != 0)//ミス
+            {
+                star03.SetActive(true);
+            }
+            else
+            {
+                star03.SetActive(false);
+            }
+        }
+
+        
     }
 }

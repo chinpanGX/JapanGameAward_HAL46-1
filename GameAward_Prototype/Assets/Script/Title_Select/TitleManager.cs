@@ -31,6 +31,12 @@ public class TitleManager : MonoBehaviour
         TitleObj[1] = title.transform.Find("Continue").position;//コンティニュー
         TitleObj[2] = title.transform.Find("Exit").position;//出口
 
+        //セーブデータがある場合コンティニューにアイコンを合わせる
+        if (ScoreSave.IsSavaData())
+        {
+            select = SELECT_CONTINU;
+        }
+
         //アイコンの座標を設定
         Vector3 icon = SelectIcon.transform.position;
         SelectIcon.transform.position = new Vector3(icon.x, TitleObj[select].y, icon.z);
@@ -64,9 +70,9 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE && StatusFlagManager.TitleSelectFlag == StatusFlagManager.TS_PLAY)
+        if (StatusFlagManager.SceneFlag == StatusFlagManager.SCENE_TITLE )
         {
-            if (select == nextselect && select > SELECT_NONE && !title.GetComponent<BlockMove>().moveflag)
+            if (select == nextselect && select > SELECT_NONE && !title.GetComponent<BlockMove>().moveflag && StatusFlagManager.TitleSelectFlag == StatusFlagManager.TS_PLAY)
             {
                 var v = Input.GetAxis("Vertical");
                 if (v > 0.0f || Input.GetKey(KeyCode.W))//上
@@ -89,7 +95,7 @@ public class TitleManager : MonoBehaviour
                 }
                 else if (Input.GetButtonDown("Reverce") || Input.GetKeyDown(KeyCode.Space))//決定
                 {
-                    if (select == SELECT_NEWGAME)
+                    if (select == SELECT_NEWGAME)//ニューゲーム
                     {
                         select = SELECT_NONE;
                         nextselect = select;
@@ -97,16 +103,28 @@ public class TitleManager : MonoBehaviour
                         BlockMove block = title.GetComponent<BlockMove>();
                         block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
                         AudioManager.PlayAudio("IconMove", false, false);
+                        ScoreSave.SavaDataClear();
+                        ScoreSave.SavaDataDelete();
+                        SelectIcon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
                     }
-                    else if (select == SELECT_CONTINU)
+                    else if (select == SELECT_CONTINU)//コンティニュー
                     {
-                        select = SELECT_NONE;
-                        nextselect = select;
-                        BlockMove block = title.GetComponent<BlockMove>();
-                        block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
-                        AudioManager.PlayAudio("IconMove", false, false);
+                        if (ScoreSave.IsSavaData())
+                        {
+                            select = SELECT_NONE;
+                            nextselect = select;
+                            BlockMove block = title.GetComponent<BlockMove>();
+                            block.StartMove(new Vector3(title.transform.position.x, 10.0f, title.transform.position.z));
+                            AudioManager.PlayAudio("IconMove", false, false);
+                            SelectIcon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", true);
+                        }
+                        else
+                        {
+                            SelectIcon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetTrigger("No");
+                        }
+                        
                     }
-                    else if (select == SELECT_EXIT)
+                    else if (select == SELECT_EXIT)//終了
                     {
                         UnityEngine.Application.Quit();
                     }
@@ -121,7 +139,7 @@ public class TitleManager : MonoBehaviour
                         select = nextselect;
                     }
                 }
-                else if (select == SELECT_NONE)
+                else if (select == SELECT_NONE)//タイトルからステージ選択移動
                 {
                     BlockMove block = title.GetComponent<BlockMove>();
                     if (!block.moveflag)
@@ -133,16 +151,27 @@ public class TitleManager : MonoBehaviour
 
                         titleaudio.FadeOutStart();
                         titleaudio = null;
+                        SelectIcon.transform.Find("Player").Find("PlayerModel").GetComponent<Animator>().SetBool("WavaHands", false);
                     }
                 }
                 else if(select == SELECT_RETURN)//戻ってきたとき
                 {
                     title.SetActive(true);
 
+                    //セーブデータがある場合コンティニューにアイコンを合わせる
+                    if (ScoreSave.IsSavaData())
+                    {
+                        select = SELECT_CONTINU;
+                    }
+                    else
+                    {
+                        select = 0;
+                    }
+
                     BlockMove block = title.GetComponent<BlockMove>();
                     block.StartMove(new Vector3(0.0f, 0.0f, 0.0f));
 
-                    SelectIcon.StartMove(new Vector3(-1, TitleObj[0].y, SelectIcon.transform.position.z));
+                    SelectIcon.StartMove(new Vector3(-1, TitleObj[select].y, SelectIcon.transform.position.z));
 
                     select = SELECT_RETURN2;
                     nextselect = select;
@@ -151,7 +180,14 @@ public class TitleManager : MonoBehaviour
                 }
                 else if (select == SELECT_RETURN2 && !title.GetComponent<BlockMove>().moveflag)
                 {
-                    select = SELECT_NEWGAME;
+                    if (ScoreSave.IsSavaData())
+                    {
+                        select = SELECT_CONTINU;
+                    }
+                    else
+                    {
+                        select = SELECT_NEWGAME;
+                    }
                     nextselect = select;
                 }
             }
